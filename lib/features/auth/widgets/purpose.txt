@@ -1,0 +1,1 @@
+Widgets specific to the feature, helping to keep UI components modular and organized within each feature.

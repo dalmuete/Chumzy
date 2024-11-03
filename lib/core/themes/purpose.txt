@@ -1,0 +1,1 @@
+Defines the app’s light and dark themes, including primary colors and text styles, making it easy to modify styles app-wide.

@@ -1,0 +1,1 @@
+Reusable widgets (e.g., custom buttons, text inputs) that might be used in multiple places across the app.

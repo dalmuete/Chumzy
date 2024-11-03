@@ -1,0 +1,1 @@
+Utility functions, such as date formatters or validators, go here to avoid duplicating logic across the app.

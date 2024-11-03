@@ -1,0 +1,1 @@
+Handles business logic, processes data, and updates the state (often using ChangeNotifier or similar). This separates UI from logic, making it easier to manage complex interactions.

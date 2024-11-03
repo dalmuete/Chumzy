@@ -1,0 +1,1 @@
+Houses state management logic (e.g., using Provider or Riverpod) and manages the app’s state for different features.

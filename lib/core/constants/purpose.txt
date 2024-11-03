@@ -1,0 +1,1 @@
+Holds constant values such as strings, color codes, or default values. This keeps configuration values separate from business logic.

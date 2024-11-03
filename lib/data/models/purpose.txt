@@ -1,0 +1,1 @@
+Defines data models (e.g., Card, Subject, Topic). This includes data classes and JSON serialization if you need to handle API data.
