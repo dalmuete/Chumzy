@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "441736356852",
+    "project_id": "chumzymobileapp",
+    "storage_bucket": "chumzymobileapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441736356852:android:dde1ba01e496cded128fa1",
+        "android_client_info": {
+          "package_name": "com.example.chumzy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPhGqDDZqgxcRdFLf_YDb7oGDK1lNdiOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

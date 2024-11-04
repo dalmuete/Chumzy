@@ -5,11 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class PasswordField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
+  String? Function(String?)? validator;
 
   PasswordField({
     super.key,
     required this.hintText,
     required this.controller,
+    this.validator,
   });
 
   @override
@@ -27,7 +29,8 @@ class _PasswordFieldState extends State<PasswordField> {
         borderRadius: BorderRadius.circular(15),
         // border: Border.all(color: Colors.grey),
       ),
-      child: TextField(
+      child: TextFormField(
+        controller: widget.controller,
         obscureText: !_isVisible,
         decoration: InputDecoration(
           hintText: widget.hintText,
@@ -45,6 +48,7 @@ class _PasswordFieldState extends State<PasswordField> {
             },
           ),
         ),
+        validator: widget.validator,
       ),
     );
   }

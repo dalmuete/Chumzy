@@ -1,14 +1,20 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:chumzy/features/auth/controller/auth_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class MyNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemSelected;
+  final User user;
 
   const MyNavigationBar({
     Key? key,
     required this.selectedIndex,
     required this.onItemSelected,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -21,7 +27,30 @@ class MyNavigationBar extends StatelessWidget {
     ];
 
     return Scaffold(
-      body: Container(),
+      body: Consumer<AuthController>(
+        builder: (context, authController, child) {
+          return Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  user != null
+                      ? "Hello user: ${user!.uid}, ${user!.email}"
+                      : "Hello Guest",
+                  textAlign: TextAlign.center,
+                ),
+                const Gap(10),
+                ElevatedButton(
+                  onPressed: () {
+                    authController.logout(context);
+                  },
+                  child: const Text("Logout"),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Add button clicked");

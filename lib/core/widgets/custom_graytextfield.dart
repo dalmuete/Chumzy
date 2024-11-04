@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class CustomGrayTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   const CustomGrayTextField({
     super.key,
     required this.hintText,
     required this.controller,
+    this.validator,
   });
 
   @override
@@ -19,7 +21,7 @@ class CustomGrayTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         // border: Border.all(color: Colors.grey),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
@@ -28,6 +30,7 @@ class CustomGrayTextField extends StatelessWidget {
           contentPadding:
               EdgeInsets.only(left: 12, right: 0, top: 16, bottom: 16),
         ),
+        validator: validator,
       ),
     );
   }
