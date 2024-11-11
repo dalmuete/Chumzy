@@ -1,45 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTextTheme {
   static TextTheme lightTextTheme = TextTheme(
-    displayLarge: GoogleFonts.poppins(
+    displayLarge: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 32.sp,
       fontWeight: FontWeight.bold,
-      color: Colors.black,
+      color: Color(0xFF1C1C1E),
     ),
-    displayMedium: GoogleFonts.poppins(
+    displayMedium: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 28.sp,
       fontWeight: FontWeight.bold,
-      color: Colors.black,
+      color: Color(0xFF1C1C1E),
     ),
-    displaySmall: GoogleFonts.poppins(
+    displaySmall: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 24.sp,
       fontWeight: FontWeight.bold,
-      color: Colors.black,
+      color: Color(0xFF1C1C1E),
     ),
-    headlineMedium: GoogleFonts.poppins(
+    headlineMedium: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 20.sp,
       fontWeight: FontWeight.bold,
-      color: Colors.black,
+      color: Color(0xFF1C1C1E),
     ),
-    bodyLarge: GoogleFonts.poppins(
+    bodyLarge: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 18.sp,
       fontWeight: FontWeight.normal,
-      color: Colors.black,
+      color: Color(0xFF1C1C1E),
     ),
-    bodyMedium: GoogleFonts.poppins(
+    bodyMedium: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 16.sp,
       fontWeight: FontWeight.normal,
-      color: Colors.black,
+      color: Color(0xFF1C1C1E),
     ),
-    bodySmall: GoogleFonts.poppins(
+    bodySmall: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 14.sp,
       fontWeight: FontWeight.normal,
-      color: Colors.black54,
+      color: Color(0xFF1C1C1E),
     ),
-    labelSmall: GoogleFonts.poppins(
+    labelSmall: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       color: Colors.grey,
@@ -47,42 +54,50 @@ class AppTextTheme {
   );
 
   static TextTheme darkTextTheme = TextTheme(
-    displayLarge: GoogleFonts.poppins(
+    displayLarge: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 32.sp,
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
-    displayMedium: GoogleFonts.poppins(
+    displayMedium: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 28.sp,
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
-    displaySmall: GoogleFonts.poppins(
+    displaySmall: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 24.sp,
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
-    headlineMedium: GoogleFonts.poppins(
+    headlineMedium: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 20.sp,
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
-    bodyLarge: GoogleFonts.poppins(
+    bodyLarge: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 18.sp,
       fontWeight: FontWeight.normal,
       color: Colors.white,
     ),
-    bodyMedium: GoogleFonts.poppins(
+    bodyMedium: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 16.sp,
       fontWeight: FontWeight.normal,
       color: Colors.white,
     ),
-    bodySmall: GoogleFonts.poppins(
+    bodySmall: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 14.sp,
       fontWeight: FontWeight.normal,
       color: Colors.white54,
     ),
-    labelSmall: GoogleFonts.poppins(
+    labelSmall: TextStyle(
+      fontFamily: 'Poppins',
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       color: Colors.grey,

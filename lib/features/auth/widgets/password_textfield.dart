@@ -1,4 +1,3 @@
-import 'package:chumzy/core/themes/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,15 +20,25 @@ class _PasswordFieldState extends State<PasswordField> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLightMode = Theme.of(context).brightness == Brightness.light;
     return Container(
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 243, 243, 243),
+        color: isLightMode
+            ? Color.fromARGB(255, 243, 243, 243)
+            : Colors.white.withOpacity(0.1),
+
         borderRadius: BorderRadius.circular(15),
         // border: Border.all(color: Colors.grey),
       ),
       child: TextField(
         obscureText: !_isVisible,
+        cursorColor: Color(0xFFfad24e),
         decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide(
+                color: Colors.grey.withOpacity(0.5),
+              )),
           hintText: widget.hintText,
           hintStyle: Theme.of(context).textTheme.labelSmall,
           border: InputBorder.none,

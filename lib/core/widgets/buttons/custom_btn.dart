@@ -7,6 +7,9 @@ class CustomButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final Color? borderColor;
+  final double padding;
+  final double fontSize;
+  final FontWeight fontweight;
 
   const CustomButton({
     super.key,
@@ -15,6 +18,9 @@ class CustomButton extends StatelessWidget {
     this.backgroundColor = const Color(0xFFffce48),
     this.textColor = Colors.black,
     this.borderColor,
+    this.padding = 20,
+    this.fontSize = 16,
+    this.fontweight = FontWeight.bold,
   });
 
   @override
@@ -22,7 +28,7 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.all(25),
+        padding: EdgeInsets.all(padding),
         elevation: 0,
         backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(
@@ -36,8 +42,9 @@ class CustomButton extends StatelessWidget {
         text,
         style: TextStyle(
           color: textColor,
-          fontSize: 16.sp,
-          fontFamily: Theme.of(context).textTheme.bodyMedium!.fontFamily,
+          fontSize: fontSize.sp,
+          fontWeight: fontweight,
+          fontFamily: 'Poppins',
         ),
       ),
     );
