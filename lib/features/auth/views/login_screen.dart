@@ -1,4 +1,4 @@
-import 'package:chumzy/core/themes/app_theme.dart';
+
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
 import 'package:chumzy/core/widgets/buttons/icon_circle_btn.dart';

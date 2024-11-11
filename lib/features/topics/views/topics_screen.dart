@@ -1,7 +1,5 @@
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
-import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
-import 'package:chumzy/data/providers/topic_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
 import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +34,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
   Widget build(BuildContext context) {
     final subjectProvider =
         Provider.of<SubjectProvider>(context, listen: false);
-    final topicProvider = Provider.of<TopicProvider>(context, listen: false);
 
     final selectedSubject =
         subjectProvider.subjects[subjectProvider.selectedSubjectIndex];

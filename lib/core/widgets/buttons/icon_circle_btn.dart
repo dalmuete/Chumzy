@@ -18,7 +18,6 @@ class IconCircleBtn extends StatefulWidget {
 class _IconCircleBtnState extends State<IconCircleBtn> {
   @override
   Widget build(BuildContext context) {
-    bool isLightMode = Theme.of(context).brightness == Brightness.light;
     return Container(
       decoration: BoxDecoration(
         boxShadow: [

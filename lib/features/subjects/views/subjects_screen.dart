@@ -1,6 +1,4 @@
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
-import 'package:chumzy/data/models/subject_model.dart';
-import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
 import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
