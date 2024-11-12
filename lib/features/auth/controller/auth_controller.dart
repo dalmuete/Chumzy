@@ -13,10 +13,10 @@ class AuthController with ChangeNotifier {
   String _password = '';
   bool _isLoading = false;
 
-  // Getters
-  String get email => _email;
-  String get password => _password;
-  bool get isLoading => _isLoading;
+//   // Getters
+//   String get email => _email;
+//   String get password => _password;
+//   bool get isLoading => _isLoading;
 
   //Create user - sign up
   Future<User?> createUserAccount(
@@ -281,11 +281,11 @@ class AuthController with ChangeNotifier {
     }
   }
 
-  // Method to update email and password
-  void updateEmail(String value) {
-    _email = value;
-    notifyListeners();
-  }
+//   // Method to update email and password
+//   void updateEmail(String value) {
+//     _email = value;
+//     notifyListeners();
+//   }
 
   void updatePassword(String value) {
     _password = value;

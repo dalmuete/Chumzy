@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
-class IconCircleBtn extends StatelessWidget {
+class IconCircleBtn extends StatefulWidget {
   final String iconAsset;
   final VoidCallback onPressed;
 
@@ -12,6 +11,11 @@ class IconCircleBtn extends StatelessWidget {
     required this.onPressed,
   });
 
+  @override
+  State<IconCircleBtn> createState() => _IconCircleBtnState();
+}
+
+class _IconCircleBtnState extends State<IconCircleBtn> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,14 +31,20 @@ class IconCircleBtn extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: CircleAvatar(
-        backgroundColor: Colors.white,
-        radius: 30,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        radius: 40.r,
         child: IconButton(
-          icon: Image.asset(
-            iconAsset,
-            height: 40.h,
+          splashColor: Color(0xFFfad24e).withOpacity(0.2),
+          highlightColor: Color(0xFFfad24e).withOpacity(0.2),
+          splashRadius: 40.r,
+          icon: Padding(
+            padding: EdgeInsets.all(20.r),
+            child: Image.asset(
+              widget.iconAsset,
+              height: 40.h,
+            ),
           ),
-          onPressed: onPressed,
+          onPressed: widget.onPressed,
           padding: EdgeInsets.zero,
         ),
       ),

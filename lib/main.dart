@@ -1,4 +1,7 @@
 import 'package:chumzy/app.dart';
+import 'package:chumzy/data/providers/subject_provider.dart';
+import 'package:chumzy/data/providers/theme_provider.dart';
+import 'package:chumzy/data/providers/topic_provider.dart';
 import 'package:chumzy/core/firebase/firebase_options.dart';
 import 'package:chumzy/features/auth/controller/auth_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,9 +16,10 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => AuthController(),
-        ),
+        ChangeNotifierProvider(create: (context) => AuthController()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => SubjectProvider()),
+        ChangeNotifierProvider(create: (context) => TopicProvider()),
       ],
       child: ChumzyApp(),
     ),
