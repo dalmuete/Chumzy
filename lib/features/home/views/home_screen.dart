@@ -1,26 +1,18 @@
-import 'package:chumzy/core/widgets/navbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
+class HomeScreen extends StatelessWidget {
+  final User user;
+  const HomeScreen({required this.user, super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: MyNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemSelected: _onItemTapped,
+    return Center(
+      child: Column(
+        children: [
+          Text("Home tab",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Text("UID: ${user.uid}"),
+        ],
       ),
     );
   }
