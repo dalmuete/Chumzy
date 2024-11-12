@@ -4,9 +4,14 @@ class CustomGrayTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final Icon? icon;
+  final String? Function(String?)? validator;
 
   const CustomGrayTextField(
-      {super.key, required this.hintText, required this.controller, this.icon});
+      {super.key,
+      required this.hintText,
+      required this.controller,
+      this.icon,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +41,7 @@ class CustomGrayTextField extends StatelessWidget {
           contentPadding:
               EdgeInsets.only(left: 12, right: 0, top: 14, bottom: 14),
         ),
+        validator: validator,
       ),
     );
   }

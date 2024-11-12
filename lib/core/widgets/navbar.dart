@@ -7,13 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class NavBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemSelected;
-  final User user;
 
   const NavBar({
     Key? key,
     required this.selectedIndex,
     required this.onItemSelected,
-    required this.user,
   }) : super(key: key);
 
   @override

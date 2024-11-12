@@ -1,34 +1,43 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
+import 'package:chumzy/core/widgets/loading_screen.dart';
 import 'package:chumzy/features/auth/widgets/tryanotheremail_prompt.dart';
+import 'package:chumzy/features/home/views/screens_handler.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'dart:async';
 
 class VerificationScreen extends StatefulWidget {
-  VerificationScreen({super.key});
+  final String email;
+  const VerificationScreen({required this.email, super.key});
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  String email = "allenjameseugenioalvaro@gmail.com";
+  // var emailController = TextEditingController();
+  // var passwordController = TextEditingController();
+  // String email = "allenjameseugenioalvaro@gmail.com";
   bool showTimer = true;
-  int remainingTime = 300;
+  int remainingTime = 120;
   Timer? timer;
+  Timer? verificationCheckTimer;
+  bool isEmailVerified = false;
+  bool isNavigated = false;
 
   @override
   void initState() {
     super.initState();
     startTimer();
+    startVerificationCheck();
   }
 
   @override
   void dispose() {
     timer?.cancel();
+    verificationCheckTimer?.cancel();
     super.dispose();
   }
 
@@ -46,10 +55,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
     });
   }
 
-  void resendVerification() {
-    //call dito ung function ng pagresend ng link - use separate file - sa controller folder
+  void resendVerification() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null && !user.emailVerified) {
+      await user.sendEmailVerification();
+      print("Verification email has been sent.");
+    }
     setState(() {
-      remainingTime = 300;
+      remainingTime = 120;
       showTimer = true;
       startTimer();
     });
@@ -59,6 +72,35 @@ class _VerificationScreenState extends State<VerificationScreen> {
     int minutes = seconds ~/ 60;
     seconds = seconds % 60;
     return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+  }
+
+  void startVerificationCheck() {
+    verificationCheckTimer =
+        Timer.periodic(Duration(seconds: 5), (timer) async {
+      await checkEmailVerified();
+    });
+  }
+
+  Future<void> checkEmailVerified() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    await user?.reload();
+    user = FirebaseAuth.instance.currentUser;
+
+    if (user != null && user.emailVerified && !isNavigated) {
+      setState(() {
+        isEmailVerified = true;
+      });
+      isNavigated = true; // Set to true to prevent repeated navigation
+      verificationCheckTimer?.cancel();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return ScreensHandler(user: user!);
+          },
+        ),
+      );
+    }
   }
 
   @override
@@ -86,7 +128,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     TextSpan(
-                      text: email,
+                      text: widget.email,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14.sp,

@@ -2,6 +2,7 @@ import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
 import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
+import 'package:chumzy/features/topics/views/topics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -16,7 +17,6 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   var searchController = TextEditingController();
   final SubjectsTopicsController _controller = SubjectsTopicsController();
 
- 
   void _toggleArrow() {
     setState(() {
       _controller.toggleArrow();
@@ -30,8 +30,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) { 
-     final subjectProvider = Provider.of<SubjectProvider>(context);
+  Widget build(BuildContext context) {
+    final subjectProvider = Provider.of<SubjectProvider>(context);
     return Column(
       children: [
         Gap(20.h),
@@ -100,17 +100,26 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           child: ListView.builder(
             itemCount: subjectProvider.subjects.length,
             itemBuilder: (BuildContext context, int i) {
-               final subject = subjectProvider.subjects[i];
+              final subject = subjectProvider.subjects[i];
               return SubjectTopicCard(
-                  lineColor: subject.lineColor,
-                  title: subject.title,
-                  totalNoItems: subject.totalNoItems,
-                  lastUpdated: subject.lastUpdated,
-                  onTap: () {
-          subjectProvider.selectedSubjectIndex = i;
+                lineColor: subject.lineColor,
+                title: subject.title,
+                totalNoItems: subject.totalNoItems,
+                lastUpdated: subject.lastUpdated,
+                onTap: () {
+                  subjectProvider.selectedSubjectIndex = i;
 
-          Navigator.pushNamed(context, '/topics');
-        },);
+                  // Navigator.pushNamed(context, '/topics');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return TopicsScreen();
+                      },
+                    ),
+                  );
+                },
+              );
             },
           ),
         ),

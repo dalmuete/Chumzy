@@ -3,10 +3,13 @@ import 'package:chumzy/features/chatbot/views/chatbot_screen.dart';
 import 'package:chumzy/features/home/views/home_screen.dart';
 import 'package:chumzy/features/profile/views/profile_screen.dart';
 import 'package:chumzy/features/subjects/views/subjects_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ScreensHandler extends StatefulWidget {
+  final User user;
+  const ScreensHandler({required this.user, super.key});
   @override
   _ScreensHandlerState createState() => _ScreensHandlerState();
 }
@@ -14,12 +17,18 @@ class ScreensHandler extends StatefulWidget {
 class _ScreensHandlerState extends State<ScreensHandler> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    HomeScreen(),
-    SubjectsScreen(),
-    ChatbotScreen(),
-    ProfileScreen(),
-  ];
+  late List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      HomeScreen(user: widget.user),
+      SubjectsScreen(),
+      ChatbotScreen(),
+      ProfileScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {

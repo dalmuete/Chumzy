@@ -1,3 +1,4 @@
+import 'package:chumzy/features/auth/views/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPrompt extends StatelessWidget {
@@ -18,7 +19,16 @@ class SignUpPrompt extends StatelessWidget {
         TextButton(
           style:
               ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(0))),
-          onPressed: () => Navigator.pushNamed(context, '/signup'),
+          onPressed: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SignupScreen();
+                },
+              ),
+            ),
+          },
           child: Text(
             "Sign up",
             style: TextStyle(

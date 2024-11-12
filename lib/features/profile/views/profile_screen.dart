@@ -1,4 +1,5 @@
 import 'package:chumzy/data/providers/theme_provider.dart';
+import 'package:chumzy/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final authController = Provider.of<AuthController>(context);
 
     return Center(
       child: Column(
@@ -73,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           TextButton(
             child: Text("LOG OUT"),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/login');
+              authController.logout(context);
             },
           ),
         ],
