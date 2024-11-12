@@ -33,6 +33,8 @@ class MyNavigationBar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Text(user.displayName!),
+                // Image.network(user.photoURL!),
                 Text(
                   user != null
                       ? "Hello user: ${user!.uid}, ${user!.email}"
@@ -45,6 +47,14 @@ class MyNavigationBar extends StatelessWidget {
                     authController.logout(context);
                   },
                   child: const Text("Logout"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // authController.logout(context);
+                    // authController.testLaunch();
+                    authController.openMailApp();
+                  },
+                  child: const Text("Open gmail app"),
                 ),
               ],
             ),

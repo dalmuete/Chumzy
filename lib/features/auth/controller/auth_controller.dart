@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AuthController with ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -289,5 +290,36 @@ class AuthController with ChangeNotifier {
   void updatePassword(String value) {
     _password = value;
     notifyListeners();
+  }
+
+  // Future<void> openGmailApp() async {
+  //   final Uri gmailUri = Uri(
+  //     scheme: 'intent',
+  //     path: 'com.google.android.gm',
+  //   );
+
+  //   if (await canLaunchUrl(gmailUri)) {
+  //     await launchUrl(gmailUri);
+  //   } else {
+  //     throw 'Could not open Gmail app';
+  //   }
+  // }
+
+  Future<void> openMailApp() async {
+    final Uri gmailUri = Uri(
+      scheme: 'intent',
+      path: '',
+      queryParameters: {'package': 'com.google.android.gm'},
+    );
+
+    if (await canLaunchUrl(gmailUri)) {
+      await launchUrl(gmailUri);
+    } else {
+      print('Could not open Gmail app');
+    }
+  }
+
+  Future<void> testLaunch() async {
+    launchUrl(Uri.https("gmail.com"));
   }
 }
