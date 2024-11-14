@@ -54,9 +54,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Gap(50.h),
                 CustomGrayTextField(
+                        onTapOutside: (event) {
+                          FocusScope.of(context).unfocus();
+                        },
                     hintText: 'Email', controller: emailController),
                 Gap(20.h),
                 PasswordField(
+                        onTapOutside: (event) {
+                          FocusScope.of(context).unfocus();
+                        },
                     hintText: 'Password', controller: passwordController),
                 Gap(5.h),
                 Align(

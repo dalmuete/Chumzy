@@ -1,7 +1,8 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:chumzy/data/models/topic_model.dart';
 import 'package:flutter/material.dart';
 
-class Subject {
+class Subject with CustomDropdownListFilter {
   final Color lineColor;
   final String title;
   final int totalNoItems;
@@ -15,4 +16,15 @@ class Subject {
     required this.lastUpdated,
     this.topics,
   });
+
+
+   @override
+  String toString() {
+    return title;
+  }
+
+  @override
+  bool filter(String query) {
+    return title.toLowerCase().contains(query.toLowerCase());
+  }
 }

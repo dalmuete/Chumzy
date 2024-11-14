@@ -4,12 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class PasswordField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
+  TapRegionCallback? onTapOutside;
   String? Function(String?)? validator;
 
   PasswordField({
     super.key,
     required this.hintText,
     required this.controller,
+    required this.onTapOutside,
     this.validator,
   });
 
@@ -33,6 +35,7 @@ class _PasswordFieldState extends State<PasswordField> {
         // border: Border.all(color: Colors.grey),
       ),
       child: TextFormField(
+        onTapOutside: widget.onTapOutside,
         controller: widget.controller,
         obscureText: !_isVisible,
         cursorColor: Color(0xFFfad24e),

@@ -62,6 +62,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       Gap(50.h),
                       CustomGrayTextField(
+                        onTapOutside: (event) {
+                          FocusScope.of(context).unfocus();
+                        },
                         hintText: 'Your name',
                         controller: nameController,
                         validator: (value) {
@@ -71,6 +74,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       Gap(15.h),
                       CustomGrayTextField(
+                        onTapOutside: (event) {
+                          FocusScope.of(context).unfocus();
+                        },
                         hintText: 'Email',
                         controller: emailController,
                         validator: (value) {
@@ -80,6 +86,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       Gap(15.h),
                       PasswordField(
+                        onTapOutside: (event) {
+                          FocusScope.of(context).unfocus();
+                        },
                         hintText: 'Password',
                         controller: passwordController,
                         validator: (value) {
@@ -89,6 +98,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       Gap(15.h),
                       PasswordField(
+                        onTapOutside: (event) {
+                          FocusScope.of(context).unfocus();
+                        },
                         hintText: 'Confirm your password',
                         controller: confirmpasswordController,
                         validator: (value) {

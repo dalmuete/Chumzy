@@ -13,9 +13,11 @@ class AppTheme {
       textTheme: AppTextTheme.lightTextTheme,
       elevatedButtonTheme: AppButtonTheme.elevatedButtonTheme,
       colorScheme: ColorScheme.light(
-          primary: AppColorsLightTheme.primary,
-          secondary: AppColorsLightTheme.secondary,
-          surface: AppColorsLightTheme.background),
+        primary: AppColorsLightTheme.primary,
+        secondary: AppColorsLightTheme.secondary,
+        tertiary: Color(0xFFffa01f),
+        surface: AppColorsLightTheme.background,
+      ),
     );
   }
 
@@ -30,6 +32,7 @@ class AppTheme {
       colorScheme: ColorScheme.dark(
           primary: AppColorsDarkTheme.primary,
           secondary: AppColorsDarkTheme.secondary,
+          tertiary: Color(0xFFffa01f),
           surface: AppColorsDarkTheme.background),
     );
   }
