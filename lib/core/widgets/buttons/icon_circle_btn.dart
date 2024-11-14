@@ -34,8 +34,8 @@ class _IconCircleBtnState extends State<IconCircleBtn> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         radius: 40.r,
         child: IconButton(
-          splashColor: Color(0xFFfad24e).withOpacity(0.2),
-          highlightColor: Color(0xFFfad24e).withOpacity(0.2),
+          splashColor: Theme.of(context).primaryColor.withOpacity(0.2),
+          highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
           splashRadius: 40.r,
           icon: Padding(
             padding: EdgeInsets.all(20.r),

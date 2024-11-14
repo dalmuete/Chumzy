@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 
-class CustomGrayTextField extends StatelessWidget {
+class CustomGrayTextField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final Icon? icon;
+  FocusNode? focusNode;
+  VoidCallback? onTap;
+  TapRegionCallback? onTapOutside;
 
-  const CustomGrayTextField(
-      {super.key, required this.hintText, required this.controller, this.icon});
+  CustomGrayTextField(
+      {super.key,
+      required this.hintText,
+      required this.controller,
+      this.icon,
+      this.focusNode,
+      this.onTap,
+      this.onTapOutside});
 
+  @override
+  State<CustomGrayTextField> createState() => _CustomGrayTextFieldState();
+}
+
+class _CustomGrayTextFieldState extends State<CustomGrayTextField> {
   @override
   Widget build(BuildContext context) {
     bool isLightMode = Theme.of(context).brightness == Brightness.light;
@@ -20,7 +34,11 @@ class CustomGrayTextField extends StatelessWidget {
         // border: Border.all(color: Colors.grey),
       ),
       child: TextFormField(
-        controller: controller,
+        onTapAlwaysCalled: true,
+        onTapOutside: widget.onTapOutside,
+        onTap: widget.onTap,
+        focusNode: widget.focusNode,
+        controller: widget.controller,
         cursorColor: Color(0xFFfad24e),
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -28,9 +46,9 @@ class CustomGrayTextField extends StatelessWidget {
               borderSide: BorderSide(
                 color: Colors.grey.withOpacity(0.5),
               )),
-          suffixIcon: icon,
+          suffixIcon: widget.icon,
           suffixIconColor: Colors.grey,
-          hintText: hintText,
+          hintText: widget.hintText,
           hintStyle: Theme.of(context).textTheme.labelSmall,
           border: InputBorder.none,
           contentPadding:

@@ -10,6 +10,7 @@ class CustomButton extends StatelessWidget {
   final double padding;
   final double fontSize;
   final FontWeight fontweight;
+  final Icon? prefixIcon; 
 
   const CustomButton({
     super.key,
@@ -21,6 +22,7 @@ class CustomButton extends StatelessWidget {
     this.padding = 20,
     this.fontSize = 16,
     this.fontweight = FontWeight.bold,
+    this.prefixIcon, 
   });
 
   @override
@@ -38,14 +40,23 @@ class CustomButton extends StatelessWidget {
               : BorderSide.none,
         ),
       ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: textColor,
-          fontSize: fontSize.sp,
-          fontWeight: fontweight,
-          fontFamily: 'Poppins',
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (prefixIcon != null) ...[
+            prefixIcon!,
+            SizedBox(width: 8),
+          ],
+          Text(
+            text,
+            style: TextStyle(
+              color: textColor,
+              fontSize: fontSize.sp,
+              fontWeight: fontweight,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        ],
       ),
     );
   }

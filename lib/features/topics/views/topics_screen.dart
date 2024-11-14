@@ -1,7 +1,10 @@
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
+import 'package:chumzy/core/widgets/textfields/custom_searbarfield.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
 import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
+import 'package:chumzy/features/topics/views/topic_view_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -41,7 +44,10 @@ class _TopicsScreenState extends State<TopicsScreen> {
     final topicList = selectedSubject.topics ?? [];
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      onPanDown: (details) {
+        FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
         body: SafeArea(
@@ -65,28 +71,22 @@ class _TopicsScreenState extends State<TopicsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
-                          splashColor: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(10.r),
+                          splashColor:
+                              Theme.of(context).primaryColor.withOpacity(0.2),
                           onTap: () => Navigator.pop(context),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back_ios_rounded,
-                                size: 16.r,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.5),
-                              ),
-                              Gap(5),
-                              Text("Back",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withOpacity(0.5),
-                                  ))
-                            ],
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                right: 5.r, top: 5.r, bottom: 5.r),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.arrow_back_rounded,
+                                  size: 24.r,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         PopupMenuButton<int>(
@@ -101,9 +101,11 @@ class _TopicsScreenState extends State<TopicsScreen> {
                             }
                           },
                           icon: Icon(
-                            Icons.more_vert,
+                            Icons.menu_rounded,
+                            size: 24.r,
+                            color: Colors.white,
                           ),
-                          iconSize: 20.r,
+                          iconSize: 30.r,
                           padding: EdgeInsets.all(0),
                           position: PopupMenuPosition.under,
                           itemBuilder: (BuildContext context) => [
@@ -135,14 +137,17 @@ class _TopicsScreenState extends State<TopicsScreen> {
                                   text: selectedSubject.title,
                                   style: TextStyle(
                                       fontFamily: 'Poppins',
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Colors.white,
                                       fontSize: 24.sp,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 TextSpan(
                                   text: '  topics',
-                                  style: Theme.of(context).textTheme.labelSmall,
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
@@ -154,10 +159,15 @@ class _TopicsScreenState extends State<TopicsScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: CustomGrayTextField(
+                          child: CustomSearchBarField(
+                            onTapOutside: (event) {
+                              FocusScope.of(context).unfocus();
+                            },
                             hintText: "Search topics",
                             controller: searchController,
-                            icon: Icon(Icons.search, size: 20.sp),
+                            icon: Icon(Icons.search,
+                                size: 20.sp,
+                                color: Colors.white.withOpacity(0.5)),
                           ),
                         ),
                         Row(
@@ -170,7 +180,10 @@ class _TopicsScreenState extends State<TopicsScreen> {
                                     horizontal: 12.w, vertical: 10.h),
                                 child: Tooltip(
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.5),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withOpacity(0.5),
                                     borderRadius: BorderRadius.circular(20.r),
                                   ),
                                   preferBelow: false,
@@ -180,7 +193,8 @@ class _TopicsScreenState extends State<TopicsScreen> {
                                           ? "Name"
                                           : "Date",
                                       style: TextStyle(
-                                          fontSize: 12.sp, color: Colors.grey)),
+                                          fontSize: 12.sp,
+                                          color: Colors.white)),
                                 ),
                               ),
                             ),
@@ -188,7 +202,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                             Container(
                               width: (0.5).w,
                               height: 20.h,
-                              color: Colors.grey[400],
+                              color: Colors.white,
                             ),
                             Gap(3.w),
                             InkWell(
@@ -201,7 +215,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                                     _controller.isAscending
                                         ? Icons.arrow_downward_rounded
                                         : Icons.arrow_upward_rounded,
-                                    color: Colors.grey,
+                                    color: Colors.white,
                                     size: 20.sp),
                               ),
                             )
@@ -226,7 +240,12 @@ class _TopicsScreenState extends State<TopicsScreen> {
                             totalNoItems: topic.totalNoItems,
                             lastUpdated: topic.lastUpdated,
                             isSubject: false,
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                builder: (context) =>
+                                    TopicViewScreen(topic: topic),
+                              ));
+                            },
                           );
                         },
                       )

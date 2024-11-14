@@ -31,7 +31,7 @@ class NavBar extends StatelessWidget {
             Icon(
               iconList[index],
               size: 24,
-              color: isActive ? Colors.yellow[700] : Colors.grey,
+              color: isActive ? Theme.of(context).colorScheme.secondary : Colors.grey,
             ),
             if (isActive)
               Container(
@@ -39,7 +39,7 @@ class NavBar extends StatelessWidget {
                 width: 6,
                 height: 6,
                 decoration: BoxDecoration(
-                  color: Colors.yellow[700],
+                  color: Theme.of(context).colorScheme.secondary,
                   shape: BoxShape.circle,
                 ),
               ),
