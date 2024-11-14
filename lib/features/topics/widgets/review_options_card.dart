@@ -56,6 +56,6 @@ class _ReviewOptionsCardState extends State<ReviewOptionsCard> {
             ]))),
       ),
     );
-    ;
+    
   }
 }

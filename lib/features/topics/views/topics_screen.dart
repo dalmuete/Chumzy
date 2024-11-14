@@ -1,4 +1,4 @@
-import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
+
 import 'package:chumzy/core/widgets/textfields/custom_searbarfield.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
@@ -106,18 +106,18 @@ class _TopicsScreenState extends State<TopicsScreen> {
                             color: Colors.white,
                           ),
                           iconSize: 30.r,
-                          padding: EdgeInsets.all(0),
+                          padding: const EdgeInsets.all(0),
                           position: PopupMenuPosition.under,
                           itemBuilder: (BuildContext context) => [
-                            PopupMenuItem<int>(
+                            const PopupMenuItem<int>(
                               value: 0,
                               child: Text('Select'),
                             ),
-                            PopupMenuItem<int>(
+                            const PopupMenuItem<int>(
                               value: 1,
                               child: Text('Edit'),
                             ),
-                            PopupMenuItem<int>(
+                            const PopupMenuItem<int>(
                               value: 2,
                               child: Text('Delete this subject'),
                             ),
@@ -155,7 +155,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                         ),
                       ),
                     ),
-                    Gap(10),
+                    const Gap(10),
                     Row(
                       children: [
                         Expanded(
@@ -230,7 +230,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
               Expanded(
                 child: topicList.isNotEmpty
                     ? ListView.builder(
-                        padding: EdgeInsets.only(top: 0, right: 30, left: 30),
+                        padding: const EdgeInsets.only(top: 0, right: 30, left: 30),
                         itemCount: topicList.length,
                         itemBuilder: (BuildContext context, int i) {
                           final topic = topicList[i];
@@ -249,7 +249,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                           );
                         },
                       )
-                    : Center(child: Text("No topics at the moment.")),
+                    : const Center(child: Text("No topics at the moment.")),
               ),
             ],
           ),

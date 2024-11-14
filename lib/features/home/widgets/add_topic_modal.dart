@@ -67,7 +67,7 @@ void addTopicModal({
                               .withOpacity(0.5),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        margin: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.symmetric(vertical: 8),
                       ),
                     ),
                     Gap(20.h),
@@ -106,7 +106,7 @@ void addTopicModal({
                               Theme.of(context).scaffoldBackgroundColor,
                           listItemDecoration: ListItemDecoration(
                               selectedIconBorder:
-                                  BorderSide(color: Colors.white),
+                                  const BorderSide(color: Colors.white),
                               selectedColor: Theme.of(context)
                                   .primaryColor
                                   .withOpacity(0.1),
@@ -214,7 +214,7 @@ void addTopicModal({
                                             removeTextField(index, setState);
                                           });
                                         },
-                                        icon: Icon(Icons.remove_rounded),
+                                        icon: const Icon(Icons.remove_rounded),
                                       ),
                                   ],
                                 ),

@@ -57,6 +57,5 @@ class _CardItemCardState extends State<CardItemCard> {
             ])),
       ),
     );
-    ;
   }
 }

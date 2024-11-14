@@ -4,11 +4,11 @@ class CustomGrayTextField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final Icon? icon;
-  FocusNode? focusNode;
-  VoidCallback? onTap;
-  TapRegionCallback? onTapOutside;
+  final FocusNode? focusNode;
+  final VoidCallback? onTap;
+  final TapRegionCallback? onTapOutside;
 
-  CustomGrayTextField(
+  const CustomGrayTextField(
       {super.key,
       required this.hintText,
       required this.controller,
@@ -28,7 +28,7 @@ class _CustomGrayTextFieldState extends State<CustomGrayTextField> {
     return Container(
       decoration: BoxDecoration(
         color: isLightMode
-            ? Color.fromARGB(255, 243, 243, 243)
+            ? const Color.fromARGB(255, 243, 243, 243)
             : Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
         // border: Border.all(color: Colors.grey),
@@ -39,7 +39,7 @@ class _CustomGrayTextFieldState extends State<CustomGrayTextField> {
         onTap: widget.onTap,
         focusNode: widget.focusNode,
         controller: widget.controller,
-        cursorColor: Color(0xFFfad24e),
+        cursorColor: const Color(0xFFfad24e),
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
@@ -52,7 +52,7 @@ class _CustomGrayTextFieldState extends State<CustomGrayTextField> {
           hintStyle: Theme.of(context).textTheme.labelSmall,
           border: InputBorder.none,
           contentPadding:
-              EdgeInsets.only(left: 12, right: 0, top: 14, bottom: 14),
+              const EdgeInsets.only(left: 12, right: 0, top: 14, bottom: 14),
         ),
       ),
     );

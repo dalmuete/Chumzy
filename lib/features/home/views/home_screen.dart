@@ -1,5 +1,6 @@
+// ignore_for_file: avoid_print
+
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
-import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,8 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -17,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final subjectProvider = Provider.of<SubjectProvider>(context);
     return Column(
       children: [
-        Center(
+         Center(
           child: Text("Home tab",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         ),
@@ -36,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
               closedFillColor: Theme.of(context).scaffoldBackgroundColor,
               expandedFillColor: Theme.of(context).scaffoldBackgroundColor,
               listItemDecoration: ListItemDecoration(
-                  selectedIconBorder: BorderSide(color: Colors.white),
+                  selectedIconBorder: const BorderSide(color: Colors.white),
                   selectedColor:
                       Theme.of(context).primaryColor.withOpacity(0.1),
                   highlightColor:

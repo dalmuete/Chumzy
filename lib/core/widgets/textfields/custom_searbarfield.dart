@@ -5,9 +5,9 @@ class CustomSearchBarField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final Icon? icon;
-  TapRegionCallback? onTapOutside;
+  final TapRegionCallback? onTapOutside;
 
-   CustomSearchBarField(
+   const CustomSearchBarField(
       {super.key, required this.hintText, required this.controller, this.icon, this.onTapOutside});
 
   @override
@@ -43,19 +43,19 @@ class _CustomSearchBarFieldState extends State<CustomSearchBarField> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
-        style: TextStyle(color: Colors.white, fontSize: 16),
+        style: const TextStyle(color: Colors.white, fontSize: 16),
         controller: widget.controller,
         cursorColor: const Color(0xFFfad24e),
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
+              color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
             ),
           ),
           suffixIcon: GestureDetector(
-            child: icon,
             onTap: onTap,
+            child: icon,
           ),
           hintText: widget.hintText,
           hintStyle: TextStyle(

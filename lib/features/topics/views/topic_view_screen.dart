@@ -1,15 +1,11 @@
-import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
-import 'package:chumzy/core/widgets/textfields/custom_searbarfield.dart';
+
 import 'package:chumzy/core/widgets/textfields/custom_subjectsearchfield.dart';
 import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
-import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
-import 'package:chumzy/features/topics/views/topic_view_screen.dart';
 import 'package:chumzy/features/topics/widgets/card_item_card.dart';
 import 'package:chumzy/features/topics/widgets/review_options_card.dart';
 import 'package:chumzy/features/topics/widgets/small_review_option_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +21,7 @@ class TopicViewScreen extends StatefulWidget {
 }
 
 class _TopicViewScreenState extends State<TopicViewScreen> {
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   var searchController = TextEditingController();
   final SubjectsTopicsController _controller = SubjectsTopicsController();
@@ -60,7 +56,7 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
       if (keyboardHeight > 0) {
         _scrollController.animateTo(
           _scrollController.position.pixels + keyboardHeight,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
       }
@@ -120,7 +116,7 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
         body: SafeArea(
           top: false,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 Gap(55.h),
@@ -163,18 +159,18 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                         color: Theme.of(context).primaryColor,
                       ),
                       iconSize: 30.r,
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       position: PopupMenuPosition.under,
                       itemBuilder: (BuildContext context) => [
-                        PopupMenuItem<int>(
+                        const PopupMenuItem<int>(
                           value: 0,
                           child: Text('Select'),
                         ),
-                        PopupMenuItem<int>(
+                        const PopupMenuItem<int>(
                           value: 1,
                           child: Text('Edit'),
                         ),
-                        PopupMenuItem<int>(
+                        const PopupMenuItem<int>(
                           value: 2,
                           child: Text('Delete this topic'),
                         ),
@@ -231,8 +227,8 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                     children: [
                       SizeTransition(
                         sizeFactor: _showReviewOptions
-                            ? AlwaysStoppedAnimation(1.0)
-                            : AlwaysStoppedAnimation(0.0),
+                            ? const AlwaysStoppedAnimation(1.0)
+                            : const AlwaysStoppedAnimation(0.0),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -247,8 +243,8 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                       ),
                       SizeTransition(
                         sizeFactor: _showReviewOptions
-                            ? AlwaysStoppedAnimation(1.0)
-                            : AlwaysStoppedAnimation(0.0),
+                            ? const AlwaysStoppedAnimation(1.0)
+                            : const AlwaysStoppedAnimation(0.0),
                         child: ReviewOptionsCard(
                           iconSize: 40,
                           iconPath: 'assets/icons/flashcard_icon.png',
@@ -261,8 +257,8 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                           Expanded(
                             child: SizeTransition(
                               sizeFactor: _showReviewOptions
-                                  ? AlwaysStoppedAnimation(1.0)
-                                  : AlwaysStoppedAnimation(0.0),
+                                  ? const AlwaysStoppedAnimation(1.0)
+                                  : const AlwaysStoppedAnimation(0.0),
                               child: ReviewOptionsCard(
                                 iconSize: 35,
                                 iconPath: 'assets/icons/quiz_icon.png',
@@ -275,8 +271,8 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                           Expanded(
                             child: SizeTransition(
                               sizeFactor: _showReviewOptions
-                                  ? AlwaysStoppedAnimation(1.0)
-                                  : AlwaysStoppedAnimation(0.0),
+                                  ? const AlwaysStoppedAnimation(1.0)
+                                  : const AlwaysStoppedAnimation(0.0),
                               child: ReviewOptionsCard(
                                 iconSize: 40,
                                 iconPath: 'assets/icons/audio_icon.png',
@@ -331,7 +327,7 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                   crossFadeState: _showReviewOptions
                       ? CrossFadeState.showFirst
                       : CrossFadeState.showSecond,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                 ),
                 Gap(20.h),
                 Row(
