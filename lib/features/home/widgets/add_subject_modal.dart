@@ -1,8 +1,11 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
+import 'package:chumzy/data/providers/subject_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 const List<Color> colorOptions = [
   Colors.red,
@@ -78,6 +81,7 @@ void addSubjectModal({
   required List<Color> subjectColors,
   required Function(int, Color) setSubjectColor,
   required Function resetAllColors,
+  required User user,
 }) {
   showModalBottomSheet(
     useSafeArea: true,
@@ -91,6 +95,10 @@ void addSubjectModal({
     isScrollControlled: true,
     context: context,
     builder: (context) {
+      // PROVIDER HERE -------
+      var subjectProvider = Provider.of<SubjectProvider>(context);
+      // PROVIDER HERE -------
+
       return StatefulBuilder(
         builder: (BuildContext context, innerSetState) {
           return GestureDetector(
@@ -241,7 +249,10 @@ void addSubjectModal({
                                     fontweight: FontWeight.w600,
                                     padding: 15.r,
                                     text: "Save",
-                                    onPressed: () {}),
+                                    onPressed: () {
+                                      subjectProvider.saveSubject(context, user,
+                                          controllers, subjectColors);
+                                    }),
                               ),
                             ],
                           ),

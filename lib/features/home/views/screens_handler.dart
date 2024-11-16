@@ -27,12 +27,7 @@ class _ScreensHandlerState extends State<ScreensHandler>
     with TickerProviderStateMixin {
   int _selectedIndex = 0;
   bool isAddIcon = true;
-  final List<Widget> _screens = [
-    HomeScreen(),
-    SubjectsScreen(),
-    ChatbotScreen(),
-    ProfileScreen(),
-  ];
+  final List<Widget> _screens = [];
 
   late final AnimationController _fabRotationController;
   late final Animation<double> _fabRotationAnimation;
@@ -44,9 +39,22 @@ class _ScreensHandlerState extends State<ScreensHandler>
   late TopicController _topicController;
   Subject? selectedSubject;
 
+  // HomeScreen(),
+  // SubjectsScreen(),
+  // ChatbotScreen(),
+  // ProfileScreen(),
   @override
   void initState() {
     super.initState();
+    // New lines of code
+    _screens.add(HomeScreen());
+    _screens.add(SubjectsScreen(
+      user: widget.user,
+    ));
+    _screens.add(ChatbotScreen());
+    _screens.add(ProfileScreen());
+
+    //old code
     _subjectController = SubjectController();
     _topicController = TopicController();
     _fabRotationController = AnimationController(
@@ -213,6 +221,7 @@ class _ScreensHandlerState extends State<ScreensHandler>
                                       color;
                                 });
                               },
+                              user: widget.user,
                             );
                           },
                           child: Padding(

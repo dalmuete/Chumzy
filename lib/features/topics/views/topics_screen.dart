@@ -227,6 +227,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                   ],
                 ),
               ),
+              // HERE AND LIST -------------------
               Expanded(
                 child: topicList.isNotEmpty
                     ? ListView.builder(

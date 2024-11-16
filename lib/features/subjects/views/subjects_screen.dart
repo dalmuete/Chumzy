@@ -4,6 +4,8 @@ import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
 import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
 import 'package:chumzy/features/topics/views/topics_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +13,8 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 class SubjectsScreen extends StatefulWidget {
+  final User user;
+  const SubjectsScreen({required this.user, super.key});
   @override
   State<SubjectsScreen> createState() => _SubjectsScreenState();
 }
@@ -110,27 +114,102 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             controller: searchController,
           ),
           Gap(20.h),
+          // HERE is the LIst ----------------------
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: subjectProvider.subjects.length,
-              itemBuilder: (BuildContext context, int i) {
-                final subject = subjectProvider.subjects[i];
-                return SubjectTopicCard(
-                  lineColor: subject.lineColor,
-                  title: subject.title,
-                  totalNoItems: subject.totalNoItems,
-                  lastUpdated: subject.lastUpdated,
-                  onTap: () {
-                    subjectProvider.selectedSubjectIndex = i;
+            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: subjectProvider.getSubjectsStream(widget.user),
+              builder: (context, snapshot) {
+                // if (snapshot.connectionState == ConnectionState.waiting) {
+                //   return const Center(child: CircularProgressIndicator());
+                // }
 
-                    Navigator.of(context).push(CupertinoPageRoute(
-                        builder: (context) => TopicsScreen()));
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return const Center(child: Text('No subjects found.'));
+                }
+
+                final subjects = snapshot.data!.docs.map((doc) {
+                  return {
+                    'id': doc.id,
+                    ...doc.data(),
+                  };
+                }).toList();
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: subjects.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    final subject = subjects[i];
+
+                    final Timestamp createdAt = subject['createdAt'];
+                    final DateTime dateTime = createdAt.toDate();
+
+                    return FutureBuilder<int>(
+                      future: subjectProvider.totalNoOfTopicsInSubject(
+                        widget.user,
+                        subject['id'],
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return SubjectTopicCard(
+                            lineColor: Color(int.parse(subject['lineColor'])),
+                            title: subject['title'],
+                            totalNoItems: 0,
+                            lastUpdated: dateTime,
+                            onTap: () {
+                              subjectProvider.selectedSubjectIndex = i;
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                  builder: (context) => TopicsScreen()));
+                            },
+                          );
+                        }
+
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
+
+                        final totalNoItems = snapshot.data ?? 0;
+
+                        return SubjectTopicCard(
+                          lineColor: Color(int.parse(subject['lineColor'])),
+                          title: subject['title'],
+                          totalNoItems: totalNoItems,
+                          lastUpdated: dateTime,
+                          onTap: () {
+                            subjectProvider.selectedSubjectIndex = i;
+
+                            Navigator.of(context).push(CupertinoPageRoute(
+                                builder: (context) => TopicsScreen()));
+                          },
+                        );
+                      },
+                    );
                   },
                 );
               },
             ),
           ),
+          // Expanded(
+          //   child: ListView.builder(
+          //     shrinkWrap: true,
+          //     itemCount: subjectProvider.subjects.length,
+          //     itemBuilder: (BuildContext context, int i) {
+          //       final subject = subjectProvider.subjects[i];
+          //       return SubjectTopicCard(
+          //         lineColor: subject.lineColor,
+          //         title: subject.title,
+          //         totalNoItems: subject.totalNoItems,
+          //         lastUpdated: subject.lastUpdated,
+          //         onTap: () {
+          //           subjectProvider.selectedSubjectIndex = i;
+
+          //           Navigator.of(context).push(CupertinoPageRoute(
+          //               builder: (context) => TopicsScreen()));
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
