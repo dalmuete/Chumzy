@@ -1,6 +1,6 @@
 import 'package:chumzy/app.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
-import 'package:chumzy/data/providers/theme_provider.dart';
+import 'package:chumzy/data/providers/theme_provider.dart'; 
 import 'package:chumzy/data/providers/topic_provider.dart';
 // import 'package:chumzy/core/firebase/firebase_options.dart';
 // import 'package:firebase_core/firebase_core.dart';

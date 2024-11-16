@@ -3,6 +3,7 @@ import 'package:chumzy/core/widgets/textfields/custom_subjectsearchfield.dart';
 import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
+import 'package:chumzy/features/topics/widgets/add_cards_modal_TopicViewScreen.dart';
 import 'package:chumzy/features/topics/widgets/card_item_card.dart';
 import 'package:chumzy/features/topics/widgets/review_options_card.dart';
 import 'package:chumzy/features/topics/widgets/small_review_option_card.dart';
@@ -113,6 +114,25 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
+           resizeToAvoidBottomInset: false,
+        floatingActionButton: Tooltip(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          preferBelow: false,
+          message: "Add new topic",
+          child: FloatingActionButton(
+              onPressed: () {
+                
+              },
+              backgroundColor: selectedSubject.lineColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.r))),
+              elevation: 0,
+              child: Icon(Icons.add_rounded, size: 35.r)),
+        ),
+     
         body: SafeArea(
           top: false,
           child: Padding(

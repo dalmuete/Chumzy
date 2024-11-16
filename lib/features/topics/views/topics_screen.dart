@@ -1,9 +1,13 @@
+import 'dart:math';
 
 import 'package:chumzy/core/widgets/textfields/custom_searbarfield.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
+import 'package:chumzy/features/home/controllers/subject_controller.dart';
+import 'package:chumzy/features/home/controllers/topic_controller.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
 import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
 import 'package:chumzy/features/topics/views/topic_view_screen.dart';
+import 'package:chumzy/features/topics/widgets/add_topic_modal_topicScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,9 +21,13 @@ class TopicsScreen extends StatefulWidget {
   State<TopicsScreen> createState() => _TopicsScreenState();
 }
 
-class _TopicsScreenState extends State<TopicsScreen> {
+class _TopicsScreenState extends State<TopicsScreen>
+    with TickerProviderStateMixin {
   var searchController = TextEditingController();
   final SubjectsTopicsController _controller = SubjectsTopicsController();
+
+  late SubjectController _subjectController;
+  late TopicController _topicController;
 
   void _toggleArrow() {
     setState(() {
@@ -31,6 +39,20 @@ class _TopicsScreenState extends State<TopicsScreen> {
     setState(() {
       _controller.toggleSort();
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _subjectController = SubjectController();
+    _topicController = TopicController();
+  }
+
+  @override
+  void dispose() {
+    _subjectController.disposeControllers();
+    _topicController.disposeControllers();
+    super.dispose();
   }
 
   @override
@@ -50,6 +72,33 @@ class _TopicsScreenState extends State<TopicsScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        floatingActionButton: Tooltip(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          preferBelow: false,
+          message: "Add new topic",
+          child: FloatingActionButton(
+              onPressed: () {
+                addTopicModalTopicScreen(
+                  context: context,
+                  controllers: _topicController.controllers,
+                  focusNodes: _topicController.focusNodes,
+                  addTextField: _topicController.addTextField,
+                  removeTextField: _topicController.removeTextField,
+                  resetTextFields: _topicController.resetAllTextFields,
+                  maxFields: 5,
+                  setState: setState,
+                );
+              },
+              backgroundColor: selectedSubject.lineColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.r))),
+              elevation: 0,
+              child: Icon(Icons.add_rounded, size: 35.r)),
+        ),
         body: SafeArea(
           top: false,
           child: Column(
@@ -230,7 +279,8 @@ class _TopicsScreenState extends State<TopicsScreen> {
               Expanded(
                 child: topicList.isNotEmpty
                     ? ListView.builder(
-                        padding: const EdgeInsets.only(top: 0, right: 30, left: 30),
+                        padding:
+                            const EdgeInsets.only(top: 0, right: 30, left: 30),
                         itemCount: topicList.length,
                         itemBuilder: (BuildContext context, int i) {
                           final topic = topicList[i];

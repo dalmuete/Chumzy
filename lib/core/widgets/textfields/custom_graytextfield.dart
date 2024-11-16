@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class CustomGrayTextField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final Icon? icon;
+  final String? Function(String?)? validator;
   final FocusNode? focusNode;
   final VoidCallback? onTap;
   final TapRegionCallback? onTapOutside;
@@ -15,7 +18,8 @@ class CustomGrayTextField extends StatefulWidget {
       this.icon,
       this.focusNode,
       this.onTap,
-      this.onTapOutside});
+      this.onTapOutside,
+      this.validator});
 
   @override
   State<CustomGrayTextField> createState() => _CustomGrayTextFieldState();
@@ -25,36 +29,38 @@ class _CustomGrayTextFieldState extends State<CustomGrayTextField> {
   @override
   Widget build(BuildContext context) {
     bool isLightMode = Theme.of(context).brightness == Brightness.light;
-    return Container(
-      decoration: BoxDecoration(
-        color: isLightMode
+    return TextFormField(
+      onTapAlwaysCalled: true,
+      onTapOutside: widget.onTapOutside,
+      onTap: widget.onTap,
+      focusNode: widget.focusNode,
+      controller: widget.controller,
+      cursorColor: const Color(0xFFfad24e),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: isLightMode
             ? const Color.fromARGB(255, 243, 243, 243)
             : Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(15),
-        // border: Border.all(color: Colors.grey),
-      ),
-      child: TextFormField(
-        onTapAlwaysCalled: true,
-        onTapOutside: widget.onTapOutside,
-        onTap: widget.onTap,
-        focusNode: widget.focusNode,
-        controller: widget.controller,
-        cursorColor: const Color(0xFFfad24e),
-        decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide(
-                color: Colors.grey.withOpacity(0.5),
-              )),
-          suffixIcon: widget.icon,
-          suffixIconColor: Colors.grey,
-          hintText: widget.hintText,
-          hintStyle: Theme.of(context).textTheme.labelSmall,
-          border: InputBorder.none,
-          contentPadding:
-              const EdgeInsets.only(left: 12, right: 0, top: 14, bottom: 14),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.transparent,
+          ),
+          borderRadius: BorderRadius.circular(15.r),
         ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.r),
+            borderSide: BorderSide(
+              color: Colors.grey.withOpacity(0.5),
+            )),
+        suffixIcon: widget.icon,
+        suffixIconColor: Colors.grey,
+        hintText: widget.hintText,
+        hintStyle: Theme.of(context).textTheme.labelSmall,
+        border: InputBorder.none,
+        contentPadding:
+            EdgeInsets.only(left: 12.r, right: 12.r, top: 14.r, bottom: 14.r),
       ),
+      validator: widget.validator,
     );
   }
 }

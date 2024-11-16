@@ -1,0 +1,30 @@
+Based on the provided data, create 5 quiz cards using the following model. Each card should include:
+
+A quiz question or statement in definitionOnlyWithoutTheAnswer.
+A concise, objective answer (a word or short phrase) in shortTermOnlyWithoutDefinition.
+Four multiple-choice options in multichoiceOptions.
+The correct multiple-choice answer in multichoiceAnswer.
+A true or false statement that relates to the information in the card in trueOrFalseStatement.
+The correct true or false answer (either true or false) in trueOrFalseAnswer.
+
+The format for each card should follow this model:
+class Card { 
+  final String definitionOnlyWithoutTheAnswer; // Quiz question or statement (no answer in it)
+  final String shortTermOnlyWithoutDefinition; // Objective answer, word/phrase 
+  final List<String> multichoiceOptions;
+  final String multichoiceAnswer; 
+  final String trueOrFalseStatement; 
+  final bool trueOrFalseAnswer; 
+
+  Card({
+    required this.definitionOnlyWithoutTheAnswer,
+    required this.shortTermOnlyWithoutDefinition,
+    required this.multichoiceOptions,
+    required this.multichoiceAnswer,
+    required this.trueOrFalseStatement,
+    required this.trueOrFalseAnswer,
+  });
+}
+
+
+Please send the result in 5 separate JSON formats (one per card), nothing else.

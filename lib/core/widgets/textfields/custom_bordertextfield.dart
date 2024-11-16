@@ -5,6 +5,7 @@ class CustomBorderTextField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final FocusNode? focusNode;
+  final String? Function(String?)? validator;
   final int? maxChar;
 
   const CustomBorderTextField({
@@ -13,6 +14,7 @@ class CustomBorderTextField extends StatefulWidget {
     required this.controller,
     this.focusNode,
     this.maxChar,
+    this.validator,
   });
 
   @override
@@ -23,8 +25,8 @@ class _CustomBorderTextFieldState extends State<CustomBorderTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLength: widget.maxChar,
-      focusNode: widget.focusNode,
+      maxLength: widget.maxChar ?? 100,
+      focusNode: widget.focusNode ?? FocusNode(),
       controller: widget.controller,
       cursorColor: const Color(0xFFfad24e),
       decoration: InputDecoration(
@@ -33,7 +35,7 @@ class _CustomBorderTextFieldState extends State<CustomBorderTextField> {
           fontSize: 10.sp,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: const BorderSide(color: Colors.grey, width: 0.7),
         ),
         focusedBorder: OutlineInputBorder(
@@ -42,8 +44,9 @@ class _CustomBorderTextFieldState extends State<CustomBorderTextField> {
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.labelSmall,
         contentPadding:
-            const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 16),
+             EdgeInsets.only(left: 12.r, right: 12.r, top: 16.r, bottom: 16.r),
       ),
+      validator: widget.validator,
     );
   }
 }

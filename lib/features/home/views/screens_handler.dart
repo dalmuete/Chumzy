@@ -1,4 +1,3 @@
-
 // ignore_for_file: avoid_print
 
 import 'package:chumzy/core/widgets/navbar.dart';
@@ -26,7 +25,6 @@ class ScreensHandler extends StatefulWidget {
 class ScreensHandlerState extends State<ScreensHandler>
     with TickerProviderStateMixin {
   int _selectedIndex = 0;
-  bool isAddIcon = true;
   final List<Widget> _screens = [
     const HomeScreen(),
     SubjectsScreen(),
@@ -34,6 +32,7 @@ class ScreensHandlerState extends State<ScreensHandler>
     ProfileScreen(),
   ];
 
+  bool isAddIcon = true;
   late final AnimationController _fabRotationController;
   late final Animation<double> _fabRotationAnimation;
 
@@ -221,11 +220,12 @@ class ScreensHandlerState extends State<ScreensHandler>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.menu_book_rounded,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
-                                Gap(10.w),
+                                Gap(3.w),
+                                Image.asset(
+                                  'assets/icons/subjects_active_icon.png',
+                                  width: 24.r,
+                                ),
+                                Gap(12.w),
                                 Expanded(
                                   child: Text("Add new subject",
                                       style: TextStyle(fontSize: 14.sp)),
