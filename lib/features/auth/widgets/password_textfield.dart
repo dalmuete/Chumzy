@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class PasswordField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
-  TapRegionCallback? onTapOutside;
-  String? Function(String?)? validator;
+  final TapRegionCallback? onTapOutside;
+  final String? Function(String?)? validator;
 
-  PasswordField({
+  const PasswordField({
     super.key,
     required this.hintText,
     required this.controller,
@@ -16,10 +16,10 @@ class PasswordField extends StatefulWidget {
   });
 
   @override
-  _PasswordFieldState createState() => _PasswordFieldState();
+  PasswordFieldState createState() => PasswordFieldState();
 }
 
-class _PasswordFieldState extends State<PasswordField> {
+class PasswordFieldState extends State<PasswordField> {
   bool _isVisible = false;
 
   @override
@@ -28,7 +28,7 @@ class _PasswordFieldState extends State<PasswordField> {
     return Container(
       decoration: BoxDecoration(
         color: isLightMode
-            ? Color.fromARGB(255, 243, 243, 243)
+            ? const Color.fromARGB(255, 243, 243, 243)
             : Colors.white.withOpacity(0.1),
 
         borderRadius: BorderRadius.circular(15),
@@ -38,7 +38,7 @@ class _PasswordFieldState extends State<PasswordField> {
         onTapOutside: widget.onTapOutside,
         controller: widget.controller,
         obscureText: !_isVisible,
-        cursorColor: Color(0xFFfad24e),
+        cursorColor: const Color(0xFFfad24e),
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
@@ -49,7 +49,7 @@ class _PasswordFieldState extends State<PasswordField> {
           hintStyle: Theme.of(context).textTheme.labelSmall,
           border: InputBorder.none,
           contentPadding:
-              EdgeInsets.only(left: 12, right: 0, top: 16, bottom: 16),
+              const EdgeInsets.only(left: 12, right: 0, top: 16, bottom: 16),
           suffixIcon: IconButton(
             icon: Icon(_isVisible ? Icons.visibility : Icons.visibility_off,
                 color: Colors.grey, size: 20.sp),

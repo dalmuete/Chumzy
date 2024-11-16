@@ -1,11 +1,9 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
-import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:provider/provider.dart';
 
 void addCardsModal({
@@ -70,7 +68,7 @@ void addCardsModal({
                               .withOpacity(0.5),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        margin: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.symmetric(vertical: 8),
                       ),
                     ),
                     Gap(20.h),
@@ -94,7 +92,7 @@ void addCardsModal({
                                 .withOpacity(0.5))),
                     Gap(30.h),
                     CustomButton(
-                        prefixIcon: Icon(Icons.camera_alt_rounded),
+                        prefixIcon: const Icon(Icons.camera_alt_rounded),
                         backgroundColor: Theme.of(context)
                             .colorScheme
                             .secondary
@@ -106,7 +104,7 @@ void addCardsModal({
                         onPressed: () {}),
                     Gap(20.h),
                     CustomButton(
-                        prefixIcon: Icon(Icons.image_rounded),
+                        prefixIcon: const Icon(Icons.image_rounded),
                         backgroundColor: Colors.transparent,
                         borderColor:
                             Theme.of(context).primaryColor.withOpacity(0.5),
@@ -117,7 +115,7 @@ void addCardsModal({
                         onPressed: () {}),
                     Gap(20.h),
                     CustomButton(
-                        prefixIcon: Icon(Icons.picture_as_pdf_rounded),
+                        prefixIcon: const Icon(Icons.picture_as_pdf_rounded),
                         backgroundColor: Colors.transparent,
                         borderColor:
                             Theme.of(context).primaryColor.withOpacity(0.5),
@@ -128,13 +126,21 @@ void addCardsModal({
                         onPressed: () {}),
                     Gap(20.h),
                     CustomButton(
-                        prefixIcon: Icon(Icons.paste_rounded),
+                        prefixIcon: const Icon(Icons.paste_rounded),
                         backgroundColor: Colors.transparent,
                         borderColor:
                             Theme.of(context).primaryColor.withOpacity(0.5),
                         fontweight: FontWeight.w400,
                         padding: 17.r,
                         text: "Paste notes",
+                        textColor: Theme.of(context).primaryColor,
+                        onPressed: () {}),
+                    Gap(10.h),
+                    CustomButton(
+                        backgroundColor: Colors.transparent,
+                        fontweight: FontWeight.w400,
+                        padding: 15.r,
+                        text: "Add manually",
                         textColor: Theme.of(context).primaryColor,
                         onPressed: () {}),
                     Gap(50.h),

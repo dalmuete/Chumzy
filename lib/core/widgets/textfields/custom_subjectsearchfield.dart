@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomSubjectSearchBarField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
-  TapRegionCallback? onTapOutside;
-  VoidCallback? onTap;
-  FocusNode? focusNode;
+  final TapRegionCallback? onTapOutside;
+  final VoidCallback? onTap;
+  final FocusNode? focusNode;
 
-  CustomSubjectSearchBarField(
+  const CustomSubjectSearchBarField(
       {super.key,
       required this.hintText,
       required this.controller,
@@ -50,7 +50,7 @@ class _CustomSubjectSearchBarFieldState
     return Container(
       decoration: BoxDecoration(
         color: isLightMode
-            ? Color.fromARGB(255, 243, 243, 243)
+            ? const Color.fromARGB(255, 243, 243, 243)
             : Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
         // border: Border.all(color: Colors.grey),
@@ -70,8 +70,8 @@ class _CustomSubjectSearchBarFieldState
             ),
           ),
           suffixIcon: GestureDetector(
-            child: icon,
             onTap: onTap,
+            child: icon,
           ),
           hintText: widget.hintText,
           hintStyle: TextStyle(

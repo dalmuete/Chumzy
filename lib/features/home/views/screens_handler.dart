@@ -1,6 +1,6 @@
-import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
+// ignore_for_file: avoid_print
+
 import 'package:chumzy/core/widgets/navbar.dart';
-import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/features/chatbot/views/chatbot_screen.dart';
 import 'package:chumzy/features/home/controllers/subject_controller.dart';
@@ -19,15 +19,16 @@ import 'package:gap/gap.dart';
 class ScreensHandler extends StatefulWidget {
   final User user;
   const ScreensHandler({required this.user, super.key});
+
   @override
-  _ScreensHandlerState createState() => _ScreensHandlerState();
+  ScreensHandlerState createState() => ScreensHandlerState();
 }
 
-class _ScreensHandlerState extends State<ScreensHandler>
+class ScreensHandlerState extends State<ScreensHandler>
     with TickerProviderStateMixin {
   int _selectedIndex = 0;
   bool isAddIcon = true;
-  final List<Widget> _screens = [];
+  late final List<Widget> _screens;
 
   late final AnimationController _fabRotationController;
   late final Animation<double> _fabRotationAnimation;
@@ -71,7 +72,7 @@ class _ScreensHandlerState extends State<ScreensHandler>
     );
 
     _dialogAnimation =
-        Tween<Offset>(begin: Offset(0, -5), end: Offset.zero).animate(
+        Tween<Offset>(begin: const Offset(0, -5), end: Offset.zero).animate(
       CurvedAnimation(
         parent: _dialogAnimationController,
         curve: Curves.elasticIn,
@@ -145,11 +146,11 @@ class _ScreensHandlerState extends State<ScreensHandler>
             _toggleFAB();
           },
           backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: isAddIcon
-              ? Icon(Icons.add_rounded, size: 35)
-              : Icon(Icons.close_rounded, size: 30),
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           elevation: 0,
+          child: isAddIcon
+              ? const Icon(Icons.add_rounded, size: 35)
+              : const Icon(Icons.close_rounded, size: 30),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

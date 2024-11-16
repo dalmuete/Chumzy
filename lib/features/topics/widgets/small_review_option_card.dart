@@ -58,6 +58,6 @@ class _SmallReviewOptionsCardState extends State<SmallReviewOptionsCard> {
             )),
       ),
     );
-    ;
+    
   }
 }
