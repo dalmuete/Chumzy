@@ -18,9 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final subjectProvider = Provider.of<SubjectProvider>(context);
+
+    //Load Subject
+    subjectProvider.fetchSubjects();
+
     return Column(
       children: [
-         Center(
+        Center(
           child: Text("Home tab",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         ),

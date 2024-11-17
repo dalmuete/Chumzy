@@ -96,7 +96,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return ScreensHandler(user: user!);
+            return ScreensHandler();
           },
         ),
       );

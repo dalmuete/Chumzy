@@ -1,4 +1,3 @@
-
 // ignore_for_file: prefer_const_constructors
 
 import 'package:chumzy/core/widgets/textfields/custom_subjectsearchfield.dart';
@@ -7,7 +6,6 @@ import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.
 import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
 import 'package:chumzy/features/topics/views/topics_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,8 +13,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 class SubjectsScreen extends StatefulWidget {
-  final User user;
-  const SubjectsScreen({required this.user, super.key});
+  const SubjectsScreen({super.key});
   @override
   State<SubjectsScreen> createState() => _SubjectsScreenState();
 }
@@ -37,9 +34,23 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     });
   }
 
+  bool isEmpty = false;
+
   @override
   Widget build(BuildContext context) {
     final subjectProvider = Provider.of<SubjectProvider>(context);
+    //Fetching the subjects
+    subjectProvider.fetchSubjects();
+
+    //
+    if (subjectProvider.subjects.isEmpty) {
+      setState(() {
+        isEmpty = true;
+      });
+    } else {
+      isEmpty = false;
+    }
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -117,80 +128,33 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           ),
           Gap(20.h),
           // HERE is the LIst ----------------------
-          Expanded(
-            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: subjectProvider.getSubjectsStream(widget.user),
-              builder: (context, snapshot) {
-                // if (snapshot.connectionState == ConnectionState.waiting) {
-                //   return const Center(child: CircularProgressIndicator());
-                // }
+          isEmpty
+              ? Center(
+                  child: const Center(
+                    child: Text('No subjects found.'),
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: subjectProvider.subjects.length,
+                    itemBuilder: (BuildContext context, int i) {
+                      final subject = subjectProvider.subjects[i];
+                      return SubjectTopicCard(
+                        lineColor: subject.lineColor,
+                        title: subject.title,
+                        totalNoItems: subject.totalNoItems,
+                        lastUpdated: subject.lastUpdated,
+                        onTap: () {
+                          subjectProvider.getSelectedSubjectIndex(i);
 
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text('No subjects found.'));
-                }
-
-                final subjects = snapshot.data!.docs.map((doc) {
-                  return {
-                    'id': doc.id,
-                    ...doc.data(),
-                  };
-                }).toList();
-
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: subjects.length,
-                  itemBuilder: (BuildContext context, int i) {
-                    final subject = subjects[i];
-
-                    final Timestamp createdAt = subject['createdAt'];
-                    final DateTime dateTime = createdAt.toDate();
-
-                    return FutureBuilder<int>(
-                      future: subjectProvider.totalNoOfTopicsInSubject(
-                        widget.user,
-                        subject['id'],
-                      ),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return SubjectTopicCard(
-                            lineColor: Color(int.parse(subject['lineColor'])),
-                            title: subject['title'],
-                            totalNoItems: 0,
-                            lastUpdated: dateTime,
-                            onTap: () {
-                              subjectProvider.selectedSubjectIndex = i;
-                              Navigator.of(context).push(CupertinoPageRoute(
-                                  builder: (context) => TopicsScreen()));
-                            },
-                          );
-                        }
-
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        }
-
-                        final totalNoItems = snapshot.data ?? 0;
-
-                        return SubjectTopicCard(
-                          lineColor: Color(int.parse(subject['lineColor'])),
-                          title: subject['title'],
-                          totalNoItems: totalNoItems,
-                          lastUpdated: dateTime,
-                          onTap: () {
-                            subjectProvider.selectedSubjectIndex = i;
-
-                            Navigator.of(context).push(CupertinoPageRoute(
-                                builder: (context) => TopicsScreen()));
-                          },
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-          ),
+                          Navigator.of(context).push(CupertinoPageRoute(
+                              builder: (context) => TopicsScreen()));
+                        },
+                      );
+                    },
+                  ),
+                ),
           // Expanded(
           //   child: ListView.builder(
           //     shrinkWrap: true,
@@ -217,3 +181,58 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     );
   }
 }
+
+
+// child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+//               stream: subjectProvider.getSubjectsStream(),
+//               builder: (context, snapshot) {
+//                 // if (snapshot.connectionState == ConnectionState.waiting) {
+//                 //   return const Center(child: CircularProgressIndicator());
+//                 // }
+
+//                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+//                   return const Center(child: Text('No subjects found.'));
+//                 }
+
+//                 final subjects = snapshot.data!.docs.map((doc) {
+//                   return {
+//                     'id': doc.id,
+//                     ...doc.data(),
+//                   };
+//                 }).toList();
+
+//                 return ListView.builder(
+//                   shrinkWrap: true,
+//                   itemCount: subjects.length,
+//                   itemBuilder: (BuildContext context, int i) {
+//                     final subject = subjects[i];
+
+//                     final Timestamp createdAt = subject['createdAt'];
+//                     final DateTime dateTime = createdAt.toDate();
+
+//                     // Fetch the preloaded totalTopics field directly
+//                     final int totalNoItems = subject['totalNoItems'] ?? 0;
+
+//                     return SubjectTopicCard(
+//                       lineColor: Color(int.parse(subject['lineColor'])),
+//                       title: subject['title'],
+//                       totalNoItems: totalNoItems,
+//                       lastUpdated: dateTime,
+//                       onTap: () {
+//                         subjectProvider.getSelectedSubjectIndex(i);
+
+//                         if (subjectProvider.subjects.isEmpty) {
+//                           print(
+//                               "Subjects list is empty. Cannot navigate to TopicsScreen.");
+//                           return;
+//                         }
+
+//                         Navigator.of(context).push(CupertinoPageRoute(
+//                           builder: (context) => TopicsScreen(),
+//                         ));
+//                       },
+//                     );
+//                   },
+//                 );
+//               },
+//             ),

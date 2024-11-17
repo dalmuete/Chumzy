@@ -17,8 +17,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 class ScreensHandler extends StatefulWidget {
-  final User user;
-  const ScreensHandler({required this.user, super.key});
+  const ScreensHandler({super.key});
 
   @override
   ScreensHandlerState createState() => ScreensHandlerState();
@@ -28,7 +27,12 @@ class ScreensHandlerState extends State<ScreensHandler>
     with TickerProviderStateMixin {
   int _selectedIndex = 0;
   bool isAddIcon = true;
-  late final List<Widget> _screens;
+  final List<Widget> _screens = [
+    HomeScreen(),
+    SubjectsScreen(),
+    ChatbotScreen(),
+    ProfileScreen(),
+  ];
 
   late final AnimationController _fabRotationController;
   late final Animation<double> _fabRotationAnimation;
@@ -40,22 +44,9 @@ class ScreensHandlerState extends State<ScreensHandler>
   late TopicController _topicController;
   Subject? selectedSubject;
 
-  // HomeScreen(),
-  // SubjectsScreen(),
-  // ChatbotScreen(),
-  // ProfileScreen(),
   @override
   void initState() {
     super.initState();
-    // New lines of code
-    _screens.add(HomeScreen());
-    _screens.add(SubjectsScreen(
-      user: widget.user,
-    ));
-    _screens.add(ChatbotScreen());
-    _screens.add(ProfileScreen());
-
-    //old code
     _subjectController = SubjectController();
     _topicController = TopicController();
     _fabRotationController = AnimationController(
@@ -222,7 +213,6 @@ class ScreensHandlerState extends State<ScreensHandler>
                                       color;
                                 });
                               },
-                              user: widget.user,
                             );
                           },
                           child: Padding(

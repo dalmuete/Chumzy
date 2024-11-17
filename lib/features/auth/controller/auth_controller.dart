@@ -152,13 +152,23 @@ class AuthController with ChangeNotifier {
       Navigator.of(context).pop(); // Dismiss loading screen
 
       final User? user = userCredential.user;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => ScreensHandler(
-            user: user!,
-          ),
-        ),
-      );
+      if (user != null) {
+        if (user.emailVerified) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => ScreensHandler(),
+            ),
+          );
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => VerificationScreen(
+                email: user.email!,
+              ),
+            ),
+          );
+        }
+      }
     } on FirebaseAuthException catch (e) {
       Navigator.of(context).pop();
 
@@ -233,9 +243,7 @@ class AuthController with ChangeNotifier {
 
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => ScreensHandler(
-            user: user!,
-          ),
+          builder: (context) => ScreensHandler(),
         ),
       );
     } catch (e) {

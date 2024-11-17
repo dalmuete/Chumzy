@@ -81,7 +81,6 @@ void addSubjectModal({
   required List<Color> subjectColors,
   required Function(int, Color) setSubjectColor,
   required Function resetAllColors,
-  required User user,
 }) {
   showModalBottomSheet(
     useSafeArea: true,
@@ -250,8 +249,12 @@ void addSubjectModal({
                                     padding: 15.r,
                                     text: "Save",
                                     onPressed: () {
-                                      subjectProvider.saveSubject(context, user,
-                                          controllers, subjectColors);
+                                      subjectProvider.saveSubject(
+                                        context,
+                                        controllers,
+                                        subjectColors,
+                                        focusNodes,
+                                      );
                                     }),
                               ),
                             ],
