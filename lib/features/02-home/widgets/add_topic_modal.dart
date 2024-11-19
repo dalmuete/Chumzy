@@ -2,6 +2,7 @@ import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
+import 'package:chumzy/data/providers/topic_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -34,6 +35,10 @@ void addTopicModal({
     context: context,
     builder: (context) {
       final subjectProvider = Provider.of<SubjectProvider>(context);
+      final topicProvider = Provider.of<TopicProvider>(context);
+
+      // LOAD SUBJECTS FOR DROP DOWN
+      subjectProvider.fetchSubjects();
 
       Subject? initialSubject = selectedSubject;
       if (initialSubject != null &&
@@ -125,6 +130,7 @@ void addTopicModal({
                           onTap: () {
                             onItemSelect();
                             setSelectedSubject(item);
+                            selectedSubject = item;
                           },
                           child: Row(
                             children: [
@@ -179,6 +185,7 @@ void addTopicModal({
                       initialItem: initialSubject,
                       onChanged: (value) {
                         setSelectedSubject(value!);
+                        selectedSubject = value;
                         print('Changing value to: ${value!.title}');
                       },
                     ),
@@ -249,7 +256,14 @@ void addTopicModal({
                                     fontweight: FontWeight.w600,
                                     padding: 15.r,
                                     text: "Save",
-                                    onPressed: () {}),
+                                    onPressed: () {
+                                      topicProvider.saveTopic(
+                                        context,
+                                        controllers,
+                                        selectedSubject!,
+                                        focusNodes,
+                                      );
+                                    }),
                               ),
                             ],
                           ),

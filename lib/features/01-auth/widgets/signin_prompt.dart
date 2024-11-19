@@ -1,3 +1,4 @@
+import 'package:chumzy/features/auth/views/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignInPrompt extends StatelessWidget {
@@ -18,7 +19,16 @@ class SignInPrompt extends StatelessWidget {
         TextButton(
           style:
               ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(0))),
-          onPressed: () => Navigator.pushNamed(context, '/login'),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return LoginScreen();
+                },
+              ),
+            );
+          },
           child: Text(
             "Log in",
             style: TextStyle(

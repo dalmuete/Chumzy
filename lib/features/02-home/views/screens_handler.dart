@@ -26,7 +26,7 @@ class ScreensHandlerState extends State<ScreensHandler>
     with TickerProviderStateMixin {
   int _selectedIndex = 0;
   final List<Widget> _screens = [
-    const HomeScreen(),
+    HomeScreen(),
     SubjectsScreen(),
     ChatbotScreen(),
     ProfileScreen(),

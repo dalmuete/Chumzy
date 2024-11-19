@@ -2,12 +2,15 @@ import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/core/widgets/buttons/google_button.dart';
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
 import 'package:chumzy/core/widgets/buttons/icon_circle_btn.dart';
+import 'package:chumzy/features/auth/controller/auth_controller.dart';
+import 'package:chumzy/features/auth/views/forgot_password.dart';
 import 'package:chumzy/features/01-auth/widgets/password_textfield.dart';
 import 'package:chumzy/features/01-auth/widgets/signup_prompt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -22,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var authController = Provider.of<AuthController>(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -67,7 +71,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ForgotPasswordScreen(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "Forgot Password?",
                       style: TextStyle(
@@ -81,9 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Expanded(
                       child: CustomButton(
-                          text: 'Log in',
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/mainscreens')),
+                        text: 'Log in',
+                        onPressed: () {
+                          authController.signIn(context, emailController.text,
+                              passwordController.text);
+                        },
+                      ),
                     ),
                   ],
                 ),

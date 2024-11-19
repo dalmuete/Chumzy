@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class SubjectController {
+class SubjectController extends ChangeNotifier {
   List<TextEditingController> controllers = [TextEditingController()];
   List<FocusNode> focusNodes = [FocusNode()];
-  List<Color> subjectColors = [Colors.white]; 
+  List<Color> subjectColors = [Colors.white];
   static const int maxFields = 5;
 
   void addTextField(Function setState) {
@@ -11,7 +11,7 @@ class SubjectController {
       setState(() {
         controllers.add(TextEditingController());
         focusNodes.add(FocusNode());
-        subjectColors.add(Colors.white); 
+        subjectColors.add(Colors.white);
       });
     }
   }
@@ -25,8 +25,6 @@ class SubjectController {
       });
     }
   }
-  
-  
 
   void resetAllTextFields(Function setState) {
     setState(() {
@@ -46,7 +44,9 @@ class SubjectController {
 
       controllers.add(TextEditingController());
       focusNodes.add(FocusNode());
-      subjectColors.add(Colors.white); 
+      subjectColors.add(Colors.white);
+
+      debugPrint("CLEAR FORM and ADD 1 TEXTFIELD");
     });
   }
 
@@ -54,8 +54,11 @@ class SubjectController {
     for (var controller in controllers) {
       controller.dispose();
     }
+    debugPrint("Disposing TextEditingController in DISPOSE");
+
     for (var focusNode in focusNodes) {
       focusNode.dispose();
     }
+    debugPrint("Disposing FocusNode in DISPOSE");
   }
 }

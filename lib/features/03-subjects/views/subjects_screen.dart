@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 
 class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key});
-
   @override
   State<SubjectsScreen> createState() => _SubjectsScreenState();
 }
@@ -34,9 +33,23 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     });
   }
 
+  bool isEmpty = false;
+
   @override
   Widget build(BuildContext context) {
     final subjectProvider = Provider.of<SubjectProvider>(context);
+    //Fetching the subjects
+    subjectProvider.fetchSubjects();
+
+    //
+    if (subjectProvider.subjects.isEmpty) {
+      setState(() {
+        isEmpty = true;
+      });
+    } else {
+      isEmpty = false;
+    }
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -113,29 +126,112 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             controller: searchController,
           ),
           Gap(20.h),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: subjectProvider.subjects.length,
-              itemBuilder: (BuildContext context, int i) {
-                final subject = subjectProvider.subjects[i];
-                return SubjectTopicCard(
-                  lineColor: subject.lineColor,
-                  title: subject.title,
-                  totalNoItems: subject.totalNoItems,
-                  lastUpdated: subject.lastUpdated,
-                  onTap: () {
-                    subjectProvider.selectedSubjectIndex = i;
+          // HERE is the LIst ----------------------
+          isEmpty
+              ? Center(
+                  child: const Center(
+                    child: Text('No subjects found.'),
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: subjectProvider.subjects.length,
+                    itemBuilder: (BuildContext context, int i) {
+                      final subject = subjectProvider.subjects[i];
+                      return SubjectTopicCard(
+                        lineColor: subject.lineColor,
+                        title: subject.title,
+                        totalNoItems: subject.totalNoItems,
+                        lastUpdated: subject.lastUpdated,
+                        onTap: () {
+                          subjectProvider.getSelectedSubjectIndex(i);
 
-                    Navigator.of(context).push(CupertinoPageRoute(
-                        builder: (context) => TopicsScreen()));
-                  },
-                );
-              },
-            ),
-          ),
+                          Navigator.of(context).push(CupertinoPageRoute(
+                              builder: (context) => TopicsScreen()));
+                        },
+                      );
+                    },
+                  ),
+                ),
+          // Expanded(
+          //   child: ListView.builder(
+          //     shrinkWrap: true,
+          //     itemCount: subjectProvider.subjects.length,
+          //     itemBuilder: (BuildContext context, int i) {
+          //       final subject = subjectProvider.subjects[i];
+          //       return SubjectTopicCard(
+          //         lineColor: subject.lineColor,
+          //         title: subject.title,
+          //         totalNoItems: subject.totalNoItems,
+          //         lastUpdated: subject.lastUpdated,
+          //         onTap: () {
+          //           subjectProvider.selectedSubjectIndex = i;
+
+          //           Navigator.of(context).push(CupertinoPageRoute(
+          //               builder: (context) => TopicsScreen()));
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
   }
 }
+
+
+// child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+//               stream: subjectProvider.getSubjectsStream(),
+//               builder: (context, snapshot) {
+//                 // if (snapshot.connectionState == ConnectionState.waiting) {
+//                 //   return const Center(child: CircularProgressIndicator());
+//                 // }
+
+//                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+//                   return const Center(child: Text('No subjects found.'));
+//                 }
+
+//                 final subjects = snapshot.data!.docs.map((doc) {
+//                   return {
+//                     'id': doc.id,
+//                     ...doc.data(),
+//                   };
+//                 }).toList();
+
+//                 return ListView.builder(
+//                   shrinkWrap: true,
+//                   itemCount: subjects.length,
+//                   itemBuilder: (BuildContext context, int i) {
+//                     final subject = subjects[i];
+
+//                     final Timestamp createdAt = subject['createdAt'];
+//                     final DateTime dateTime = createdAt.toDate();
+
+//                     // Fetch the preloaded totalTopics field directly
+//                     final int totalNoItems = subject['totalNoItems'] ?? 0;
+
+//                     return SubjectTopicCard(
+//                       lineColor: Color(int.parse(subject['lineColor'])),
+//                       title: subject['title'],
+//                       totalNoItems: totalNoItems,
+//                       lastUpdated: dateTime,
+//                       onTap: () {
+//                         subjectProvider.getSelectedSubjectIndex(i);
+
+//                         if (subjectProvider.subjects.isEmpty) {
+//                           print(
+//                               "Subjects list is empty. Cannot navigate to TopicsScreen.");
+//                           return;
+//                         }
+
+//                         Navigator.of(context).push(CupertinoPageRoute(
+//                           builder: (context) => TopicsScreen(),
+//                         ));
+//                       },
+//                     );
+//                   },
+//                 );
+//               },
+//             ),

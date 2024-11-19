@@ -11,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class ChumzyApp extends StatefulWidget {
-  ChumzyApp({super.key});
+  const ChumzyApp({super.key});
 
   @override
   State<ChumzyApp> createState() => _ChumzyAppState();
@@ -19,6 +19,8 @@ class ChumzyApp extends StatefulWidget {
 
 class _ChumzyAppState extends State<ChumzyApp> {
   ThemeMode? lastKnownThemeMode;
+  bool emailVerificationSent = false;
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -54,15 +56,21 @@ class _ChumzyAppState extends State<ChumzyApp> {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             title: 'Chumzy - Your study buddy, sharp and ready!',
-            initialRoute: '/splash',
-            routes: {
-              '/splash': (context) => ChumzySplashScreen(),
-              '/login': (context) => LoginScreen(),
-              '/signup': (context) => SignupScreen(),
-              '/verification': (context) => VerificationScreen(),
-              '/mainscreens': (context) => ScreensHandler(),
-              '/topics': (context) => TopicsScreen(),
-            },
+            // initialRoute: '/splash',
+            home: StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasData) {
+                  User? user = snapshot.data;
+                  return ChumzySplashScreen(user: user);
+                } else {
+                  return const ChumzySplashScreen();
+                }
+              },
+            ),
           ),
         );
       },

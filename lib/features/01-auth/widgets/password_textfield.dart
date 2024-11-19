@@ -5,12 +5,14 @@ class PasswordField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final TapRegionCallback? onTapOutside;
+  final String? Function(String?)? validator;
 
   const PasswordField({
     super.key,
     required this.hintText,
     required this.controller,
     required this.onTapOutside,
+    this.validator,
   });
 
   @override
@@ -34,6 +36,7 @@ class PasswordFieldState extends State<PasswordField> {
       ),
       child: TextFormField(
         onTapOutside: widget.onTapOutside,
+        controller: widget.controller,
         obscureText: !_isVisible,
         cursorColor: const Color(0xFFfad24e),
         decoration: InputDecoration(
@@ -57,6 +60,7 @@ class PasswordFieldState extends State<PasswordField> {
             },
           ),
         ),
+        validator: widget.validator,
       ),
     );
   }

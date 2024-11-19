@@ -25,7 +25,7 @@ class CustomBorderTextField extends StatefulWidget {
     this.textInputType,
     this.onChanged,
     this.inputFormatters,
-    this.textAlign=TextAlign.start,
+    this.textAlign = TextAlign.start,
   });
 
   @override
