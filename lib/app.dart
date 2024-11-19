@@ -1,11 +1,7 @@
 import 'package:chumzy/core/themes/app_theme.dart';
 import 'package:chumzy/data/providers/theme_provider.dart';
-import 'package:chumzy/features/01-auth/views/login_screen.dart';
-import 'package:chumzy/features/01-auth/views/signup_screen.dart';
-import 'package:chumzy/features/01-auth/views/verification_screen.dart';
-import 'package:chumzy/features/02-home/views/screens_handler.dart';
 import 'package:chumzy/features/00-splash/views/splashscreen.dart';
-import 'package:chumzy/features/04-topics/views/topics_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';

@@ -1,6 +1,6 @@
-import 'package:chumzy/features/auth/views/login_screen.dart';
-import 'package:chumzy/features/auth/views/verification_screen.dart';
-import 'package:chumzy/features/home/views/screens_handler.dart';
+import 'package:chumzy/features/01-auth/views/login_screen.dart';
+import 'package:chumzy/features/01-auth/views/verification_screen.dart';
+import 'package:chumzy/features/02-home/views/screens_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

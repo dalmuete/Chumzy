@@ -1,15 +1,12 @@
 import 'package:chumzy/core/widgets/loading_screen.dart';
-import 'package:chumzy/features/auth/views/login_screen.dart';
-import 'package:chumzy/features/auth/views/verification_screen.dart';
-import 'package:chumzy/features/home/views/home_screen.dart';
-import 'package:chumzy/features/home/views/screens_handler.dart';
+import 'package:chumzy/features/01-auth/views/login_screen.dart';
+import 'package:chumzy/features/01-auth/views/verification_screen.dart';
+import 'package:chumzy/features/02-home/views/screens_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AuthController with ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

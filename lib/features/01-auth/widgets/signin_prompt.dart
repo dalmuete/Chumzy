@@ -1,4 +1,4 @@
-import 'package:chumzy/features/auth/views/login_screen.dart';
+import 'package:chumzy/features/01-auth/views/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignInPrompt extends StatelessWidget {

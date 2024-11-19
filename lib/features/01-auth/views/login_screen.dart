@@ -1,9 +1,8 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/core/widgets/buttons/google_button.dart';
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
-import 'package:chumzy/core/widgets/buttons/icon_circle_btn.dart';
-import 'package:chumzy/features/auth/controller/auth_controller.dart';
-import 'package:chumzy/features/auth/views/forgot_password.dart';
+import 'package:chumzy/features/01-auth/controller/auth_controller.dart';
+import 'package:chumzy/features/01-auth/views/forgot_password.dart';
 import 'package:chumzy/features/01-auth/widgets/password_textfield.dart';
 import 'package:chumzy/features/01-auth/widgets/signup_prompt.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +126,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Expanded(
                       child: GoogleBtn(
-                        onPressed: () {},
+                        onPressed: () {
+                          authController.signInWithGoogle(context);
+                        },
                       ),
                     ),
                   ],
