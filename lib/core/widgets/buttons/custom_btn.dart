@@ -10,7 +10,7 @@ class CustomButton extends StatelessWidget {
   final double padding;
   final double fontSize;
   final FontWeight fontweight;
-  final Icon? prefixIcon; 
+  final Widget? prefixIcon;
 
   const CustomButton({
     super.key,
@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
     this.padding = 20,
     this.fontSize = 16,
     this.fontweight = FontWeight.bold,
-    this.prefixIcon, 
+    this.prefixIcon,
   });
 
   @override

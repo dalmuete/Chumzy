@@ -7,8 +7,12 @@ class CustomSearchBarField extends StatefulWidget {
   final Icon? icon;
   final TapRegionCallback? onTapOutside;
 
-   const CustomSearchBarField(
-      {super.key, required this.hintText, required this.controller, this.icon, this.onTapOutside});
+  const CustomSearchBarField(
+      {super.key,
+      required this.hintText,
+      required this.controller,
+      this.icon,
+      this.onTapOutside});
 
   @override
   State<CustomSearchBarField> createState() => _CustomSearchBarFieldState();
@@ -19,7 +23,8 @@ class _CustomSearchBarFieldState extends State<CustomSearchBarField> {
 
   @override
   Widget build(BuildContext context) {
-    Icon icon =Icon(Icons.search, color: Colors.white.withOpacity(0.3), size: 24.r);
+    Icon icon =
+        Icon(Icons.search, color: Colors.white.withOpacity(0.3), size: 24.r);
     VoidCallback? onTap = () {
       widget.controller.clear();
       setState(() {

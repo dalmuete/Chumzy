@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomBorderTextField extends StatefulWidget {
@@ -7,6 +8,11 @@ class CustomBorderTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final String? Function(String?)? validator;
   final int? maxChar;
+  final int? maxLines;
+  final TextInputType? textInputType;
+  final Function(String)? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextAlign textAlign;
 
   const CustomBorderTextField({
     super.key,
@@ -14,7 +20,12 @@ class CustomBorderTextField extends StatefulWidget {
     required this.controller,
     this.focusNode,
     this.maxChar,
+    this.maxLines,
     this.validator,
+    this.textInputType,
+    this.onChanged,
+    this.inputFormatters,
+    this.textAlign=TextAlign.start,
   });
 
   @override
@@ -25,7 +36,12 @@ class _CustomBorderTextFieldState extends State<CustomBorderTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLength: widget.maxChar ?? 100,
+      maxLines: widget.maxLines,
+      textAlign: widget.textAlign,
+      inputFormatters: widget.inputFormatters,
+      onChanged: widget.onChanged,
+      keyboardType: widget.textInputType,
+      maxLength: widget.maxChar,
       focusNode: widget.focusNode ?? FocusNode(),
       controller: widget.controller,
       cursorColor: const Color(0xFFfad24e),
@@ -44,7 +60,7 @@ class _CustomBorderTextFieldState extends State<CustomBorderTextField> {
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.labelSmall,
         contentPadding:
-             EdgeInsets.only(left: 12.r, right: 12.r, top: 16.r, bottom: 16.r),
+            EdgeInsets.only(left: 12.r, right: 12.r, top: 16.r, bottom: 16.r),
       ),
       validator: widget.validator,
     );

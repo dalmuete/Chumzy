@@ -53,7 +53,6 @@ class _CustomSubjectSearchBarFieldState
             ? const Color.fromARGB(255, 243, 243, 243)
             : Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
-        // border: Border.all(color: Colors.grey),
       ),
       child: TextFormField(
         autofocus: false,
@@ -78,7 +77,7 @@ class _CustomSubjectSearchBarFieldState
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w300,
             fontSize: 14.sp,
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey,
           ),
           border: InputBorder.none,
           contentPadding:
