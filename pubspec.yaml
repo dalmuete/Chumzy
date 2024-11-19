@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^3.6.0
   flutter:
     sdk: flutter
+  flutter_dotenv: ^5.2.1
   flutter_facebook_auth: ^7.1.1
   flutter_launcher_icons: ^0.13.1
   flutter_screenutil: ^5.9.3
@@ -45,11 +46,13 @@ dependencies:
   flutter_svg: ^2.0.11
   gap: ^3.0.1
   google_fonts: ^6.2.1
+  google_generative_ai: ^0.4.6
   google_sign_in: ^6.2.1
   intl: ^0.19.0
   path_provider: ^2.1.5
   provider: ^6.1.2
   url_launcher: ^6.3.1
+  uuid: ^4.5.1
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
@@ -92,7 +95,7 @@ flutter:
     - assets/icons/
     - assets/chumzy_character/
     - assets/images/
-    - assets/audio/
+    - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
   # For details regarding adding assets from package dependencies, see

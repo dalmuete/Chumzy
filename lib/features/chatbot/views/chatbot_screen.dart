@@ -1,11 +1,71 @@
-
+import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
+import 'package:chumzy/data/providers/message_bot_provider.dart';
+import 'package:chumzy/features/chatbot/views/widget/header_bot.dart';
+import 'package:chumzy/features/chatbot/views/widget/messages_list.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class ChatbotScreen extends StatelessWidget {
+  final messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Chatbot tab", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+    return Consumer<MessageBotProvider>(
+      builder: (context, botProvider, child) {
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          body: SafeArea(
+            child: Column(
+              children: [
+                // Header chat bot
+                const HeaderChatBot(),
+                const Gap(30),
+                // Message List
+                const Expanded(
+                  child: MessagesList(),
+                ),
+                // TextField with keyboard adjustment
+                Row(
+                  children: [
+                    // TextField for user input
+                    Expanded(
+                      child: CustomGrayTextField(
+                        controller: messageController,
+                        hintText: "Ask anything",
+                      ),
+                    ),
+                    // Send button
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            if (messageController.text.isEmpty) {
+                              debugPrint("Message controller is empty.");
+                              return;
+                            }
+                            await botProvider
+                                .sendMessage(messageController.text);
+                            messageController.clear();
+                          },
+                          icon: const Icon(Icons.send),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await botProvider.clearChat();
+                          },
+                          icon: const Icon(Icons.clear_rounded),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Gap(50),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

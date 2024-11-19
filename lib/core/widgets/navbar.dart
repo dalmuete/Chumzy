@@ -1,10 +1,8 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:chumzy/features/auth/controller/auth_controller.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NavBar extends StatelessWidget {
+class NavBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onItemSelected;
 
@@ -15,31 +13,65 @@ class NavBar extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final iconList = [
-      Icons.home,
-      Icons.layers,
-      Icons.chat_bubble,
-      Icons.person,
-    ];
+  State<NavBar> createState() => _NavBarState();
+}
 
+class _NavBarState extends State<NavBar> {
+  var avatar = AssetImage('assets/images/avatar01.png');
+  @override
+  Widget build(BuildContext context) {
+    final iconList_active = [
+      Icon(Icons.home_rounded,
+          size: 25.r, color: Theme.of(context).colorScheme.secondary),
+      Image.asset(
+        'assets/icons/subjects_active_icon.png',
+        width: 18.r,
+      ),
+      Image.asset(
+        'assets/icons/chatbot_active_icon.png',
+        width: 27.r,
+      ),
+      CircleAvatar(
+        radius: 14.r,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        child: CircleAvatar(
+          radius: 12.r,
+          backgroundImage: avatar,
+        ),
+      ),
+    ];
+    final iconList_inactive = [
+      Icon(Icons.home_rounded, size: 25.r, color: Colors.grey),
+      Image.asset(
+        'assets/icons/subjects_inactive_icon.png',
+        width: 18.r,
+      ),
+      Image.asset(
+        'assets/icons/chatbot_inactive_icon.png',
+        width: 27.r,
+      ),
+      CircleAvatar(
+        radius: 14.r,
+        backgroundColor: Colors.grey,
+        child: CircleAvatar(
+          radius: 12.r,
+          backgroundImage: avatar,
+        ),
+      ),
+    ];
     return AnimatedBottomNavigationBar.builder(
-      itemCount: iconList.length,
+      itemCount: iconList_active.length,
       tabBuilder: (int index, bool isActive) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              iconList[index],
-              size: 24,
-              color: isActive ? Theme.of(context).colorScheme.secondary : Colors.grey,
-            ),
+            isActive ? iconList_active[index] : iconList_inactive[index],
             if (isActive)
               Container(
-                margin: const EdgeInsets.only(top: 4),
-                width: 6,
-                height: 6,
+                margin: EdgeInsets.only(top: 4.r),
+                width: 6.r,
+                height: 6.r,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.secondary,
                   shape: BoxShape.circle,
@@ -54,11 +86,11 @@ class NavBar extends StatelessWidget {
           offset: Offset(5, 0),
           blurRadius: 10),
       height: 70.h,
-      activeIndex: selectedIndex,
+      activeIndex: widget.selectedIndex,
       gapLocation: GapLocation.center,
       notchSmoothness: NotchSmoothness.softEdge,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      onTap: onItemSelected,
+      onTap: widget.onItemSelected,
     );
   }
 }

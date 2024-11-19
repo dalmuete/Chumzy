@@ -5,7 +5,6 @@ import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/subjects/controllers/subjects-topics_controller.dart';
 import 'package:chumzy/core/widgets/cards/subject-topic_card.dart';
 import 'package:chumzy/features/topics/views/topics_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
