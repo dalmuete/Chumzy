@@ -5,13 +5,13 @@ import 'package:gap/gap.dart';
 class CardItemCard extends StatefulWidget {
   final String term;
   final String definition;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const CardItemCard({
     super.key,
     required this.term,
     required this.definition,
-    required this.onTap,
+    this.onTap,
   });
 
   @override
@@ -22,7 +22,7 @@ class _CardItemCardState extends State<CardItemCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.only(bottom: 20.h),
+      // margin: EdgeInsets.only(bottom: 20.h),
       color: Theme.of(context).colorScheme.surface,
       elevation: 5,
       shadowColor: Colors.grey.withOpacity(0.15),
@@ -43,8 +43,8 @@ class _CardItemCardState extends State<CardItemCard> {
                 widget.term,
                 style: TextStyle(
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).primaryColor),
+                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).colorScheme.tertiary),
               ),
               Gap(10.h),
               Text(

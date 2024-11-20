@@ -1,5 +1,6 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/core/widgets/buttons/google_button.dart';
+import 'package:chumzy/core/widgets/snackbar.dart';
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
 import 'package:chumzy/features/01-auth/controller/auth_controller.dart';
 import 'package:chumzy/features/01-auth/views/forgot_password.dart';
@@ -93,6 +94,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: CustomButton(
                         text: 'Log in',
                         onPressed: () {
+                          if (emailController.text.isEmpty ||
+                              passwordController.text.isEmpty) {
+                            showCustomToast(
+                              context: context,
+                              leading: Icon(
+                                Icons.error,
+                                color: Colors.red,
+                              ),
+                              message: 'Please enter email and password.',
+                            );
+                            return;
+                          }
                           authController.signIn(context, emailController.text,
                               passwordController.text);
                         },

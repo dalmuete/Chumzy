@@ -1,6 +1,6 @@
 import 'package:chumzy/data/models/message.dart';
 import 'package:chumzy/data/providers/message_bot_provider.dart';
-import 'package:chumzy/features/chatbot/views/widget/message_tile.dart';
+import 'package:chumzy/features/08-chatbot/widgets/message_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

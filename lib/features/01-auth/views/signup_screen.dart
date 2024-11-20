@@ -1,4 +1,5 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
+import 'package:chumzy/core/widgets/buttons/google_button.dart';
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
 import 'package:chumzy/core/widgets/buttons/icon_circle_btn.dart';
 import 'package:chumzy/features/01-auth/controller/auth_controller.dart';
@@ -155,19 +156,30 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       Gap(30.h),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconCircleBtn(
-                              iconAsset: 'assets/icons/google_logo.png',
+                          Expanded(
+                            child: GoogleBtn(
                               onPressed: () {
                                 authController.signInWithGoogle(context);
-                              }),
-                          Gap(40.w),
-                          IconCircleBtn(
-                              iconAsset: 'assets/icons/facebook_logo.png',
-                              onPressed: () {})
+                              },
+                            ),
+                          ),
                         ],
                       ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     IconCircleBtn(
+                      //         iconAsset: 'assets/icons/google_logo.png',
+                      //         onPressed: () {
+                      //           authController.signInWithGoogle(context);
+                      //         }),
+                      //     Gap(40.w),
+                      //     IconCircleBtn(
+                      //         iconAsset: 'assets/icons/facebook_logo.png',
+                      //         onPressed: () {})
+                      //   ],
+                      // ),
                       Gap(50.h),
                       SignInPrompt(),
                       Gap(20.h)

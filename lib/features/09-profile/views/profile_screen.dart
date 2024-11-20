@@ -1,4 +1,5 @@
 import 'package:chumzy/data/providers/theme_provider.dart';
+import 'package:chumzy/features/01-auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    var authController = Provider.of<AuthController>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
     var avatar = AssetImage('assets/images/avatar01.png');
     return Center(
@@ -145,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontWeight: FontWeight.w500,
                 )),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/login');
+              authController.logout(context);
             },
           ),
         ],
