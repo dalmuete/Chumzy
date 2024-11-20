@@ -8,6 +8,7 @@ class CustomBorderTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final String? Function(String?)? validator;
   final int? maxChar;
+  final int? minLines;
   final int? maxLines;
   final TextInputType? textInputType;
   final Function(String)? onChanged;
@@ -20,7 +21,8 @@ class CustomBorderTextField extends StatefulWidget {
     required this.controller,
     this.focusNode,
     this.maxChar,
-    this.maxLines,
+    this.minLines,
+    this.maxLines = 1,
     this.validator,
     this.textInputType,
     this.onChanged,
@@ -36,6 +38,7 @@ class _CustomBorderTextFieldState extends State<CustomBorderTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      minLines: widget.minLines,
       maxLines: widget.maxLines,
       textAlign: widget.textAlign,
       inputFormatters: widget.inputFormatters,

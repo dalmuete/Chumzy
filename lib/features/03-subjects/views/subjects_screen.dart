@@ -174,12 +174,33 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           ),
           Gap(20.h),
           // HERE is the LIst ----------------------
-          subjectProvider.isSubjectsEmpty || isEmpty
-              ? Center(
-                  child: const Center(
-                    child: Text('No subjects found.'),
-                  ),
-                )
+          isEmpty
+              ? Expanded(
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Opacity(
+                      opacity: Theme.of(context).brightness == Brightness.dark
+                          ? 0.5
+                          : 1.0,
+                      child: Image.asset(
+                        'assets/images/sad_2.png',
+                        width: 100.r,
+                      ),
+                    ),
+                    Gap(20.h),
+                    Text("No subjects yet.\nTap '+' to add your first one.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.5),
+                        )),
+                    Gap(50.h)
+                  ],
+                ))
               : Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,

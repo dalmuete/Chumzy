@@ -1,4 +1,5 @@
 import 'package:chumzy/core/widgets/loading_screen.dart';
+import 'package:chumzy/core/widgets/snackbar.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/models/topic_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -93,14 +94,17 @@ class TopicProvider with ChangeNotifier {
 
       Navigator.pop(context);
       Navigator.pop(context);
+      showCustomToast(
+        context: context,
+        leading: Icon(Icons.check_circle, color: Colors.green),
+        message: "${numberOfTopicToAdd} topic(s) added successfully!",
+      );
     } catch (error) {
       Navigator.pop(context);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to save topics: $error'),
-          backgroundColor: Colors.red,
-        ),
+      showCustomToast(
+        context: context,
+        leading: Icon(Icons.error, color: Colors.red),
+        message: 'Failed to save topics: $error',
       );
     }
   }

@@ -1,6 +1,8 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
+import 'package:chumzy/features/05-flashcards/views/add_manually_screen.dart';
+import 'package:chumzy/features/05-flashcards/views/paste_notes_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -134,7 +136,10 @@ void addCardsModal({
                         padding: 17.r,
                         text: "Paste notes",
                         textColor: Theme.of(context).primaryColor,
-                        onPressed: () {}),
+                        onPressed: ()  =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PasteNotesScreen(),
+                            ))),
                     Gap(10.h),
                     CustomButton(
                         backgroundColor: Colors.transparent,
@@ -142,7 +147,10 @@ void addCardsModal({
                         padding: 15.r,
                         text: "Add manually",
                         textColor: Theme.of(context).primaryColor,
-                        onPressed: () {}),
+                        onPressed: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AddManuallyScreen(),
+                            ))),
                     Gap(50.h),
                   ],
                 ),

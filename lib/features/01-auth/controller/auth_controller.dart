@@ -1,12 +1,16 @@
 import 'package:chumzy/core/widgets/loading_screen.dart';
+import 'package:chumzy/core/widgets/snackbar.dart';
 import 'package:chumzy/features/01-auth/views/login_screen.dart';
 import 'package:chumzy/features/01-auth/views/verification_screen.dart';
 import 'package:chumzy/features/02-home/views/screens_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delightful_toast/toast/components/toast_card.dart';
+import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:delightful_toast/delight_toast.dart';
 
 class AuthController with ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -49,13 +53,14 @@ class AuthController with ChangeNotifier {
               'Network error. Please check your internet connection.';
           break;
         default:
-          errorMessage = 'An unknown error occurred. Please try again.';
+          errorMessage = 'Please enter valid credentials.';
           break;
       }
 
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
+      showCustomToast(
+        context: context,
+        leading: Icon(Icons.error, color: Colors.red),
+        message: errorMessage,
       );
       return null;
     }
@@ -74,10 +79,12 @@ class AuthController with ChangeNotifier {
       Navigator.of(context).pop();
 
       if (user == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Account creation failed. Please try again.')),
+        showCustomToast(
+          context: context,
+          leading: Icon(Icons.error, color: Colors.red),
+          message: 'Account creation failed. Please try again.',
         );
+
         return;
       }
 
@@ -110,7 +117,7 @@ class AuthController with ChangeNotifier {
     } else if (inputType == 'Password' && input.length < 7) {
       return "$inputType should have at least 7 characters.";
     } else if (inputType == 'Confirm Password' && input != password) {
-      return "Password and Confirm Password do not match.";
+      return "Passwords do not match.";
     }
 
     return null;
@@ -172,24 +179,25 @@ class AuthController with ChangeNotifier {
       String errorMessage;
       switch (e.code) {
         case 'invalid-email':
-          errorMessage = 'The email address is not valid.';
+          errorMessage = 'Invalid email or password.';
           break;
         case 'user-disabled':
           errorMessage = 'This user account has been disabled.';
           break;
         case 'user-not-found':
-          errorMessage = 'No user found with this email.';
+          errorMessage = 'Invalid email or password.';
           break;
         case 'wrong-password':
+          errorMessage = 'Invalid email or password';
+          break;
         case 'invalid-credential':
-          errorMessage = 'The password/email is incorrect or not set.';
+          errorMessage = 'Invalid email or password.';
           break;
         case 'too-many-requests':
           errorMessage = 'Too many attempts. Please try again later.';
           break;
         case 'network-request-failed':
-          errorMessage =
-              'Network error. Please check your internet connection.';
+          errorMessage = 'Please check your internet connection.';
           break;
         case 'operation-not-allowed':
           errorMessage = 'Email/password sign-in is not enabled.';
@@ -198,14 +206,17 @@ class AuthController with ChangeNotifier {
           errorMessage = 'An unknown error occurred.';
       }
 
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
+      showCustomToast(
+        context: context,
+        leading: Icon(Icons.error, color: Colors.red),
+        message: errorMessage,
       );
     } catch (e) {
-      Navigator.of(context).pop(); // Close loading screen
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('An error occurred. Please try again.')),
+      Navigator.of(context).pop();
+      showCustomToast(
+        context: context,
+        leading: Icon(Icons.error, color: Colors.red),
+        message: 'An error occurred. Please try again.',
       );
     }
   }
@@ -265,14 +276,18 @@ class AuthController with ChangeNotifier {
           default:
             errorMessage = 'An unknown error occurred: ${e.message}';
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
+        showCustomToast(
+          context: context,
+          leading: Icon(Icons.error, color: Colors.red),
+          message: errorMessage,
         );
       } else {
         Navigator.of(context).pop();
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error during Google sign-in: $e')),
+        showCustomToast(
+          context: context,
+          leading: Icon(Icons.error, color: Colors.red),
+          message:
+              'An error occurred while signing in with Google. Please try again.',
         );
       }
       return;
@@ -297,15 +312,17 @@ class AuthController with ChangeNotifier {
       print("Password reset email sent");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text("No user found for the given email address.")),
+        showCustomToast(
+          context: context,
+          leading: Icon(Icons.error, color: Colors.red),
+          message: "No user found for the given email address.",
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("An error occurred: ${e.message}")),
+        showCustomToast(
+          context: context,
+          leading: Icon(Icons.error, color: Colors.red),
+          message: "An error occurred: ${e.message}",
         );
-        print("An error occurred: ${e.message}");
       }
     }
   }

@@ -37,10 +37,22 @@ class _CustomGrayTextFieldState extends State<CustomGrayTextField> {
       controller: widget.controller,
       cursorColor: const Color(0xFFfad24e),
       decoration: InputDecoration(
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.transparent,
+          ),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
         filled: true,
         fillColor: isLightMode
             ? const Color.fromARGB(255, 243, 243, 243)
             : Colors.white.withOpacity(0.1),
+            focusedErrorBorder:OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.transparent,
+          ),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: Colors.transparent,
@@ -58,7 +70,7 @@ class _CustomGrayTextFieldState extends State<CustomGrayTextField> {
         hintStyle: Theme.of(context).textTheme.labelSmall,
         border: InputBorder.none,
         contentPadding:
-            EdgeInsets.only(left: 12.r, right: 12.r, top: 14.r, bottom: 14.r),
+            EdgeInsets.only(left: 12.r, right: 12.r, top: 16.r, bottom: 16.r),
       ),
       validator: widget.validator,
     );

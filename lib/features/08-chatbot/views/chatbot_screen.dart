@@ -1,10 +1,12 @@
 import 'package:chumzy/core/widgets/textfields/custom_graytextfield.dart';
 import 'package:chumzy/data/providers/message_bot_provider.dart';
-import 'package:chumzy/features/chatbot/views/widget/header_bot.dart';
-import 'package:chumzy/features/chatbot/views/widget/messages_list.dart';
+import 'package:chumzy/features/08-chatbot/widgets/header_bot.dart';
+import 'package:chumzy/features/08-chatbot/widgets/messages_list.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatbotScreen extends StatelessWidget {
   final messageController = TextEditingController();
@@ -50,17 +52,17 @@ class ChatbotScreen extends StatelessWidget {
                           },
                           icon: const Icon(Icons.send),
                         ),
-                        IconButton(
-                          onPressed: () async {
-                            await botProvider.clearChat();
-                          },
-                          icon: const Icon(Icons.clear_rounded),
-                        ),
+                        // IconButton(
+                        //   onPressed: () async {
+                        //     await botProvider.clearChat();
+                        //   },
+                        //   icon: const Icon(Icons.clear_rounded),
+                        // ),
                       ],
                     ),
                   ],
                 ),
-                const Gap(50),
+                Gap(20.r),
               ],
             ),
           ),

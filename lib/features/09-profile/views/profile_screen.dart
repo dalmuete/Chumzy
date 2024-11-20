@@ -14,6 +14,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    var authController = Provider.of<AuthController>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Consumer<AuthController>(
