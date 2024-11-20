@@ -10,12 +10,35 @@ class SubjectProvider with ChangeNotifier {
   final _firebaseFirestore = FirebaseFirestore.instance;
 
   List<Subject> _subjects = [];
+  List<Subject> _searchedSubjects = [];
+  List<Topic> _searchedTopics = [];
 
   List<Subject> get subjects => _subjects;
+  List<Subject> get searchedSubjects => _searchedSubjects;
+  List<Topic> get searchedTopics => _searchedTopics;
+
+  // For subject
+  bool _isSearched = false;
+  bool get isSearched => _isSearched;
+
+  //For Topic
+  bool _isSearchedTopic = false;
+  bool get isSearchedTopic => _isSearchedTopic;
 
   bool _isLoadingForSubject = false;
-
   bool get isLoadingForSubject => _isLoadingForSubject;
+
+  bool _isAscending = false;
+  bool get isAscending => _isAscending;
+
+  bool _isAscendingTopic = false;
+  bool get isAscendingTopic => _isAscendingTopic;
+
+  bool _isSortByDate = true;
+  bool get isSortByDate => _isSortByDate;
+
+  bool _isSortByDateTopic = true;
+  bool get isSortByDateTopic => _isSortByDateTopic;
 
   int _selectedSubjectIndex = 0;
 
@@ -75,6 +98,7 @@ class SubjectProvider with ChangeNotifier {
           .collection('users')
           .doc(userId)
           .collection('subjects')
+          .orderBy('createdAt', descending: true)
           .get();
 
       // Map each subject document to a Subject object and fetch its topics
@@ -101,15 +125,71 @@ class SubjectProvider with ChangeNotifier {
       }).toList());
 
       _subjects = subjectsList;
+      _isSearched = false;
       notifyListeners();
     } catch (e) {
       debugPrint("Error fetching subjects with topics: $e");
+    } finally {
+      _isLoadingForSubject = false;
+    }
+  }
+
+  void searchSubjects(String searchQuery) {
+    if (searchQuery.isNotEmpty) {
+      _searchedSubjects = _subjects
+          .where((subject) =>
+              subject.title.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
+      _isSearched = true;
+    } else {
+      _searchedSubjects = [];
+      _isSearched = false;
+    }
+
+    notifyListeners();
+  }
+
+  void sortDescSubject() {
+    int compareByDate(a, b) {
+      return _isAscending
+          ? a.lastUpdated.compareTo(b.lastUpdated)
+          : b.lastUpdated.compareTo(a.lastUpdated);
+    }
+
+    int compareByTitle(a, b) {
+      String titleA = a.title?.trim().toLowerCase() ?? '';
+      String titleB = b.title?.trim().toLowerCase() ?? '';
+      return _isAscending ? titleA.compareTo(titleB) : titleB.compareTo(titleA);
+    }
+
+    if (_isSearched) {
+      _searchedSubjects.sort((a, b) {
+        return _isSortByDate ? compareByDate(a, b) : compareByTitle(a, b);
+      });
+    } else {
+      _subjects.sort((a, b) {
+        return _isSortByDate ? compareByDate(a, b) : compareByTitle(a, b);
+      });
     }
   }
 
   //Get current user
   User? getCurrentUser() {
     return FirebaseAuth.instance.currentUser;
+  }
+
+  //isSearch false Subject
+  void isSearchToggle(TextEditingController controller) {
+    controller.clear();
+    _isSearched = false;
+    notifyListeners();
+  }
+
+  //isSearch false Topic
+  void isSearchToggleTopic(TextEditingController controller) {
+    controller.clear();
+    _isSearchedTopic = false;
+    notifyListeners();
   }
 
   //show loading screen
@@ -175,6 +255,7 @@ class SubjectProvider with ChangeNotifier {
       Navigator.pop(context);
       Navigator.pop(context);
 
+      fetchSubjects();
       notifyListeners();
     } catch (error) {
       // Close loading screen if an error occurs
@@ -190,13 +271,78 @@ class SubjectProvider with ChangeNotifier {
     }
   }
 
+  // Function to sort subjects
+  void toggleArrowForSortingSubject() {
+    _isAscending = !_isAscending;
+    notifyListeners();
+  }
+
+  // Function to sort by title or Date
+  void toggleSortByDateOrTitle() {
+    _isSortByDate = !_isSortByDate;
+    notifyListeners();
+  }
+
+  // Search Topic
+  void searchTopic(Subject subject, String query) {
+    // Assuming topics have a 'name' property
+    _isSearchedTopic = true;
+    _searchedTopics = subject.topics!
+        .where(
+            (topic) => topic.title.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    // _searchedTopics.sort((a, b) {
+    //   if (!_isAscendingTopic) {
+    //     return b.lastUpdated.compareTo(a.lastUpdated); // Descending order
+    //   } else {
+    //     return a.lastUpdated.compareTo(b.lastUpdated); // Ascending order
+    //   }
+    // });
+
+    if (_searchedTopics.isEmpty) {
+      print("No topics found for '$query'.");
+    } else {
+      print("Found topics:");
+      for (var topic in _searchedTopics) {
+        print(topic.title);
+      }
+    }
+  }
+
+  void toggleArrowForSortingTopic() {
+    _isAscendingTopic = !_isAscendingTopic;
+    debugPrint("Clicked");
+    notifyListeners();
+  }
+
+  // Function to sort by title or Date
+  void toggleSortByDateOrTitleTopic() {
+    _isSortByDateTopic = !_isSortByDateTopic;
+    notifyListeners();
+  }
+
+  clearSearchTopic() {
+    _isSearchedTopic = false;
+    _searchedTopics = [];
+    notifyListeners();
+  }
+
   // fetch subject stream for strea mbuilder -> real time
-  Stream<QuerySnapshot<Map<String, dynamic>>> getSubjectsStream() {
-    return _firebaseFirestore
-        .collection('users')
-        .doc(getCurrentUser()!.uid)
-        .collection('subjects')
-        .snapshots();
+  // Stream<QuerySnapshot<Map<String, dynamic>>> getSubjectsStream() {
+  //   return _firebaseFirestore
+  //       .collection('users')
+  //       .doc(getCurrentUser()!.uid)
+  //       .collection('subjects')
+  //       .snapshots();
+  // }
+
+  void getSearchedSubject(String value) {
+    _subjects = _subjects
+        .where((subject) =>
+            subject.title.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+    notifyListeners();
   }
 
   // count how many topics inside the subject

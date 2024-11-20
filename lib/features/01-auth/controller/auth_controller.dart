@@ -310,91 +310,44 @@ class AuthController with ChangeNotifier {
     }
   }
 
-  //Facebook Login
-  // Future<void> signInWithFacebook(BuildContext context) async {
-  //   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //   loadingScreen(context);
-  //   try {
-  //     // Trigger the Facebook login process
-  //     final LoginResult result = await FacebookAuth.instance.login();
+  //Get current user
+  User? getCurrentUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
 
-  //     // Check if the login was successful
-  //     if (result.status == LoginStatus.success) {
-  //       // Get the access token from Facebook
-  //       // final AccessToken accessToken = result.accessToken!;
+  //Get current user information
+  Future<String?> getUserName() async {
+    try {
+      final userId = getCurrentUser()!.uid;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      final data = userDoc.data() as Map<String, dynamic>?; // Cast to Map
+      return data?['name'] as String?; // Safely access the 'name' field
+    } catch (e) {
+      print("Error fetching name: $e");
+      return null; // Handle errors gracefully
+    }
+  }
 
-  //       // Create a credential for Firebase using the Facebook access token
-  //       final OAuthCredential credential =
-  //           FacebookAuthProvider.credential(result.accessToken!.tokenString);
-
-  //       // Sign in to Firebase with the credential
-  //       final UserCredential userCredential =
-  //           await _auth.signInWithCredential(credential);
-  //       final User user = userCredential.user!;
-  //       await storeUserPersonalInfo(user, user.displayName!);
-  //       Navigator.of(context).pop();
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) {
-  //             return ScreensHandler(user: user);
-  //           },
-  //         ),
-  //       );
-  //       print("Facebook login successful!");
-  //     } else {
-  //       print("Facebook login failed: ${result.status}");
-  //       Navigator.of(context).pop();
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     print("FirebaseAuthException: ${e.message}");
-  //     Navigator.of(context).pop();
-  //   } catch (e) {
-  //     Navigator.of(context).pop();
-
-  //     print("An error occurred during Facebook login: $e");
-  //   }
-  // }
-
-//   // Method to update email and password
-//   void updateEmail(String value) {
-//     _email = value;
-//     notifyListeners();
-//   }
+  Future<String?> getUserEmail() async {
+    try {
+      final userId = getCurrentUser()!.uid;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      final data = userDoc.data() as Map<String, dynamic>?; // Cast to Map
+      return data?['email'] as String?; // Safely access the 'email' field
+    } catch (e) {
+      print("Error fetching email: $e");
+      return null; // Handle errors gracefully
+    }
+  }
 
   void updatePassword(String value) {
     _password = value;
     notifyListeners();
   }
-
-  // Future<void> openGmailApp() async {
-  //   final Uri gmailUri = Uri(
-  //     scheme: 'intent',
-  //     path: 'com.google.android.gm',
-  //   );
-
-  //   if (await canLaunchUrl(gmailUri)) {
-  //     await launchUrl(gmailUri);
-  //   } else {
-  //     throw 'Could not open Gmail app';
-  //   }
-  // }
-
-  // Future<void> openMailApp() async {
-  //   final Uri gmailUri = Uri(
-  //     scheme: 'intent',
-  //     path: '',
-  //     queryParameters: {'package': 'com.google.android.gm'},
-  //   );
-
-  //   if (await canLaunchUrl(gmailUri)) {
-  //     await launchUrl(gmailUri);
-  //   } else {
-  //     print('Could not open Gmail app');
-  //   }
-  // }
-
-  // Future<void> testLaunch() async {
-  //   launchUrl(Uri.https("gmail.com"));
-  // }
 }

@@ -63,7 +63,7 @@ class MessageBotProvider extends ChangeNotifier {
       }
 
       String finalPrompt =
-          "$conversationHistory\nRespond as a concise, clear assistant without using bullets or special characters.";
+          "$conversationHistory\nRespond as a concise, clear assistant without using bullets or special characters. DONT EVER EVER MENTION THE BOT THAT IS JUST FOR YOUR GUIDE.";
 
       debugPrint("Final Prompt: $finalPrompt");
 

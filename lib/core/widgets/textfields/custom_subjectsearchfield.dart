@@ -7,14 +7,21 @@ class CustomSubjectSearchBarField extends StatefulWidget {
   final TapRegionCallback? onTapOutside;
   final VoidCallback? onTap;
   final FocusNode? focusNode;
+  final Function(String?)? onchange;
+  final Widget? sufixIcon;
+  final bool? isFocus;
 
-  const CustomSubjectSearchBarField(
-      {super.key,
-      required this.hintText,
-      required this.controller,
-      this.onTapOutside,
-      this.onTap,
-      this.focusNode});
+  const CustomSubjectSearchBarField({
+    super.key,
+    required this.hintText,
+    required this.controller,
+    this.onTapOutside,
+    this.onTap,
+    this.focusNode,
+    this.onchange,
+    this.sufixIcon,
+    this.isFocus,
+  });
 
   @override
   State<CustomSubjectSearchBarField> createState() =>
@@ -23,30 +30,30 @@ class CustomSubjectSearchBarField extends StatefulWidget {
 
 class _CustomSubjectSearchBarFieldState
     extends State<CustomSubjectSearchBarField> {
-  bool isFocused = false;
+  // bool isFocused = false;
 
   @override
   Widget build(BuildContext context) {
     bool isLightMode = Theme.of(context).brightness == Brightness.light;
-    Icon icon = Icon(Icons.search,
-        color: Theme.of(context).primaryColor.withOpacity(0.3), size: 24.r);
-    VoidCallback? onTap = () {
-      widget.controller.clear();
-      setState(() {
-        isFocused = false;
-      });
-    };
+    // Icon icon = Icon(Icons.search,
+    //     color: Theme.of(context).primaryColor.withOpacity(0.3), size: 24.r);
+    // VoidCallback? onTap = () {
+    //   widget.controller.clear();
+    //   setState(() {
+    //     isFocused = false;
+    //   });
+    // };
 
-    if (widget.controller.text.isNotEmpty) {
-      icon = Icon(Icons.clear,
-          color: Theme.of(context).primaryColor.withOpacity(0.8), size: 24.r);
-      onTap = () {
-        widget.controller.clear();
-        setState(() {
-          isFocused = false;
-        });
-      };
-    }
+    // if (widget.controller.text.isNotEmpty) {
+    //   icon = Icon(Icons.clear,
+    //       color: Theme.of(context).primaryColor.withOpacity(0.8), size: 24.r);
+    //   onTap = () {
+    //     widget.controller.clear();
+    //     setState(() {
+    //       isFocused = false;
+    //     });
+    //   };
+    // }
     return Container(
       decoration: BoxDecoration(
         color: isLightMode
@@ -68,26 +75,24 @@ class _CustomSubjectSearchBarFieldState
               color: Colors.grey.withOpacity(0.5),
             ),
           ),
-          suffixIcon: GestureDetector(
-            onTap: onTap,
-            child: icon,
-          ),
+          suffixIcon: widget.sufixIcon,
           hintText: widget.hintText,
           hintStyle: TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w300,
             fontSize: 14.sp,
-            color: Colors.grey,
+            color: Theme.of(context).primaryColor.withOpacity(0.6),
           ),
           border: InputBorder.none,
           contentPadding:
               const EdgeInsets.only(left: 12, right: 0, top: 14, bottom: 14),
         ),
-        onChanged: (value) {
-          setState(() {
-            isFocused = true;
-          });
-        },
+        onChanged: widget.onchange,
+        // onChanged: (value) {
+        //   setState(() {
+        //     isFocused = true;
+        //   });
+        // },
       ),
     );
   }

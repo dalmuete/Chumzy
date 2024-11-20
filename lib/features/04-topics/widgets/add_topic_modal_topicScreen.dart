@@ -1,8 +1,13 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
+import 'package:chumzy/data/models/subject_model.dart';
+import 'package:chumzy/data/models/topic_model.dart';
+import 'package:chumzy/data/providers/subject_provider.dart';
+import 'package:chumzy/data/providers/topic_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 void addTopicModalTopicScreen({
   required BuildContext context,
@@ -13,6 +18,7 @@ void addTopicModalTopicScreen({
   required Function resetTextFields,
   required int maxFields,
   required Function setState,
+  required Subject subject,
 }) {
   showModalBottomSheet(
     useSafeArea: true,
@@ -26,6 +32,9 @@ void addTopicModalTopicScreen({
     isScrollControlled: true,
     context: context,
     builder: (context) {
+      final subjectProvider = Provider.of<SubjectProvider>(context);
+      // subjectProvider.fetchSubjects();
+      final topicProvider = Provider.of<TopicProvider>(context);
 
       return StatefulBuilder(
         builder: (BuildContext context, innerSetState) {
@@ -67,7 +76,7 @@ void addTopicModalTopicScreen({
                                 color: Theme.of(context).colorScheme.primary)),
                       ],
                     ),
-                   Gap(20.h),
+                    Gap(20.h),
                     Padding(
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -134,7 +143,27 @@ void addTopicModalTopicScreen({
                                     fontweight: FontWeight.w600,
                                     padding: 15.r,
                                     text: "Save",
-                                    onPressed: () {}),
+                                    onPressed: () {
+                                      //SAVE TOPIC
+                                      topicProvider.saveTopic(
+                                        context,
+                                        controllers,
+                                        subject,
+                                        focusNodes,
+                                      );
+
+                                      for (var i = 0;
+                                          i < controllers.length;
+                                          i++) {
+                                        subject.topics!.add(
+                                          Topic(
+                                            title: controllers[i].text,
+                                            totalNoItems: 0,
+                                            lastUpdated: DateTime.now(),
+                                          ),
+                                        );
+                                      }
+                                    }),
                               ),
                             ],
                           ),

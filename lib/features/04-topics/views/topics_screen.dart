@@ -1,4 +1,7 @@
 import 'package:chumzy/core/widgets/textfields/custom_searbarfield.dart';
+import 'package:chumzy/core/widgets/textfields/custom_subjectsearchfield.dart';
+import 'package:chumzy/data/models/subject_model.dart';
+import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/02-home/controllers/subject_controller.dart';
 import 'package:chumzy/features/02-home/controllers/topic_controller.dart';
@@ -13,7 +16,8 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 class TopicsScreen extends StatefulWidget {
-  const TopicsScreen({super.key});
+  final Subject subject;
+  const TopicsScreen({required this.subject, super.key});
 
   @override
   State<TopicsScreen> createState() => _TopicsScreenState();
@@ -26,10 +30,13 @@ class _TopicsScreenState extends State<TopicsScreen>
 
   late SubjectController _subjectController;
   late TopicController _topicController;
+  late SubjectProvider _subjectProvider;
+
+  bool isAscendingTopic = false;
 
   void _toggleArrow() {
     setState(() {
-      _controller.toggleArrow();
+      isAscendingTopic = !isAscendingTopic;
     });
   }
 
@@ -42,6 +49,7 @@ class _TopicsScreenState extends State<TopicsScreen>
   @override
   void initState() {
     super.initState();
+    _subjectProvider = Provider.of<SubjectProvider>(context, listen: false);
     _subjectController = SubjectController();
     _topicController = TopicController();
   }
@@ -53,15 +61,40 @@ class _TopicsScreenState extends State<TopicsScreen>
     super.dispose();
   }
 
+  bool isFocused = false;
+
   @override
   Widget build(BuildContext context) {
-    final subjectProvider =
-        Provider.of<SubjectProvider>(context, listen: false);
+    final subjectProvider = Provider.of<SubjectProvider>(context);
 
-    final selectedSubject =
-        subjectProvider.subjects[subjectProvider.selectedSubjectIndex];
+    final selectedSubject = subjectProvider.isSearched
+        ? subjectProvider.searchedSubjects[subjectProvider.selectedSubjectIndex]
+        : subjectProvider.subjects[subjectProvider.selectedSubjectIndex];
 
-    final topicList = selectedSubject.topics ?? [];
+    List<Topic> topicList = selectedSubject.topics ?? [];
+    topicList.sort((a, b) {
+      if (subjectProvider.isSortByDateTopic) {
+        // Sort by date
+        if (subjectProvider.isAscendingTopic) {
+          return a.lastUpdated.compareTo(b.lastUpdated);
+        } else {
+          return b.lastUpdated.compareTo(a.lastUpdated);
+        }
+      } else {
+        // Sort by name
+        if (subjectProvider.isAscendingTopic) {
+          return a.title.toLowerCase().compareTo(b.title.toLowerCase());
+        } else {
+          return b.title.toLowerCase().compareTo(a.title.toLowerCase());
+        }
+      }
+    });
+
+    if (subjectProvider.isSearchedTopic) {
+      setState(() {
+        topicList = subjectProvider.searchedTopics;
+      });
+    }
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -81,15 +114,15 @@ class _TopicsScreenState extends State<TopicsScreen>
           child: FloatingActionButton(
               onPressed: () {
                 addTopicModalTopicScreen(
-                  context: context,
-                  controllers: _topicController.controllers,
-                  focusNodes: _topicController.focusNodes,
-                  addTextField: _topicController.addTextField,
-                  removeTextField: _topicController.removeTextField,
-                  resetTextFields: _topicController.resetAllTextFields,
-                  maxFields: 5,
-                  setState: setState,
-                );
+                    context: context,
+                    controllers: _topicController.controllers,
+                    focusNodes: _topicController.focusNodes,
+                    addTextField: _topicController.addTextField,
+                    removeTextField: _topicController.removeTextField,
+                    resetTextFields: _topicController.resetAllTextFields,
+                    maxFields: 5,
+                    setState: setState,
+                    subject: widget.subject);
               },
               backgroundColor: selectedSubject.lineColor,
               shape: RoundedRectangleBorder(
@@ -206,22 +239,61 @@ class _TopicsScreenState extends State<TopicsScreen>
                     Row(
                       children: [
                         Expanded(
-                          child: CustomSearchBarField(
+                          child: CustomSubjectSearchBarField(
                             onTapOutside: (event) {
                               FocusScope.of(context).unfocus();
+                              if (searchController.text.isEmpty) {
+                                subjectProvider
+                                    .isSearchToggleTopic(searchController);
+                              }
                             },
                             hintText: "Search topics",
                             controller: searchController,
-                            icon: Icon(Icons.search,
-                                size: 20.sp,
-                                color: Colors.white.withOpacity(0.5)),
+                            sufixIcon: IconButton(
+                              onPressed: () {
+                                subjectProvider
+                                    .isSearchToggleTopic(searchController);
+                                setState(() {
+                                  isFocused = false;
+                                });
+                              },
+                              icon: subjectProvider.isSearchedTopic
+                                  ? Icon(Icons.clear,
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.8),
+                                      size: 24.r)
+                                  : Icon(Icons.search,
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.3),
+                                      size: 24.r),
+                            ),
+                            onchange: (value) {
+                              subjectProvider.searchTopic(
+                                  selectedSubject, value!);
+                              setState(() {
+                                isFocused = true;
+                              });
+                            },
                           ),
+                          // child: CustomSearchBarField(
+                          //   onTapOutside: (event) {
+                          //     FocusScope.of(context).unfocus();
+                          //   },
+                          //   hintText: "Search topics",
+                          //   controller: searchController,
+                          //   icon: Icon(Icons.search,
+                          //       size: 20.sp,
+                          //       color: Colors.white.withOpacity(0.5)),
+                          // ),
                         ),
                         Row(
                           children: [
                             InkWell(
                               borderRadius: BorderRadius.circular(20.r),
-                              onTap: _toggleSort,
+                              onTap:
+                                  subjectProvider.toggleSortByDateOrTitleTopic,
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 12.w, vertical: 10.h),
@@ -236,9 +308,9 @@ class _TopicsScreenState extends State<TopicsScreen>
                                   preferBelow: false,
                                   message: "Sort by",
                                   child: Text(
-                                      _controller.isSortByAlpha
-                                          ? "Name"
-                                          : "Date",
+                                      subjectProvider.isSortByDateTopic
+                                          ? "Date"
+                                          : "Name",
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           color: Colors.white)),
@@ -254,14 +326,14 @@ class _TopicsScreenState extends State<TopicsScreen>
                             Gap(3.w),
                             InkWell(
                               borderRadius: BorderRadius.circular(20.r),
-                              onTap: _toggleArrow,
+                              onTap: subjectProvider.toggleArrowForSortingTopic,
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 10.w, vertical: 10.h),
                                 child: Icon(
-                                    _controller.isAscending
-                                        ? Icons.arrow_downward_rounded
-                                        : Icons.arrow_upward_rounded,
+                                    subjectProvider.isAscendingTopic
+                                        ? Icons.arrow_upward_rounded
+                                        : Icons.arrow_downward_rounded,
                                     color: Colors.white,
                                     size: 20.sp),
                               ),

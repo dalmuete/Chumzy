@@ -34,12 +34,13 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   }
 
   bool isEmpty = false;
+  bool isFocused = false;
 
   @override
   Widget build(BuildContext context) {
     final subjectProvider = Provider.of<SubjectProvider>(context);
     //Fetching the subjects
-    subjectProvider.fetchSubjects();
+    // subjectProvider.fetchSubjects();
 
     //
     if (subjectProvider.subjects.isEmpty) {
@@ -47,7 +48,20 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         isEmpty = true;
       });
     } else {
-      isEmpty = false;
+      setState(() {
+        isEmpty = false;
+      });
+    }
+
+    if (subjectProvider.isSearched &&
+        subjectProvider.searchedSubjects.isEmpty) {
+      setState(() {
+        isEmpty = true;
+      });
+    } else {
+      setState(() {
+        isEmpty = false;
+      });
     }
 
     return GestureDetector(
@@ -72,7 +86,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 children: [
                   InkWell(
                     borderRadius: BorderRadius.circular(20.r),
-                    onTap: _toggleSort,
+                    onTap: () {
+                      subjectProvider.toggleSortByDateOrTitle();
+                      subjectProvider.sortDescSubject();
+                    },
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 12.w, vertical: 10.h),
@@ -86,7 +103,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                         ),
                         preferBelow: false,
                         message: "Sort by",
-                        child: Text(_controller.isSortByAlpha ? "Name" : "Date",
+                        child: Text(
+                            subjectProvider.isSortByDate ? "Date" : "Name",
                             style:
                                 TextStyle(fontSize: 12.sp, color: Colors.grey)),
                       ),
@@ -101,14 +119,17 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   Gap(3.w),
                   InkWell(
                     borderRadius: BorderRadius.circular(20.r),
-                    onTap: _toggleArrow,
+                    onTap: () {
+                      subjectProvider.toggleArrowForSortingSubject();
+                      subjectProvider.sortDescSubject();
+                    },
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 10.w, vertical: 10.h),
                       child: Icon(
-                          _controller.isAscending
-                              ? Icons.arrow_downward_rounded
-                              : Icons.arrow_upward_rounded,
+                          subjectProvider.isAscending
+                              ? Icons.arrow_upward_rounded
+                              : Icons.arrow_downward_rounded,
                           color: Colors.grey,
                           size: 20.sp),
                     ),
@@ -121,9 +142,35 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           CustomSubjectSearchBarField(
             onTapOutside: (event) {
               FocusScope.of(context).unfocus();
+              if (searchController.text.isEmpty) {
+                subjectProvider.isSearchToggle(searchController);
+              }
             },
             hintText: "Search subjects or locate topics",
             controller: searchController,
+            sufixIcon: IconButton(
+              onPressed: () {
+                subjectProvider.isSearchToggle(searchController);
+                setState(() {
+                  isFocused = false;
+                });
+              },
+              icon: subjectProvider.isSearched
+                  ? Icon(Icons.clear,
+                      color: Theme.of(context).primaryColor.withOpacity(0.8),
+                      size: 24.r)
+                  : Icon(Icons.search,
+                      color: Theme.of(context).primaryColor.withOpacity(0.3),
+                      size: 24.r),
+            ),
+            onchange: (value) {
+              print("Value: $value");
+              // subjectProvider.fetchSubjects(searchQuery: value!);
+              subjectProvider.searchSubjects(value!);
+              setState(() {
+                isFocused = true;
+              });
+            },
           ),
           Gap(20.h),
           // HERE is the LIst ----------------------
@@ -136,9 +183,13 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
               : Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: subjectProvider.subjects.length,
+                    itemCount: subjectProvider.isSearched
+                        ? subjectProvider.searchedSubjects.length
+                        : subjectProvider.subjects.length,
                     itemBuilder: (BuildContext context, int i) {
-                      final subject = subjectProvider.subjects[i];
+                      final subject = subjectProvider.isSearched
+                          ? subjectProvider.searchedSubjects[i]
+                          : subjectProvider.subjects[i];
                       return SubjectTopicCard(
                         lineColor: subject.lineColor,
                         title: subject.title,
@@ -146,9 +197,14 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                         lastUpdated: subject.lastUpdated,
                         onTap: () {
                           subjectProvider.getSelectedSubjectIndex(i);
-
-                          Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => TopicsScreen()));
+                          subjectProvider.clearSearchTopic();
+                          Navigator.of(context).push(
+                            CupertinoPageRoute(
+                              builder: (context) => TopicsScreen(
+                                subject: subject,
+                              ),
+                            ),
+                          );
                         },
                       );
                     },

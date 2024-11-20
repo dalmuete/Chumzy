@@ -103,8 +103,9 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
   Widget build(BuildContext context) {
     final subjectProvider =
         Provider.of<SubjectProvider>(context, listen: false);
-    final selectedSubject =
-        subjectProvider.subjects[subjectProvider.selectedSubjectIndex];
+    final selectedSubject = subjectProvider.isSearched
+        ? subjectProvider.searchedSubjects[subjectProvider.selectedSubjectIndex]
+        : subjectProvider.subjects[subjectProvider.selectedSubjectIndex];
 
     return GestureDetector(
       onTap: () {

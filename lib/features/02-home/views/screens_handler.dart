@@ -48,6 +48,11 @@ class ScreensHandlerState extends State<ScreensHandler>
   @override
   void initState() {
     super.initState();
+    //new
+    Future.microtask(() {
+      Provider.of<SubjectProvider>(context, listen: false).fetchSubjects();
+    });
+    //old
     _subjectController = SubjectController();
     _topicController = TopicController();
     _fabRotationController = AnimationController(
@@ -112,7 +117,7 @@ class ScreensHandlerState extends State<ScreensHandler>
     //New Code
     final subjectProvider =
         Provider.of<SubjectProvider>(context, listen: false);
-    subjectProvider.fetchSubjects();
+    // subjectProvider.fetchSubjects();
     return Scaffold(
       body: SafeArea(
         child: Padding(
