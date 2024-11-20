@@ -40,6 +40,9 @@ class SubjectProvider with ChangeNotifier {
   bool _isSortByDateTopic = true;
   bool get isSortByDateTopic => _isSortByDateTopic;
 
+  bool _isSubjectsEmpty = true;
+  bool get isSubjectsEmpty => _isSubjectsEmpty;
+
   int _selectedSubjectIndex = 0;
 
   Subject getSubjectByIndex(int index) {
@@ -125,6 +128,11 @@ class SubjectProvider with ChangeNotifier {
       }).toList());
 
       _subjects = subjectsList;
+      if (_subjects.isNotEmpty) {
+        _isSubjectsEmpty = false;
+      } else {
+        _isSubjectsEmpty = true;
+      }
       _isSearched = false;
       notifyListeners();
     } catch (e) {
@@ -254,6 +262,8 @@ class SubjectProvider with ChangeNotifier {
 
       Navigator.pop(context);
       Navigator.pop(context);
+
+      _isSubjectsEmpty = false;
 
       fetchSubjects();
       notifyListeners();

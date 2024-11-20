@@ -257,6 +257,9 @@ void addTopicModal({
                                     padding: 15.r,
                                     text: "Save",
                                     onPressed: () {
+                                      if (selectedSubject == null) {
+                                        return;
+                                      }
                                       topicProvider.saveTopic(
                                         context,
                                         controllers,

@@ -174,7 +174,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           ),
           Gap(20.h),
           // HERE is the LIst ----------------------
-          isEmpty
+          subjectProvider.isSubjectsEmpty || isEmpty
               ? Center(
                   child: const Center(
                     child: Text('No subjects found.'),
