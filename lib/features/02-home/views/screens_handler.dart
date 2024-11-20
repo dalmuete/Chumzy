@@ -2,6 +2,7 @@
 
 import 'package:chumzy/core/widgets/navbar.dart';
 import 'package:chumzy/data/models/subject_model.dart';
+import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/02-home/controllers/subject_controller.dart';
 import 'package:chumzy/features/02-home/controllers/topic_controller.dart';
 import 'package:chumzy/features/02-home/views/home_screen.dart';
@@ -14,6 +15,7 @@ import 'package:chumzy/features/08-chatbot/views/chatbot_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class ScreensHandler extends StatefulWidget {
   const ScreensHandler({super.key});
@@ -107,6 +109,10 @@ class ScreensHandlerState extends State<ScreensHandler>
   @override
   Widget build(BuildContext context) {
     bool isLightMode = Theme.of(context).brightness == Brightness.light;
+    //New Code
+    final subjectProvider =
+        Provider.of<SubjectProvider>(context, listen: false);
+    subjectProvider.fetchSubjects();
     return Scaffold(
       body: SafeArea(
         child: Padding(

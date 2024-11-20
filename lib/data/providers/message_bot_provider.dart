@@ -69,7 +69,7 @@ class MessageBotProvider extends ChangeNotifier {
 
       // Generate AI response
       final textModel =
-          GenerativeModel(model: "gemini-1.5-flash", apiKey: apiKey!);
+          GenerativeModel(model: "gemini-1.5-flash-8b", apiKey: apiKey!);
 
       GenerateContentResponse response =
           await textModel.generateContent([Content.text(finalPrompt)]);
