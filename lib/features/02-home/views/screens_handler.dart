@@ -90,7 +90,9 @@ class ScreensHandlerState extends State<ScreensHandler>
   void resetAllColors() {
     setState(() {
       _subjectController.subjectColors = List<Color>.filled(
-          _subjectController.controllers.length, Colors.white);
+        _subjectController.controllers.length,
+        Color(0xFFcca529),
+      );
     });
   }
 
@@ -133,27 +135,30 @@ class ScreensHandlerState extends State<ScreensHandler>
         onItemSelected: _onItemTapped,
       ),
       resizeToAvoidBottomInset: false,
-      floatingActionButton: AnimatedBuilder(
-        animation: _fabRotationController,
-        builder: (context, child) {
-          return Transform.rotate(
-            angle: _fabRotationAnimation.value * 2 * 3.141592653589793,
-            child: child,
-          );
-        },
-        child: FloatingActionButton(
-          onPressed: () {
-            _showMenuDialog(context, isLightMode);
-            _toggleFAB();
-          },
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          shape: const CircleBorder(),
-          elevation: 0,
-          child: isAddIcon
-              ? const Icon(Icons.add_rounded, size: 35)
-              : const Icon(Icons.close_rounded, size: 30),
-        ),
-      ),
+      floatingActionButton: _selectedIndex ==
+              2 // 2 is the index for ChatbotScreen
+          ? null // Hide FAB when on ChatbotScreen
+          : AnimatedBuilder(
+              animation: _fabRotationController,
+              builder: (context, child) {
+                return Transform.rotate(
+                  angle: _fabRotationAnimation.value * 2 * 3.141592653589793,
+                  child: child,
+                );
+              },
+              child: FloatingActionButton(
+                onPressed: () {
+                  _showMenuDialog(context, isLightMode);
+                  _toggleFAB();
+                },
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                shape: const CircleBorder(),
+                elevation: 0,
+                child: isAddIcon
+                    ? const Icon(Icons.add_rounded, size: 35)
+                    : const Icon(Icons.close_rounded, size: 30),
+              ),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

@@ -142,13 +142,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ],
                 ),
               ),
-              Gap(50.h),
+              Gap(30.h),
               Center(
                   child: Image.asset(
                 'assets/images/verification_link.png',
-                height: 250.h,
+                height: 350.h,
               )),
-              Gap(50.h),
+              Gap(30.h),
               showTimer
                   ? Column(
                       children: [
@@ -178,7 +178,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       fontSize: 14,
                       fontweight: FontWeight.w600,
                     ),
-              Gap(150.h),
+              Gap(100.h),
               TryAnotherEmailPrompt(),
               Gap(20.h),
             ],

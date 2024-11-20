@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SubjectController extends ChangeNotifier {
   List<TextEditingController> controllers = [TextEditingController()];
   List<FocusNode> focusNodes = [FocusNode()];
-  List<Color> subjectColors = [Colors.white];
+  List<Color> subjectColors = [Color(0xFFcca529)];
   static const int maxFields = 5;
 
   void addTextField(Function setState) {
@@ -11,7 +11,7 @@ class SubjectController extends ChangeNotifier {
       setState(() {
         controllers.add(TextEditingController());
         focusNodes.add(FocusNode());
-        subjectColors.add(Colors.white);
+        subjectColors.add(Color(0xFFcca529));
       });
     }
   }
@@ -44,7 +44,7 @@ class SubjectController extends ChangeNotifier {
 
       controllers.add(TextEditingController());
       focusNodes.add(FocusNode());
-      subjectColors.add(Colors.white);
+      subjectColors.add(Color(0xFFcca529));
 
       debugPrint("CLEAR FORM and ADD 1 TEXTFIELD");
     });

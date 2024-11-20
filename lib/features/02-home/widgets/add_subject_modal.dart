@@ -8,12 +8,12 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 const List<Color> colorOptions = [
-  Colors.red,
-  Colors.blue,
-  Colors.green,
-  Colors.yellow,
-  Colors.purple,
-  Colors.orange,
+  Color(0xFF153465),
+  Color(0xFF67160e),
+  Color(0xFF135714),
+  Color(0xFF341b4d),
+  Color(0xFFb45c18),
+  Color(0xFFcca529),
 ];
 
 void showColorSelectorDialog({
@@ -44,7 +44,7 @@ void showColorSelectorDialog({
                   Navigator.pop(context);
                 },
                 child: Padding(
-                  padding: EdgeInsets.all(20.r),
+                  padding: EdgeInsets.all(10.r),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
