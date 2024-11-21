@@ -14,8 +14,7 @@ import 'package:provider/provider.dart';
 class PasteNotesScreen extends StatefulWidget {
   final Topic topic;
   final Subject subject;
-  const PasteNotesScreen(
-      {required this.subject, required this.topic, super.key});
+  PasteNotesScreen({required this.subject, required this.topic, super.key});
 
   @override
   State<PasteNotesScreen> createState() => _PasteNotesScreenState();
@@ -183,17 +182,17 @@ class _PasteNotesScreenState extends State<PasteNotesScreen> {
                           ),
                         ],
                       ),
-                      TextButton(
-                        onPressed: tempCardsList.isNotEmpty ? () {} : null,
-                        child: Text(
-                          "SAVE",
-                          style: TextStyle(
-                            color: tempCardsList.isNotEmpty
-                                ? Theme.of(context).colorScheme.tertiary
-                                : Colors.grey,
-                          ),
-                        ),
-                      ),
+                      // TextButton(
+                      //   onPressed: tempCardsList.isNotEmpty ? () {} : null,
+                      //   child: Text(
+                      //     "SAVE",
+                      //     style: TextStyle(
+                      //       color: tempCardsList.isNotEmpty
+                      //           ? Theme.of(context).colorScheme.tertiary
+                      //           : Colors.grey,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
@@ -209,7 +208,7 @@ class _PasteNotesScreenState extends State<PasteNotesScreen> {
                           controller: notesController),
                       Gap(20.h),
                       CustomButton(
-                        text: "Generate Flashcards",
+                        text: "Save & Generate Flashcards",
                         padding: 15.r,
                         fontweight: FontWeight.w600,
                         onPressed: () {
