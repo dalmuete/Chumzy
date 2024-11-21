@@ -5,6 +5,8 @@ import 'package:chumzy/data/models/topic_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 class SubjectProvider with ChangeNotifier {
   //Firebase firestore
@@ -271,11 +273,17 @@ class SubjectProvider with ChangeNotifier {
       Navigator.pop(context);
       Navigator.pop(context);
 
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //       content:
-      //           Text("${numberOfSubjectToAdd} subject(s) added successfully!")),
-      // );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.8),
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.green),
+                Gap(10.w),
+                Text("${numberOfSubjectToAdd} subject(s) added successfully!"),
+              ],
+            )),
+      );
 
       // showCustomToast(
       //   context: context,

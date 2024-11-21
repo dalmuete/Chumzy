@@ -19,6 +19,7 @@ class _ChumzyAppState extends State<ChumzyApp> {
 
   @override
   Widget build(BuildContext context) {
+    
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {

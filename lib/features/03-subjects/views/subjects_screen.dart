@@ -146,7 +146,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 subjectProvider.isSearchToggle(searchController);
               }
             },
-            hintText: "Search subjects or locate topics",
+            hintText: "Search subjects",
             controller: searchController,
             sufixIcon: IconButton(
               onPressed: () {

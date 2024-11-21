@@ -1,5 +1,7 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
+import 'package:chumzy/data/models/subject_model.dart';
+import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/features/04-topics/widgets/card_item_card.dart';
 import 'package:chumzy/features/05-flashcards/widgets/remove_dialog.dart';
 import 'package:chumzy/features/05-flashcards/widgets/term_definition_dialog.dart';
@@ -8,8 +10,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 class PasteNotesScreen extends StatefulWidget {
-  const PasteNotesScreen({super.key});
+   PasteNotesScreen({super.key, required this.subject, required this.topic});
 
+  Topic topic;
+  Subject subject;
   @override
   State<PasteNotesScreen> createState() => _PasteNotesScreenState();
 }

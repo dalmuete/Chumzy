@@ -258,6 +258,31 @@ void addTopicModal({
                                     text: "Save",
                                     onPressed: () {
                                       if (selectedSubject == null) {
+                                        for (var i = 0;
+                                            i < controllers.length;
+                                            i++) {
+                                          if (controllers[i].text.isEmpty) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .primaryColor
+                                                          .withOpacity(0.8),
+                                                  content: Row(
+                                                    children: [
+                                                      Icon(Icons.error,
+                                                          color: Colors.red),
+                                                      Gap(10.w),
+                                                      Text(
+                                                          "All fields required."),
+                                                    ],
+                                                  )),
+                                            );
+
+                                            return;
+                                          }
+                                        }
                                         return;
                                       }
                                       topicProvider.saveTopic(

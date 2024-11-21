@@ -26,7 +26,7 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
     {"term": "sample term 1", "definition": "sample definition 1"},
     {"term": "sample term 2", "definition": "sample definition 2"}
   ];
-
+ 
   void _addOrEditFlashcard(String term, String definition, {int? index}) {
     setState(() {
       if (index != null) {

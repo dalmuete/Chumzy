@@ -4,7 +4,10 @@ import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/05-flashcards/views/add_manually_screen.dart';
+import 'package:chumzy/features/05-flashcards/views/capture_notes_camera_screen.dart';
 import 'package:chumzy/features/05-flashcards/views/paste_notes_screen.dart';
+import 'package:chumzy/features/05-flashcards/views/upload_image_screen.dart';
+import 'package:chumzy/features/05-flashcards/views/upload_pdf_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -303,52 +306,105 @@ void addCardsModal({
                                 .withOpacity(0.5))),
                     Gap(30.h),
                     CustomButton(
-                        prefixIcon: const Icon(Icons.camera_alt_rounded),
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .secondary
-                            .withOpacity(0.5),
-                        fontweight: FontWeight.w400,
-                        padding: 17.r,
-                        text: "Capture notes with camera",
-                        textColor: Theme.of(context).primaryColor,
-                        onPressed: () {}),
+                      prefixIcon: const Icon(Icons.camera_alt_rounded),
+                      backgroundColor: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(0.5),
+                      fontweight: FontWeight.w400,
+                      padding: 17.r,
+                      text: "Capture notes with camera",
+                      textColor: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        if (selectedTopic == null || selectedSubject == null) {
+                          print('Snackbar');
+                          return;
+                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => CaptureNotesCameraScreen(
+                              subject: selectedSubject!,
+                              topic: selectedTopic!,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Gap(20.h),
                     CustomButton(
-                        prefixIcon: const Icon(Icons.image_rounded),
-                        backgroundColor: Colors.transparent,
-                        borderColor:
-                            Theme.of(context).primaryColor.withOpacity(0.5),
-                        fontweight: FontWeight.w400,
-                        padding: 17.r,
-                        text: "Upload an image",
-                        textColor: Theme.of(context).primaryColor,
-                        onPressed: () {}),
+                      prefixIcon: const Icon(Icons.image_rounded),
+                      backgroundColor: Colors.transparent,
+                      borderColor:
+                          Theme.of(context).primaryColor.withOpacity(0.5),
+                      fontweight: FontWeight.w400,
+                      padding: 17.r,
+                      text: "Upload an image",
+                      textColor: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        if (selectedTopic == null || selectedSubject == null) {
+                          print('Snackbar');
+                          return;
+                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UploadImageScreen(
+                              subject: selectedSubject!,
+                              topic: selectedTopic!,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Gap(20.h),
                     CustomButton(
-                        prefixIcon: const Icon(Icons.picture_as_pdf_rounded),
-                        backgroundColor: Colors.transparent,
-                        borderColor:
-                            Theme.of(context).primaryColor.withOpacity(0.5),
-                        fontweight: FontWeight.w400,
-                        padding: 17.r,
-                        text: "Upload a PDF file",
-                        textColor: Theme.of(context).primaryColor,
-                        onPressed: () {}),
+                      prefixIcon: const Icon(Icons.picture_as_pdf_rounded),
+                      backgroundColor: Colors.transparent,
+                      borderColor:
+                          Theme.of(context).primaryColor.withOpacity(0.5),
+                      fontweight: FontWeight.w400,
+                      padding: 17.r,
+                      text: "Upload a PDF file",
+                      textColor: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        if (selectedTopic == null || selectedSubject == null) {
+                          print('Snackbar');
+                          return;
+                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UploadPdfScreen(
+                              subject: selectedSubject!,
+                              topic: selectedTopic!,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Gap(20.h),
                     CustomButton(
-                        prefixIcon: const Icon(Icons.paste_rounded),
-                        backgroundColor: Colors.transparent,
-                        borderColor:
-                            Theme.of(context).primaryColor.withOpacity(0.5),
-                        fontweight: FontWeight.w400,
-                        padding: 17.r,
-                        text: "Paste notes",
-                        textColor: Theme.of(context).primaryColor,
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PasteNotesScreen(),
-                            ))),
+                      prefixIcon: const Icon(Icons.paste_rounded),
+                      backgroundColor: Colors.transparent,
+                      borderColor:
+                          Theme.of(context).primaryColor.withOpacity(0.5),
+                      fontweight: FontWeight.w400,
+                      padding: 17.r,
+                      text: "Paste notes",
+                      textColor: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        if (selectedTopic == null || selectedSubject == null) {
+                          print('Snackbar');
+                          return;
+                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PasteNotesScreen(
+                              subject: selectedSubject!,
+                              topic: selectedTopic!,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Gap(10.h),
                     CustomButton(
                       backgroundColor: Colors.transparent,
