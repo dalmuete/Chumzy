@@ -307,27 +307,26 @@ class ScreensHandlerState extends State<ScreensHandler>
                             FocusScope.of(context).requestFocus(FocusNode());
                             Navigator.of(dialogContext).pop();
                             addCardsModal(
-                                context: context,
-                                controllers: _topicController.controllers,
-                                focusNodes: _topicController.focusNodes,
-                                addTextField: _topicController.addTextField,
-                                removeTextField:
-                                    _topicController.removeTextField,
-                                resetTextFields:
-                                    _topicController.resetAllTextFields,
-                                maxFields: 5,
-                                setState: setState,
-                                selectedSubject: selectedSubject,
-                                setSelectedSubject: (subject) {
-                                  setState(() {
-                                    selectedSubject = subject;
-                                  });
-                                },
-                                resetSelectedSubject: () {
-                                  setState(() {
-                                    selectedSubject = null;
-                                  });
-                                });
+                              context: context,
+                              controllers: _topicController.controllers,
+                              focusNodes: _topicController.focusNodes,
+                              addTextField: _topicController.addTextField,
+                              removeTextField: _topicController.removeTextField,
+                              resetTextFields:
+                                  _topicController.resetAllTextFields,
+                              maxFields: 5,
+                              setState: setState,
+                              // selectedSubject: selectedSubject,
+                              // setSelectedSubject: (subject) {
+                              //   setState(() {
+                              //     selectedSubject = subject;
+                              //   });
+                              // },
+                              // resetSelectedSubject: () {
+                              //   setState(() {
+                              //     selectedSubject = null;
+                              //   }); }
+                            );
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(

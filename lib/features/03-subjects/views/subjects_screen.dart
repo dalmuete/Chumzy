@@ -43,15 +43,15 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     // subjectProvider.fetchSubjects();
 
     //
-    if (subjectProvider.subjects.isEmpty) {
-      setState(() {
-        isEmpty = true;
-      });
-    } else {
-      setState(() {
-        isEmpty = false;
-      });
-    }
+    // if (subjectProvider.subjects.isEmpty) {
+    //   setState(() {
+    //     isEmpty = true;
+    //   });
+    // } else {
+    //   setState(() {
+    //     isEmpty = false;
+    //   });
+    // }
 
     if (subjectProvider.isSearched &&
         subjectProvider.searchedSubjects.isEmpty) {
@@ -174,7 +174,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           ),
           Gap(20.h),
           // HERE is the LIst ----------------------
-          isEmpty
+          subjectProvider.subjects.length < 1
               ? Expanded(
                   child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -201,36 +201,65 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                     Gap(50.h)
                   ],
                 ))
-              : Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: subjectProvider.isSearched
-                        ? subjectProvider.searchedSubjects.length
-                        : subjectProvider.subjects.length,
-                    itemBuilder: (BuildContext context, int i) {
-                      final subject = subjectProvider.isSearched
-                          ? subjectProvider.searchedSubjects[i]
-                          : subjectProvider.subjects[i];
-                      return SubjectTopicCard(
-                        lineColor: subject.lineColor,
-                        title: subject.title,
-                        totalNoItems: subject.totalNoItems,
-                        lastUpdated: subject.lastUpdated,
-                        onTap: () {
-                          subjectProvider.getSelectedSubjectIndex(i);
-                          subjectProvider.clearSearchTopic();
-                          Navigator.of(context).push(
-                            CupertinoPageRoute(
-                              builder: (context) => TopicsScreen(
-                                subject: subject,
-                              ),
-                            ),
+              : isEmpty
+                  ? Expanded(
+                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Opacity(
+                          opacity:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? 0.5
+                                  : 1.0,
+                          child: Image.asset(
+                            'assets/images/sad_2.png',
+                            width: 100.r,
+                          ),
+                        ),
+                        Gap(20.h),
+                        Text("No results found.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.5),
+                            )),
+                        Gap(50.h)
+                      ],
+                    ))
+                  : Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: subjectProvider.isSearched
+                            ? subjectProvider.searchedSubjects.length
+                            : subjectProvider.subjects.length,
+                        itemBuilder: (BuildContext context, int i) {
+                          final subject = subjectProvider.isSearched
+                              ? subjectProvider.searchedSubjects[i]
+                              : subjectProvider.subjects[i];
+                          return SubjectTopicCard(
+                            lineColor: subject.lineColor,
+                            title: subject.title,
+                            totalNoItems: subject.totalNoItems,
+                            lastUpdated: subject.lastUpdated,
+                            onTap: () {
+                              subjectProvider.getSelectedSubjectIndex(i);
+                              subjectProvider.clearSearchTopic();
+                              Navigator.of(context).push(
+                                CupertinoPageRoute(
+                                  builder: (context) => TopicsScreen(
+                                    subject: subject,
+                                  ),
+                                ),
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                  ),
-                ),
+                      ),
+                    ),
           // Expanded(
           //   child: ListView.builder(
           //     shrinkWrap: true,

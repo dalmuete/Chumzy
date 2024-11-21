@@ -1,9 +1,15 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:chumzy/data/models/subject_model.dart';
+import 'package:chumzy/data/models/topic_model.dart';
+import 'package:chumzy/data/providers/subject_provider.dart';
+import 'package:chumzy/data/providers/topic_provider.dart';
 import 'package:chumzy/features/04-topics/widgets/card_item_card.dart';
 import 'package:chumzy/features/05-flashcards/widgets/remove_dialog.dart';
 import 'package:chumzy/features/05-flashcards/widgets/term_definition_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class AddManuallyScreen extends StatefulWidget {
   const AddManuallyScreen({super.key});
@@ -86,6 +92,7 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
 
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -180,6 +187,7 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
                 ],
               ),
               Gap(20.h),
+           
               Text(
                 "ⓘ To edit the card, just swipe LEFT. To remove it, swipe RIGHT.",
                 style: TextStyle(

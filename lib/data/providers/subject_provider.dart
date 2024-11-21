@@ -13,7 +13,9 @@ class SubjectProvider with ChangeNotifier {
   List<Subject> _subjects = [];
   List<Subject> _searchedSubjects = [];
   List<Topic> _searchedTopics = [];
+  List<Topic> _topicList = [];
 
+  List<Topic> get topicList => _topicList;
   List<Subject> get subjects => _subjects;
   List<Subject> get searchedSubjects => _searchedSubjects;
   List<Topic> get searchedTopics => _searchedTopics;
@@ -88,6 +90,11 @@ class SubjectProvider with ChangeNotifier {
 
   void clearSubjects() {
     _subjects.clear();
+    notifyListeners();
+  }
+
+  Future<void> fetchTopics(Subject subject) async {
+    _topicList = subject.topics!;
     notifyListeners();
   }
 
