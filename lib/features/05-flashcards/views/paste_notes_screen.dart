@@ -17,6 +17,8 @@ class PasteNotesScreen extends StatefulWidget {
   const PasteNotesScreen(
       {required this.subject, required this.topic, super.key});
 
+  Topic topic;
+  Subject subject;
   @override
   State<PasteNotesScreen> createState() => _PasteNotesScreenState();
 }

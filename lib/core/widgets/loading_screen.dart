@@ -11,8 +11,8 @@ class LoadingScreen extends StatelessWidget {
         height: 80.h,
         width: 50.w,
         padding: const EdgeInsets.all(10),
-        child: const Center(
-          child: CircularProgressIndicator(),
+        child: Center(
+          child: Image.asset('assets/chumzy_character/chumzy_loading.gif'),
         ),
       ),
     );

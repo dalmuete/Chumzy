@@ -32,10 +32,12 @@ dependencies:
   animated_custom_dropdown: ^3.1.1
   animated_icon_button: ^1.0.2
   awesome_snackbar_content: ^0.1.4
+  camera: ^0.11.0+2
   cloud_firestore: ^5.4.5
   cupertino_icons: ^1.0.8
   delightful_toast: ^1.1.0
   email_validator: ^3.0.0
+  file_picker: ^8.1.4
   firebase_auth: ^5.3.1
   firebase_core: ^3.6.0
   flutter:
@@ -56,8 +58,11 @@ dependencies:
   path_provider: ^2.1.5
   percent_indicator: ^4.2.3
   provider: ^6.1.2
+  syncfusion_flutter_pdf: ^27.2.2
   url_launcher: ^6.3.1
   uuid: ^4.5.1
+  smooth_page_indicator: ^1.0.0+2
+  video_player: ^2.5.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
@@ -100,6 +105,7 @@ flutter:
     - assets/icons/
     - assets/chumzy_character/
     - assets/images/
+    - assets/videos/
     - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

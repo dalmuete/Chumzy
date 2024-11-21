@@ -1,5 +1,6 @@
 import 'package:chumzy/core/widgets/textfields/custom_searbarfield.dart';
 import 'package:chumzy/core/widgets/textfields/custom_subjectsearchfield.dart';
+import 'package:chumzy/core/widgets/textfields/custom_topic_search.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
@@ -229,7 +230,7 @@ class _TopicsScreenState extends State<TopicsScreen>
                     Row(
                       children: [
                         Expanded(
-                          child: CustomSubjectSearchBarField(
+                          child: CustomTopicSearchBarField(
                             onTapOutside: (event) {
                               FocusScope.of(context).unfocus();
                               if (searchController.text.isEmpty) {
@@ -249,14 +250,10 @@ class _TopicsScreenState extends State<TopicsScreen>
                               },
                               icon: subjectProvider.isSearchedTopic
                                   ? Icon(Icons.clear,
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withOpacity(0.8),
+                                      color: Colors.white.withOpacity(0.8),
                                       size: 24.r)
                                   : Icon(Icons.search,
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withOpacity(0.3),
+                                      color: Colors.white.withOpacity(0.6),
                                       size: 24.r),
                             ),
                             onchange: (value) {

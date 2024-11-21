@@ -1,5 +1,6 @@
 import 'package:chumzy/core/themes/app_theme.dart';
 import 'package:chumzy/data/providers/theme_provider.dart';
+import 'package:chumzy/features/00-splash/views/only_splash.dart';
 import 'package:chumzy/features/00-splash/views/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,9 +62,9 @@ class _ChumzyAppState extends State<ChumzyApp> {
                 }
                 if (snapshot.hasData) {
                   User? user = snapshot.data;
-                  return ChumzySplashScreen(user: user);
+                  return OnlySplashScreen();
                 } else {
-                  return const ChumzySplashScreen();
+                  return ChumzySplashScreen();
                 }
               },
             ),

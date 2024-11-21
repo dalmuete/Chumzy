@@ -249,6 +249,32 @@ void addSubjectModal({
                                     padding: 15.r,
                                     text: "Save",
                                     onPressed: () {
+                                      for (var i = 0;
+                                          i < controllers.length;
+                                          i++) {
+                                        if (controllers[i].text.isEmpty) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .primaryColor
+                                                        .withOpacity(0.8),
+                                                content: Row(
+                                                  children: [
+                                                    Icon(Icons.error,
+                                                        color: Colors.red),
+                                                    Gap(10.w),
+                                                    Text(
+                                                        "Subject name is required."),
+                                                  ],
+                                                )),
+                                          );
+
+                                          return;
+                                        }
+                                      }
                                       subjectProvider.saveSubject(
                                         context,
                                         controllers,

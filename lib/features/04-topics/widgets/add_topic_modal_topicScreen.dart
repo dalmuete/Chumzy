@@ -1,4 +1,5 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
+import 'package:chumzy/core/widgets/snackbar.dart';
 import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/models/topic_model.dart';
@@ -144,6 +145,31 @@ void addTopicModalTopicScreen({
                                     padding: 15.r,
                                     text: "Save",
                                     onPressed: () {
+                                      for (var i = 0;
+                                          i < controllers.length;
+                                          i++) {
+                                        if (controllers[i].text.isEmpty) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .primaryColor
+                                                        .withOpacity(0.8),
+                                                content: Row(
+                                                  children: [
+                                                    Icon(Icons.error,
+                                                        color: Colors.red),
+                                                    Gap(10.w),
+                                                    Text(
+                                                        "Topic name is required."),
+                                                  ],
+                                                )),
+                                          );
+
+                                          return;
+                                        }
+                                      }
                                       //SAVE TOPIC
                                       topicProvider.saveTopic(
                                         context,

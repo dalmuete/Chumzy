@@ -1,14 +1,15 @@
 import 'package:chumzy/features/01-auth/views/login_screen.dart';
 import 'package:chumzy/features/00-splash/views/screens.dart';
+import 'package:chumzy/features/02-home/views/screens_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class ChumzySplashScreen extends StatefulWidget {
+class OnlySplashScreen extends StatefulWidget {
   @override
-  _ChumzySplashScreenState createState() => _ChumzySplashScreenState();
+  _OnlySplashScreenState createState() => _OnlySplashScreenState();
 }
 
-class _ChumzySplashScreenState extends State<ChumzySplashScreen> {
+class _OnlySplashScreenState extends State<OnlySplashScreen> {
   late VideoPlayerController _controller;
 
   @override
@@ -23,11 +24,11 @@ class _ChumzySplashScreenState extends State<ChumzySplashScreen> {
       });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(Duration(milliseconds: 3800), () {
+      Future.delayed(Duration(milliseconds: 3700), () {
         if (mounted) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => IntroScreens(),
+              builder: (context) => ScreensHandler(),
             ),
           );
         }
