@@ -12,7 +12,10 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 class AddManuallyScreen extends StatefulWidget {
-  const AddManuallyScreen({super.key});
+  AddManuallyScreen({super.key, required this.subject, required this.topic});
+
+  Topic topic;
+  Subject subject;
 
   @override
   State<AddManuallyScreen> createState() => _AddManuallyScreenState();
@@ -92,7 +95,7 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
 
   @override
   Widget build(BuildContext context) {
-  
+    print(widget.topic.title);
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -187,7 +190,6 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
                 ],
               ),
               Gap(20.h),
-           
               Text(
                 "ⓘ To edit the card, just swipe LEFT. To remove it, swipe RIGHT.",
                 style: TextStyle(

@@ -146,6 +146,8 @@ void addCardsModal({
 
                             subjectProvider.fetchTopics(selectedSubject!);
                             selectedTopic = null;
+                            print('selected topic $selectedTopic');
+                            setState(() {});
                           },
                           child: Row(
                             children: [
@@ -265,12 +267,15 @@ void addCardsModal({
                           ),
                         );
                       },
-                      headerBuilder: (context, selectedItem, enabled) {
+                      headerBuilder: (context, Topic selectedItem, enabled) {
+                        print('header ${selectedItem?.title}');
                         return Row(
                           children: [
                             Expanded(
                               child: Text(
-                                selectedItem?.title ?? 'Select topic',
+                                selectedTopic != null
+                                    ? selectedItem.title
+                                    : 'Select topic',
                                 style: TextStyle(
                                   color: Theme.of(context).primaryColor,
                                 ),
@@ -285,6 +290,7 @@ void addCardsModal({
                       onChanged: (value) {
                         // selectedSubject = value;
                         print('Changing value to: ${value!.title}');
+                        selectedTopic = value;
                       },
                     ),
                     Gap(30.h),
@@ -345,15 +351,26 @@ void addCardsModal({
                             ))),
                     Gap(10.h),
                     CustomButton(
-                        backgroundColor: Colors.transparent,
-                        fontweight: FontWeight.w400,
-                        padding: 15.r,
-                        text: "Add manually",
-                        textColor: Theme.of(context).primaryColor,
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AddManuallyScreen(),
-                            ))),
+                      backgroundColor: Colors.transparent,
+                      fontweight: FontWeight.w400,
+                      padding: 15.r,
+                      text: "Add manually",
+                      textColor: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        if (selectedTopic == null || selectedSubject == null) {
+                          print('Snackbar');
+                          return;
+                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AddManuallyScreen(
+                              subject: selectedSubject!,
+                              topic: selectedTopic!,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Gap(50.h),
                   ],
                 ),

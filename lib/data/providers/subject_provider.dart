@@ -95,7 +95,7 @@ class SubjectProvider with ChangeNotifier {
 
   Future<void> fetchTopics(Subject subject) async {
     _topicList = subject.topics!;
-    notifyListeners();
+    // notifyListeners();
   }
 
   //fetch subjects function
@@ -270,6 +270,13 @@ class SubjectProvider with ChangeNotifier {
 
       Navigator.pop(context);
       Navigator.pop(context);
+
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //       content:
+      //           Text("${numberOfSubjectToAdd} subject(s) added successfully!")),
+      // );
+
       // showCustomToast(
       //   context: context,
       //   leading: Icon(Icons.check_circle, color: Colors.green),
