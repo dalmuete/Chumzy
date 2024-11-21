@@ -19,7 +19,7 @@ class _ChumzySplashScreenState extends State<ChumzySplashScreen> {
       ..initialize().then((_) {
         _controller.setLooping(true);
         _controller.play();
-        setState(() {}); 
+        setState(() {});
       });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -49,9 +49,9 @@ class _ChumzySplashScreenState extends State<ChumzySplashScreen> {
         child: _controller.value.isInitialized
             ? Container(
                 width: double.infinity,
-                height: double.infinity, 
+                height: double.infinity,
                 child: FittedBox(
-                  fit: BoxFit.cover, 
+                  fit: BoxFit.cover,
                   child: SizedBox(
                     width: _controller.value.size.width,
                     height: _controller.value.size.height,
@@ -59,7 +59,7 @@ class _ChumzySplashScreenState extends State<ChumzySplashScreen> {
                   ),
                 ),
               )
-            : CircularProgressIndicator(), 
+            : SizedBox(),
       ),
     );
   }

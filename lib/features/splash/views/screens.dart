@@ -164,15 +164,15 @@ class GetStartedScreen extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xffFDC000),
+              backgroundColor: Color.fromARGB(255, 253, 173, 0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 120, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
             ),
             child: Text(
               "Get Started",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
         ],
