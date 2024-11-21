@@ -49,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Gap(20.h),
         QuoteOfTheDayWidget(
           quote:
-              "True, a little learning is a dangerous thing, but it still beats total ignorance.",
-          author: "Abigail Van Buren",
+              "Education is the most powerful weapon which you can use to change the world.",
+          author: "Nelson Mandela",
         ),
         Gap(50.h),
         Text("Recent",
