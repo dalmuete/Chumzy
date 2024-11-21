@@ -345,10 +345,19 @@ void addCardsModal({
                         padding: 17.r,
                         text: "Paste notes",
                         textColor: Theme.of(context).primaryColor,
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PasteNotesScreen(),
-                            ))),
+                        onPressed: () {
+                          if (selectedTopic == null ||
+                              selectedSubject == null) {
+                            print('Snackbar');
+                            return;
+                          }
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PasteNotesScreen(
+                              subject: selectedSubject!,
+                              topic: selectedTopic!,
+                            ),
+                          ));
+                        }),
                     Gap(10.h),
                     CustomButton(
                       backgroundColor: Colors.transparent,

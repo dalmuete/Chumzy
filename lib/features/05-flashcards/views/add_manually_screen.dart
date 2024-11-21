@@ -1,6 +1,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/models/topic_model.dart';
+import 'package:chumzy/data/providers/flashcard_provider.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/data/providers/topic_provider.dart';
 import 'package:chumzy/features/04-topics/widgets/card_item_card.dart';
@@ -22,17 +23,20 @@ class AddManuallyScreen extends StatefulWidget {
 }
 
 class _AddManuallyScreenState extends State<AddManuallyScreen> {
-  List<Map<String, String>> tempCardsList = [
-    {"term": "sample term 1", "definition": "sample definition 1"},
-    {"term": "sample term 2", "definition": "sample definition 2"}
-  ];
+  List<Map<String, String>> tempCardsList = [];
 
   void _addOrEditFlashcard(String term, String definition, {int? index}) {
     setState(() {
       if (index != null) {
-        tempCardsList[index] = {"term": term, "definition": definition};
+        tempCardsList[index] = {
+          "shortTermOnlyWithoutDefinition": term,
+          "definitionOnlyWithoutTheAnswer": definition
+        };
       } else {
-        tempCardsList.add({"term": term, "definition": definition});
+        tempCardsList.add({
+          "shortTermOnlyWithoutDefinition": term,
+          "definitionOnlyWithoutTheAnswer": definition
+        });
       }
     });
   }
@@ -42,8 +46,10 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
     String initialDefinition = "";
 
     if (index != null) {
-      initialTerm = tempCardsList[index]["term"] ?? "";
-      initialDefinition = tempCardsList[index]["definition"] ?? "";
+      initialTerm =
+          tempCardsList[index]["shortTermOnlyWithoutDefinition"] ?? "";
+      initialDefinition =
+          tempCardsList[index]["definitionOnlyWithoutTheAnswer"] ?? "";
     }
 
     await showFlashcardDialog(
@@ -96,6 +102,9 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
   @override
   Widget build(BuildContext context) {
     print(widget.topic.title);
+
+    //Card Provider
+    var cardProvider = Provider.of<CardProvider>(context);
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -175,7 +184,15 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
                         ],
                       ),
                       TextButton(
-                        onPressed: tempCardsList.isNotEmpty ? () {} : null,
+                        onPressed: tempCardsList.isNotEmpty
+                            ? () {
+                                cardProvider.generateFlashcardsInManually(
+                                    context,
+                                    widget.subject,
+                                    widget.topic,
+                                    tempCardsList);
+                              }
+                            : null,
                         child: Text(
                           "SAVE",
                           style: TextStyle(
@@ -311,10 +328,11 @@ class _AddManuallyScreenState extends State<AddManuallyScreen> {
                               child: SizedBox(
                                 width: double.infinity,
                                 child: CardItemCard(
-                                  term:
-                                      tempCardsList[reverseIndex]["term"] ?? "",
+                                  term: tempCardsList[reverseIndex]
+                                          ["shortTermOnlyWithoutDefinition"] ??
+                                      "",
                                   definition: tempCardsList[reverseIndex]
-                                          ["definition"] ??
+                                          ["definitionOnlyWithoutTheAnswer"] ??
                                       "",
                                 ),
                               ),

@@ -1,5 +1,7 @@
+import 'package:chumzy/core/widgets/snackbar.dart';
 import 'package:chumzy/core/widgets/textfields/custom_subjectsearchfield.dart';
 import 'package:chumzy/data/models/topic_model.dart';
+import 'package:chumzy/data/providers/flashcard_provider.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/03-subjects/controllers/subjects-topics_controller.dart';
 import 'package:chumzy/features/04-topics/widgets/card_item_card.dart';
@@ -28,11 +30,20 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
   final SubjectsTopicsController _controller = SubjectsTopicsController();
   bool _showReviewOptions = true;
 
+  late CardProvider _cardProvider;
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_handleScroll);
     _focusNode.addListener(_onFocusChange);
+    _cardProvider = Provider.of<CardProvider>(context, listen: false);
+
+    //Fetch Cards
+    fetchCard();
+  }
+
+  void fetchCard() {
+    _cardProvider.fetchCardsByTopic(widget.topic);
   }
 
   void _onFocusChange() {
@@ -107,6 +118,9 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
         ? subjectProvider.searchedSubjects[subjectProvider.selectedSubjectIndex]
         : subjectProvider.subjects[subjectProvider.selectedSubjectIndex];
 
+    var cardProvider = Provider.of<CardProvider>(context);
+    //Fetch Cards
+    // cardProvider.fetchCardsByTopic(widget.topic);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -226,7 +240,7 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "38 Cards",
+                          text: "${cardProvider.flashcards.length} Cards",
                           style: TextStyle(
                               fontFamily: 'Poppins',
                               color: Theme.of(context)
@@ -268,8 +282,22 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                           iconPath: 'assets/icons/flashcard_icon.png',
                           title: "Flashcards",
                           onTap: () {
+                            if (cardProvider.flashcards.isEmpty) {
+                              showCustomToast(
+                                context: context,
+                                leading: const Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                ),
+                                message: "No flashcards.",
+                              );
+                              return;
+                            }
+
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => FlashcardsScreen()));
+                                builder: (context) => FlashcardsScreen(
+                                      topic: widget.topic,
+                                    )));
                           },
                         ),
                       ),
@@ -285,8 +313,21 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                                 iconPath: 'assets/icons/quiz_icon.png',
                                 title: "Quiz",
                                 onTap: () {
+                                  if (cardProvider.flashcards.isEmpty) {
+                                    showCustomToast(
+                                      context: context,
+                                      leading: const Icon(
+                                        Icons.error,
+                                        color: Colors.red,
+                                      ),
+                                      message: "No flashcards.",
+                                    );
+                                    return;
+                                  }
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => QuizSetupScreen()));
+                                      builder: (context) => QuizSetupScreen(
+                                            topic: widget.topic,
+                                          )));
                                 },
                               ),
                             ),
@@ -330,10 +371,24 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                                   iconPath: 'assets/icons/flashcard_icon.png',
                                   title: "Cards",
                                   onTap: () {
+                                    if (cardProvider.flashcards.isEmpty) {
+                                      showCustomToast(
+                                        context: context,
+                                        leading: const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        ),
+                                        message: "No flashcards.",
+                                      );
+                                      return;
+                                    }
                                     Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                FlashcardsScreen()));
+                                      MaterialPageRoute(
+                                        builder: (context) => FlashcardsScreen(
+                                          topic: widget.topic,
+                                        ),
+                                      ),
+                                    );
                                   })),
                           Gap(10.w),
                           Expanded(
@@ -342,10 +397,23 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                                   iconPath: 'assets/icons/quiz_icon.png',
                                   title: "Quiz",
                                   onTap: () {
+                                    if (cardProvider.flashcards.isEmpty) {
+                                      showCustomToast(
+                                        context: context,
+                                        leading: const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        ),
+                                        message: "No flashcards.",
+                                      );
+                                      return;
+                                    }
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                QuizSetupScreen()));
+                                                QuizSetupScreen(
+                                                  topic: widget.topic,
+                                                )));
                                   })),
                           Gap(10.w),
                           Expanded(
@@ -434,14 +502,23 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                 Expanded(
                   child: ListView.builder(
                     controller: _scrollController,
-                    itemCount: 10,
-                    itemBuilder: (context, i) {
+                    itemCount: cardProvider.flashcards.length,
+                    itemBuilder: (context, index) {
                       return CardItemCard(
-                        term: "Term #${i + 1}",
-                        definition: "Definition ${i + 1}",
+                        term: cardProvider
+                            .flashcards[index].shortTermOnlyWithoutDefinition,
+                        definition: cardProvider
+                            .flashcards[index].definitionOnlyWithoutTheAnswer,
                         onTap: () {},
                       );
                     },
+                    // itemBuilder: (context, i) {
+                    //   return CardItemCard(
+                    //     term: "Term #${i + 1}",
+                    //     definition: "Definition ${i + 1}",
+                    //     onTap: () {},
+                    //   );
+                    // },
                   ),
                 ),
               ],

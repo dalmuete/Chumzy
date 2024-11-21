@@ -1,4 +1,5 @@
 import 'package:chumzy/app.dart';
+import 'package:chumzy/data/providers/flashcard_provider.dart';
 import 'package:chumzy/data/providers/message_bot_provider.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/data/providers/theme_provider.dart';
@@ -24,6 +25,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => SubjectProvider()),
         ChangeNotifierProvider(create: (context) => TopicProvider()),
         ChangeNotifierProvider(create: (context) => MessageBotProvider()),
+        ChangeNotifierProvider(create: (context) => CardProvider()),
       ],
       child: ChumzyApp(),
     ),

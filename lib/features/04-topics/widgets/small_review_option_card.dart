@@ -33,7 +33,7 @@ class _SmallReviewOptionsCardState extends State<SmallReviewOptionsCard> {
         side: BorderSide(color: Colors.grey.withOpacity(0.15), width: 0.5.w),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: widget.onTap,
         splashColor: Theme.of(context).primaryColor.withOpacity(0.2),
         highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10.r),
@@ -58,6 +58,5 @@ class _SmallReviewOptionsCardState extends State<SmallReviewOptionsCard> {
             )),
       ),
     );
-    
   }
 }

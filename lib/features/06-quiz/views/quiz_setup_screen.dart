@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:chumzy/data/models/flashcard_model.dart';
+import 'package:chumzy/data/models/topic_model.dart';
+import 'package:chumzy/data/providers/flashcard_provider.dart';
 import 'package:chumzy/features/06-quiz/views/quiz_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
@@ -9,82 +11,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class QuizSetupScreen extends StatefulWidget {
-  const QuizSetupScreen({super.key});
+  Topic topic;
+  QuizSetupScreen({required this.topic, super.key});
 
   @override
   State<QuizSetupScreen> createState() => _QuizSetupScreenState();
 }
 
 class _QuizSetupScreenState extends State<QuizSetupScreen> {
-  final List<FlashCard> _cardsList = [
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "photosynthesis",
-      definitionOnlyWithoutTheAnswer:
-          "The process by which plants convert sunlight into energy.",
-      multichoiceOptions: [
-        "evaporation",
-        "gravity",
-        "photosynthesis",
-        "mitosis"
-      ],
-      multichoiceAnswer: "photosynthesis",
-      trueOrFalseStatement: "Photosynthesis produces oxygen.",
-      trueOrFalseAnswer: true,
-      lastUpdatedAt: DateTime.now(),
-    ),
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "evaporation",
-      definitionOnlyWithoutTheAnswer:
-          "The process of turning liquid into vapor.",
-      multichoiceOptions: [
-        "photosynthesis",
-        "osmosis",
-        "evaporation",
-        "gravity"
-      ],
-      multichoiceAnswer: "evaporation",
-      trueOrFalseStatement: "Evaporation requires sunlight to occur.",
-      trueOrFalseAnswer: true,
-      lastUpdatedAt: DateTime.now(),
-    ),
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "gravity",
-      definitionOnlyWithoutTheAnswer:
-          "The force that attracts objects toward the center of the Earth.",
-      multichoiceOptions: [
-        "mitosis",
-        "evaporation",
-        "gravity",
-        "photosynthesis"
-      ],
-      multichoiceAnswer: "gravity",
-      trueOrFalseStatement: "Gravity only exists on Earth.",
-      trueOrFalseAnswer: false,
-      lastUpdatedAt: DateTime.now(),
-    ),
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "mitosis",
-      definitionOnlyWithoutTheAnswer:
-          "The process by which a cell divides into two identical cells.",
-      multichoiceOptions: ["mitosis", "osmosis", "evaporation", "gravity"],
-      multichoiceAnswer: "mitosis",
-      trueOrFalseStatement: "Mitosis results in two identical daughter cells.",
-      trueOrFalseAnswer: true,
-      lastUpdatedAt: DateTime.now(),
-    ),
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "osmosis",
-      definitionOnlyWithoutTheAnswer:
-          "The movement of water molecules through a semi-permeable membrane.",
-      multichoiceOptions: ["evaporation", "mitosis", "osmosis", "gravity"],
-      multichoiceAnswer: "osmosis",
-      trueOrFalseStatement: "Osmosis involves the movement of gases.",
-      trueOrFalseAnswer: false,
-      lastUpdatedAt: DateTime.now(),
-    ),
-  ];
+  List<FlashCard> _cardsList = [];
 
   List<Map<String, dynamic>> assignedItems = [];
 
@@ -92,7 +30,6 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
       List<FlashCard> items, List<String> selectedQuizTypes) {
     int itemsPerType = items.length ~/ selectedQuizTypes.length;
     int remainingItems = items.length % selectedQuizTypes.length;
-
 
     List<String> distributionOrder = [];
     assignedItems.clear();
@@ -143,9 +80,15 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
   void _onStartQuiz() {
     print('Time in seconds: $_timeInSeconds');
 
-    if (_selectedQuizTypes.isEmpty || totalItems <= 0) {
+    if (_selectedQuizTypes.isEmpty) {
       return;
     }
+
+    print("hfdfsdfdsrredf");
+    if (totalItems <= 0) {
+      return;
+    }
+    print("hrredf");
     int noOfItems = int.tryParse(_itemController.text) ?? 0;
     _shuffleAndFilterCards(_cardsList, noOfItems);
     print(_shuffledCards.length);
@@ -246,8 +189,6 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
   void initState() {
     super.initState();
     _secondController.text = '30';
-    totalItems = _cardsList.length;
-    _itemController.text = totalItems.toString();
     _updateTime();
   }
 
@@ -265,6 +206,15 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var cardProvider = Provider.of<CardProvider>(context);
+    if (cardProvider.flashcards.isNotEmpty) {
+      setState(() {
+        _cardsList = cardProvider.flashcards;
+        totalItems = _cardsList.length;
+        _itemController.text = totalItems.toString();
+      });
+    }
+    print("HEREEEEEEEEEEEE : ${_cardsList.length}");
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());

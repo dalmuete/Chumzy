@@ -1,5 +1,8 @@
 import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
+import 'package:chumzy/core/widgets/snackbar.dart';
 import 'package:chumzy/data/models/flashcard_model.dart';
+import 'package:chumzy/data/models/topic_model.dart';
+import 'package:chumzy/data/providers/flashcard_provider.dart';
 import 'package:chumzy/features/05-flashcards/views/done_flashcards_screen.dart';
 import 'package:chumzy/features/05-flashcards/widgets/build_card_content.dart';
 import 'package:chumzy/features/05-flashcards/widgets/explain_modal.dart';
@@ -8,9 +11,11 @@ import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
 
 class FlashcardsScreen extends StatefulWidget {
-  const FlashcardsScreen({super.key});
+  Topic topic;
+  FlashcardsScreen({required this.topic, super.key});
 
   @override
   State<FlashcardsScreen> createState() => _FlashcardsScreenState();
@@ -23,73 +28,7 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
   bool isTermFront = false;
   String frontContent = "Definition";
 
-  final List<FlashCard> _cardsList = [
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "photosynthesis",
-      definitionOnlyWithoutTheAnswer:
-          "The process by which plants convert sunlight into energy.",
-      multichoiceOptions: [
-        "evaporation",
-        "gravity",
-        "photosynthesis",
-        "mitosis"
-      ],
-      multichoiceAnswer: "photosynthesis",
-      trueOrFalseStatement: "Photosynthesis produces oxygen.",
-      trueOrFalseAnswer: true,
-      lastUpdatedAt: DateTime.now(),
-    ),
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "evaporation",
-      definitionOnlyWithoutTheAnswer:
-          "The process of turning liquid into vapor.",
-      multichoiceOptions: [
-        "photosynthesis",
-        "osmosis",
-        "evaporation",
-        "gravity"
-      ],
-      multichoiceAnswer: "evaporation",
-      trueOrFalseStatement: "Evaporation requires sunlight to occur.",
-      trueOrFalseAnswer: true,
-      lastUpdatedAt: DateTime.now(),
-    ),
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "gravity",
-      definitionOnlyWithoutTheAnswer:
-          "The force that attracts objects toward the center of the Earth.",
-      multichoiceOptions: [
-        "mitosis",
-        "evaporation",
-        "gravity",
-        "photosynthesis"
-      ],
-      multichoiceAnswer: "gravity",
-      trueOrFalseStatement: "Gravity only exists on Earth.",
-      trueOrFalseAnswer: false,
-      lastUpdatedAt: DateTime.now(),
-    ),
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "mitosis",
-      definitionOnlyWithoutTheAnswer:
-          "The process by which a cell divides into two identical cells.",
-      multichoiceOptions: ["mitosis", "osmosis", "evaporation", "gravity"],
-      multichoiceAnswer: "mitosis",
-      trueOrFalseStatement: "Mitosis results in two identical daughter cells.",
-      trueOrFalseAnswer: true,
-      lastUpdatedAt: DateTime.now(),
-    ),
-    FlashCard(
-      shortTermOnlyWithoutDefinition: "osmosis",
-      definitionOnlyWithoutTheAnswer:
-          "The movement of water molecules through a semi-permeable membrane.",
-      multichoiceOptions: ["evaporation", "mitosis", "osmosis", "gravity"],
-      multichoiceAnswer: "osmosis",
-      trueOrFalseStatement: "Osmosis involves the movement of gases.",
-      trueOrFalseAnswer: false,
-      lastUpdatedAt: DateTime.now(),
-    ),
-  ];
+  List<FlashCard> _cardsList = [];
 
   void handleCardFlip() {
     flashcardController.flipcard();
@@ -112,6 +51,12 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var cardProvider = Provider.of<CardProvider>(context);
+    if (cardProvider.flashcards.isNotEmpty) {
+      setState(() {
+        _cardsList = cardProvider.flashcards;
+      });
+    }
     return Scaffold(
       body: SafeArea(
         top: false,

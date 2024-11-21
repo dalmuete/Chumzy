@@ -4,13 +4,14 @@ class Topic {
   final String title;
   final int totalNoItems;
   final DateTime lastUpdated;
-
   final String? subjectDocId;
+  final String? topicId;
   Topic({
     required this.title,
     required this.totalNoItems,
     required this.lastUpdated,
     this.subjectDocId,
+    this.topicId,
   });
 
   factory Topic.fromFirestore(DocumentSnapshot doc) {
@@ -20,6 +21,7 @@ class Topic {
       totalNoItems: data['totalNoItems'],
       lastUpdated: (data['createdAt'] as Timestamp).toDate(),
       subjectDocId: data['subjectId'],
+      topicId: doc.id,
     );
   }
 }
