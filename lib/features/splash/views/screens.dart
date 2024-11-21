@@ -1,4 +1,4 @@
-import 'package:chumzy/features/auth/views/login_screen.dart';
+import 'package:chumzy/features/01-auth/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
