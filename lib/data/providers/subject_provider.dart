@@ -360,16 +360,27 @@ class SubjectProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // count how many topics inside the subject
-  // Future<int> totalNoOfTopicsInSubject(String subjectDoc) async {
-  //   final snapshot = await _firebaseFirestore
-  //       .collection('users')
-  //       .doc(getCurrentUser()!.uid)
-  //       .collection('subjects')
-  //       .doc(subjectDoc)
-  //       .collection('topics')
-  //       .get();
+  Future<void> deleteSubject(BuildContext context, Subject subject) async {
+    final uid = getCurrentUser()!.uid;
+    loadingScreen(context);
+    // Reference to the Firestore document
+    DocumentReference docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('subjects')
+        .doc(subject.subjectDocId);
 
-  //   return snapshot.docs.length;
-  // }
+    try {
+      // Delete the document
+      await docRef.delete();
+      print("Document with ID ${subject.subjectDocId} deleted successfully.");
+      fetchSubjects();
+      Navigator.pop(context);
+      Navigator.pop(context);
+      notifyListeners();
+    } catch (e) {
+      print("Error deleting document: $e");
+      Navigator.pop(context);
+    }
+  }
 }

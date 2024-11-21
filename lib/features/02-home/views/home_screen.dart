@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:chumzy/data/models/subject_model.dart';
+import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/02-home/widgets/quote_widget.dart';
 import 'package:chumzy/features/02-home/widgets/recent-topic_card.dart';
@@ -30,7 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
       lastUpdated: DateTime.now(),
     );
 
-    final topicList = selectedSubject!.topics ?? [];
+    final topicList = [
+      Topic(title: "title", totalNoItems: 2, lastUpdated: DateTime.now()),
+    ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

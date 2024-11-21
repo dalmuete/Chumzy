@@ -173,10 +173,8 @@ class _TopicsScreenState extends State<TopicsScreen>
                           onSelected: (value) {
                             switch (value) {
                               case 0:
-                                break;
-                              case 1:
-                                break;
-                              case 2:
+                                subjectProvider.deleteSubject(
+                                    context, widget.subject);
                                 break;
                             }
                           },
@@ -191,14 +189,6 @@ class _TopicsScreenState extends State<TopicsScreen>
                           itemBuilder: (BuildContext context) => [
                             const PopupMenuItem<int>(
                               value: 0,
-                              child: Text('Select'),
-                            ),
-                            const PopupMenuItem<int>(
-                              value: 1,
-                              child: Text('Edit'),
-                            ),
-                            const PopupMenuItem<int>(
-                              value: 2,
                               child: Text('Delete this subject'),
                             ),
                           ],
