@@ -40,8 +40,10 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
 
     //Fetch Cards
     fetchCard();
+    cardsLength = _cardProvider.flashcards.length;
   }
 
+  late int cardsLength;
   void fetchCard() {
     _cardProvider.fetchCardsByTopic(widget.topic);
   }
@@ -174,40 +176,41 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                         ),
                       ),
                     ),
-                    PopupMenuButton<int>(
-                      onSelected: (value) {
-                        switch (value) {
-                          case 0:
-                            break;
-                          case 1:
-                            break;
-                          case 2:
-                            break;
-                        }
-                      },
-                      icon: Icon(
-                        Icons.menu_rounded,
-                        size: 24.r,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      iconSize: 30.r,
-                      padding: const EdgeInsets.all(0),
-                      position: PopupMenuPosition.under,
-                      itemBuilder: (BuildContext context) => [
-                        const PopupMenuItem<int>(
-                          value: 0,
-                          child: Text('Select'),
-                        ),
-                        const PopupMenuItem<int>(
-                          value: 1,
-                          child: Text('Edit'),
-                        ),
-                        const PopupMenuItem<int>(
-                          value: 2,
-                          child: Text('Delete this topic'),
-                        ),
-                      ],
-                    )
+                    SizedBox()
+                    // PopupMenuButton<int>(
+                    //   onSelected: (value) {
+                    //     switch (value) {
+                    //       case 0:
+                    //         break;
+                    //       case 1:
+                    //         break;
+                    //       case 2:
+                    //         break;
+                    //     }
+                    //   },
+                    //   icon: Icon(
+                    //     Icons.menu_rounded,
+                    //     size: 24.r,
+                    //     color: Theme.of(context).primaryColor,
+                    //   ),
+                    //   iconSize: 30.r,
+                    //   padding: const EdgeInsets.all(0),
+                    //   position: PopupMenuPosition.under,
+                    //   itemBuilder: (BuildContext context) => [
+                    //     const PopupMenuItem<int>(
+                    //       value: 0,
+                    //       child: Text('Select'),
+                    //     ),
+                    //     const PopupMenuItem<int>(
+                    //       value: 1,
+                    //       child: Text('Edit'),
+                    //     ),
+                    //     const PopupMenuItem<int>(
+                    //       value: 2,
+                    //       child: Text('Delete this topic'),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
                 Gap(10.h),
@@ -499,28 +502,60 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                   ],
                 ),
                 Gap(20.h),
-                Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: cardProvider.flashcards.length,
-                    itemBuilder: (context, index) {
-                      return CardItemCard(
-                        term: cardProvider
-                            .flashcards[index].shortTermOnlyWithoutDefinition,
-                        definition: cardProvider
-                            .flashcards[index].definitionOnlyWithoutTheAnswer,
-                        onTap: () {},
-                      );
-                    },
-                    // itemBuilder: (context, i) {
-                    //   return CardItemCard(
-                    //     term: "Term #${i + 1}",
-                    //     definition: "Definition ${i + 1}",
-                    //     onTap: () {},
-                    //   );
-                    // },
-                  ),
-                ),
+                cardProvider.flashcards.length > 0
+                    ? Expanded(
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: cardProvider.flashcards.length,
+                          itemBuilder: (context, index) {
+                            return CardItemCard(
+                              term: cardProvider.flashcards[index]
+                                  .shortTermOnlyWithoutDefinition,
+                              definition: cardProvider.flashcards[index]
+                                  .definitionOnlyWithoutTheAnswer,
+                              onTap: () {},
+                            );
+                          },
+                          // itemBuilder: (context, i) {
+                          //   return CardItemCard(
+                          //     term: "Term #${i + 1}",
+                          //     definition: "Definition ${i + 1}",
+                          //     onTap: () {},
+                          //   );
+                          // },
+                        ),
+                      )
+                    :
+                    //here
+                    Expanded(
+                        child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Opacity(
+                            opacity:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? 0.5
+                                    : 1.0,
+                            child: Image.asset(
+                              'assets/images/sad_2.png',
+                              width: 100.r,
+                            ),
+                          ),
+                          Gap(20.h),
+                          Text(
+                              "No cards added yet.\nTap '+ Add card' to create\nyour first flashcard.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.5),
+                              )),
+                          Gap(50.h)
+                        ],
+                      ))
               ],
             ),
           ),

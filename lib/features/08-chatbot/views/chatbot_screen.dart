@@ -19,46 +19,32 @@ class ChatbotScreen extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                // Header chat bot
                 const HeaderChatBot(),
                 const Gap(30),
-                // Message List
                 const Expanded(
                   child: MessagesList(),
                 ),
-                // TextField with keyboard adjustment
+                Gap(10.h),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // TextField for user input
                     Expanded(
                       child: CustomGrayTextField(
                         controller: messageController,
                         hintText: "Ask anything",
                       ),
                     ),
-                    // Send button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () async {
-                            if (messageController.text.isEmpty) {
-                              debugPrint("Message controller is empty.");
-                              return;
-                            }
-                            await botProvider
-                                .sendMessage(messageController.text);
-                            messageController.clear();
-                          },
-                          icon: const Icon(Icons.send),
-                        ),
-                        // IconButton(
-                        //   onPressed: () async {
-                        //     await botProvider.clearChat();
-                        //   },
-                        //   icon: const Icon(Icons.clear_rounded),
-                        // ),
-                      ],
+                    IconButton(
+                      onPressed: () async {
+                        if (messageController.text.isEmpty) {
+                          debugPrint("Message controller is empty.");
+                          return;
+                        }
+                        await botProvider.sendMessage(messageController.text);
+                        messageController.clear();
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      icon: const Icon(Icons.send),
                     ),
                   ],
                 ),

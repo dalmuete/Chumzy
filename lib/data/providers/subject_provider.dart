@@ -382,9 +382,49 @@ class SubjectProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateSubjectName(
+      BuildContext context, Subject subject, String newTitle) async {
+    // Trim the input title
+    newTitle = newTitle.trim();
+
+    // If the new title is empty, do nothing and return
+    if (newTitle.isEmpty) {
+      print("Update cancelled: new title is empty.");
+      return;
+    }
+
+    final uid = getCurrentUser()!.uid;
+
+    // Reference to the Firestore document
+    DocumentReference docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('subjects')
+        .doc(subject.subjectDocId);
+
+    try {
+      // Update the title and updatedAt fields
+      await docRef.update({
+        'title': newTitle,
+        'updatedAt': DateTime.now(),
+      });
+
+      print("Document with ID ${subject.subjectDocId} updated successfully.");
+
+      Navigator.pop(context);
+      // Refresh the subjects list
+      fetchSubjects();
+
+      // Notify listeners to rebuild UI
+      notifyListeners();
+    } catch (e) {
+      print("Error updating document: $e");
+    }
+  }
+
   Future<void> deleteSubject(BuildContext context, Subject subject) async {
     final uid = getCurrentUser()!.uid;
-    loadingScreen(context);
+    // loadingScreen(context);
     // Reference to the Firestore document
     DocumentReference docRef = FirebaseFirestore.instance
         .collection('users')
@@ -397,7 +437,7 @@ class SubjectProvider with ChangeNotifier {
       await docRef.delete();
       print("Document with ID ${subject.subjectDocId} deleted successfully.");
       fetchSubjects();
-      Navigator.pop(context);
+      // Navigator.pop(context);
       Navigator.pop(context);
       notifyListeners();
     } catch (e) {

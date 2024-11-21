@@ -1,9 +1,11 @@
+import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
 import 'package:chumzy/core/widgets/textfields/custom_searbarfield.dart';
 import 'package:chumzy/core/widgets/textfields/custom_subjectsearchfield.dart';
 import 'package:chumzy/core/widgets/textfields/custom_topic_search.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
+import 'package:chumzy/data/providers/topic_provider.dart';
 import 'package:chumzy/features/02-home/controllers/subject_controller.dart';
 import 'package:chumzy/features/02-home/controllers/topic_controller.dart';
 import 'package:chumzy/features/03-subjects/controllers/subjects-topics_controller.dart';
@@ -32,7 +34,7 @@ class _TopicsScreenState extends State<TopicsScreen>
   late SubjectController _subjectController;
   late TopicController _topicController;
   late SubjectProvider _subjectProvider;
-
+  var topicNameController = TextEditingController();
   bool isAscendingTopic = false;
 
   void _toggleArrow() {
@@ -67,6 +69,7 @@ class _TopicsScreenState extends State<TopicsScreen>
   @override
   Widget build(BuildContext context) {
     final subjectProvider = Provider.of<SubjectProvider>(context);
+    final topicProvider = Provider.of<TopicProvider>(context);
 
     final selectedSubject = subjectProvider.isSearched
         ? subjectProvider.searchedSubjects[subjectProvider.selectedSubjectIndex]
@@ -90,6 +93,8 @@ class _TopicsScreenState extends State<TopicsScreen>
         }
       }
     });
+
+    int topicsLength = selectedSubject.topics!.length;
 
     if (subjectProvider.isSearchedTopic) {
       setState(() {
@@ -170,30 +175,45 @@ class _TopicsScreenState extends State<TopicsScreen>
                             ),
                           ),
                         ),
-                        PopupMenuButton<int>(
-                          onSelected: (value) {
-                            switch (value) {
-                              case 0:
-                                subjectProvider.deleteSubject(
-                                    context, widget.subject);
-                                break;
-                            }
-                          },
-                          icon: Icon(
-                            Icons.menu_rounded,
-                            size: 24.r,
-                            color: Colors.white,
-                          ),
-                          iconSize: 30.r,
-                          padding: const EdgeInsets.all(0),
-                          position: PopupMenuPosition.under,
-                          itemBuilder: (BuildContext context) => [
-                            const PopupMenuItem<int>(
-                              value: 0,
-                              child: Text('Delete this subject'),
+
+                        Tooltip(
+                            showDuration: Duration(seconds: 3),
+                            triggerMode: TooltipTriggerMode.tap,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(20.r),
                             ),
-                          ],
-                        )
+                            margin: EdgeInsets.all(20.r),
+                            preferBelow: false,
+                            message:
+                                "To edit a topic, just swipe LEFT. To remove it, swipe RIGHT.",
+                            child: Icon(Icons.info_rounded))
+                        // PopupMenuButton<int>(
+                        //   onSelected: (value) {
+                        //     switch (value) {
+                        //       case 0:
+                        //         subjectProvider.deleteSubject(
+                        //             context, widget.subject);
+                        //         break;
+                        //     }
+                        //   },
+                        //   icon: Icon(
+                        //     Icons.menu_rounded,
+                        //     size: 24.r,
+                        //     color: Colors.white,
+                        //   ),
+                        //   iconSize: 30.r,
+                        //   padding: const EdgeInsets.all(0),
+                        //   position: PopupMenuPosition.under,
+                        //   itemBuilder: (BuildContext context) => [
+                        //     const PopupMenuItem<int>(
+                        //       value: 0,
+                        //       child: Text('Delete this subject'),
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     ),
                     Expanded(
@@ -335,30 +355,247 @@ class _TopicsScreenState extends State<TopicsScreen>
               ),
               // HERE AND LIST -------------------
               Expanded(
-                child: topicList.isNotEmpty
-                    ? ListView.builder(
-                        padding:
-                            const EdgeInsets.only(top: 0, right: 30, left: 30),
-                        itemCount: topicList.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          final topic = topicList[i];
-                          return SubjectTopicCard(
-                            lineColor: selectedSubject.lineColor,
-                            title: topic.title,
-                            totalNoItems: topic.totalNoItems,
-                            lastUpdated: topic.lastUpdated,
-                            isSubject: false,
-                            onTap: () {
-                              Navigator.of(context).push(CupertinoPageRoute(
-                                builder: (context) =>
-                                    TopicViewScreen(topic: topic),
-                              ));
-                            },
-                          );
-                        },
-                      )
-                    : const Center(child: Text("No topics at the moment.")),
-              ),
+                  child:
+
+                  topicsLength<1 ?
+ Expanded(
+                          child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Opacity(
+                              opacity: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? 0.5
+                                  : 1.0,
+                              child: Image.asset(
+                                'assets/images/sad_2.png',
+                                width: 100.r,
+                              ),
+                            ),
+                            Gap(20.h),
+                            Text(
+                                "No topics added here yet.\nTap '+' to create your first topic.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(0.5),
+                                )),
+                            Gap(50.h)
+                          ],
+                        ))
+
+                  :
+                  
+                   topicList.isNotEmpty
+                      ? ListView.builder(
+                          padding: const EdgeInsets.only(
+                              top: 0, right: 30, left: 30),
+                          itemCount: topicList.length,
+                          itemBuilder: (BuildContext context, int i) {
+                            final topic = topicList[i];
+                            return Dismissible(
+                              dismissThresholds: {
+                                DismissDirection.startToEnd: 0.9,
+                                DismissDirection.endToStart: 0.9,
+                              },
+                              key: UniqueKey(),
+                              confirmDismiss: (direction) async {
+                                if (direction == DismissDirection.endToStart) {
+                                  topicNameController.text = topic.title;
+
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return StatefulBuilder(
+                                        builder: (context, setState) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              "Edit Topic",
+                                              style: TextStyle(fontSize: 20.sp),
+                                            ),
+                                            contentPadding: EdgeInsets.only(
+                                                left: 20.r,
+                                                right: 20.r,
+                                                top: 10.r,
+                                                bottom: 5.r),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Gap(10.h),
+                                                CustomBorderTextField(
+                                                  hintText: "Topic Name",
+                                                  maxChar: 50,
+                                                  controller:
+                                                      topicNameController,
+                                                ),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context, false);
+                                                },
+                                                child: Text("Cancel"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  //edit here
+                                                  topicProvider.updateTopicName(
+                                                      context,
+                                                      selectedSubject,
+                                                      topic,
+                                                      topicNameController.text);
+                                                  subjectProvider
+                                                      .fetchSubjects();
+                                                },
+                                                child: Text(
+                                                  "Save Changes",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .tertiary),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                  return false;
+                                } else if (direction ==
+                                    DismissDirection.startToEnd) {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: RichText(
+                                          text: TextSpan(
+                                            style: TextStyle(
+                                                fontSize: 20.sp,
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor),
+                                            children: [
+                                              TextSpan(text: "Remove "),
+                                              TextSpan(
+                                                text: "Topic",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              TextSpan(text: "?"),
+                                            ],
+                                          ),
+                                        ),
+                                        content: Text(
+                                          "Are you sure you want to remove this topic?",
+                                          style: TextStyle(fontSize: 16.sp),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              topicProvider.deleteTopic(context,
+                                                  selectedSubject, topic);
+                                              topicList.removeAt(i);
+                                            },
+                                            child: Text(
+                                              "Remove",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .tertiary),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                                return false;
+                              },
+                              background: Container(
+                                margin: EdgeInsets.all(5.r),
+                                padding: EdgeInsets.all(20.r),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Icon(Icons.delete,
+                                    color: Colors.white, size: 30.r),
+                              ),
+                              secondaryBackground: Container(
+                                margin: EdgeInsets.all(5.r),
+                                padding: EdgeInsets.all(20.r),
+                                alignment: Alignment.centerRight,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Icon(Icons.edit,
+                                    color: Colors.white, size: 30.r),
+                              ),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: SubjectTopicCard(
+                                  lineColor: selectedSubject.lineColor,
+                                  title: topic.title,
+                                  totalNoItems: topic.totalNoItems,
+                                  lastUpdated: topic.lastUpdated,
+                                  isSubject: false,
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(CupertinoPageRoute(
+                                      builder: (context) =>
+                                          TopicViewScreen(topic: topic),
+                                    ));
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : Expanded(
+                          child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Opacity(
+                              opacity: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? 0.5
+                                  : 1.0,
+                              child: Image.asset(
+                                'assets/images/sad_2.png',
+                                width: 100.r,
+                              ),
+                            ),
+                            Gap(20.h),
+                            Text(
+                                "No results found.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(0.5),
+                                )),
+                            Gap(50.h)
+                          ],
+                        ))),
             ],
           ),
         ),

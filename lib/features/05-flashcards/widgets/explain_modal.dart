@@ -83,7 +83,7 @@ void explainModal({
                           ),
                         ),
                       ],
-                    ),
+                    ), 
                     Gap(30.h),
                     Expanded(
                       child: SingleChildScrollView(

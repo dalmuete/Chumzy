@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:chumzy/core/widgets/textfields/custom_bordertextfield.dart';
 import 'package:chumzy/core/widgets/textfields/custom_subjectsearchfield.dart';
 import 'package:chumzy/data/providers/subject_provider.dart';
 import 'package:chumzy/features/04-topics/views/topics_screen.dart';
@@ -20,7 +21,7 @@ class SubjectsScreen extends StatefulWidget {
 class _SubjectsScreenState extends State<SubjectsScreen> {
   var searchController = TextEditingController();
   final SubjectsTopicsController _controller = SubjectsTopicsController();
-
+  var subjectNameController = TextEditingController();
   void _toggleArrow() {
     setState(() {
       _controller.toggleArrow();
@@ -240,22 +241,189 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                           final subject = subjectProvider.isSearched
                               ? subjectProvider.searchedSubjects[i]
                               : subjectProvider.subjects[i];
-                          return SubjectTopicCard(
-                            lineColor: subject.lineColor,
-                            title: subject.title,
-                            totalNoItems: subject.totalNoItems,
-                            lastUpdated: subject.lastUpdated,
-                            onTap: () {
-                              subjectProvider.getSelectedSubjectIndex(i);
-                              subjectProvider.clearSearchTopic();
-                              Navigator.of(context).push(
-                                CupertinoPageRoute(
-                                  builder: (context) => TopicsScreen(
-                                    subject: subject,
-                                  ),
+                          return Tooltip(
+                            message:
+                                "To edit a subject, just swipe LEFT. To remove it, swipe RIGHT.",
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            margin: EdgeInsets.all(20.r),
+                            preferBelow: false,
+                            child: Dismissible(
+                              dismissThresholds: {
+                                DismissDirection.startToEnd: 0.9,
+                                DismissDirection.endToStart: 0.9,
+                              },
+                              key: UniqueKey(),
+                              confirmDismiss: (direction) async {
+                                if (direction == DismissDirection.endToStart) {
+                                  subjectNameController.text =
+                                      subjectProvider.subjects[i].title;
+
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return StatefulBuilder(
+                                        builder: (context, setState) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              "Edit Subject",
+                                              style: TextStyle(fontSize: 20.sp),
+                                            ),
+                                            contentPadding: EdgeInsets.only(
+                                                left: 20.r,
+                                                right: 20.r,
+                                                top: 10.r,
+                                                bottom: 5.r),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Gap(10.h),
+                                                CustomBorderTextField(
+                                                  hintText: "Subject Name",
+                                                  maxChar: 50,
+                                                  controller:
+                                                      subjectNameController,
+                                                ),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context, false);
+                                                },
+                                                child: Text("Cancel"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  //edit here
+                                                  subjectProvider
+                                                      .updateSubjectName(
+                                                          context,
+                                                          subjectProvider
+                                                              .subjects[i],
+                                                          subjectNameController
+                                                              .text);
+                                                },
+                                                child: Text(
+                                                  "Save Changes",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .tertiary),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                  return false;
+                                } else if (direction ==
+                                    DismissDirection.startToEnd) {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: RichText(
+                                          text: TextSpan(
+                                            style: TextStyle(
+                                                fontSize: 20.sp,
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor),
+                                            children: [
+                                              TextSpan(text: "Remove "),
+                                              TextSpan(
+                                                text: "Subject",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              TextSpan(text: "?"),
+                                            ],
+                                          ),
+                                        ),
+                                        content: Text(
+                                          "Are you sure you want to remove this subject?",
+                                          style: TextStyle(fontSize: 16.sp),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              subjectProvider.deleteSubject(
+                                                  context,
+                                                  subjectProvider.subjects[i]);
+                                            },
+                                            child: Text(
+                                              "Remove",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .tertiary),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                                return false;
+                              },
+                              background: Container(
+                                margin: EdgeInsets.all(5.r),
+                                padding: EdgeInsets.all(20.r),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(20.r),
                                 ),
-                              );
-                            },
+                                child: Icon(Icons.delete,
+                                    color: Colors.white, size: 30.r),
+                              ),
+                              secondaryBackground: Container(
+                                margin: EdgeInsets.all(5.r),
+                                padding: EdgeInsets.all(20.r),
+                                alignment: Alignment.centerRight,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Icon(Icons.edit,
+                                    color: Colors.white, size: 30.r),
+                              ),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: SubjectTopicCard(
+                                  lineColor: subject.lineColor,
+                                  title: subject.title,
+                                  totalNoItems: subject.totalNoItems,
+                                  lastUpdated: subject.lastUpdated,
+                                  onTap: () {
+                                    subjectProvider.getSelectedSubjectIndex(i);
+                                    subjectProvider.clearSearchTopic();
+                                    Navigator.of(context).push(
+                                      CupertinoPageRoute(
+                                        builder: (context) => TopicsScreen(
+                                          subject: subject,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
                           );
                         },
                       ),

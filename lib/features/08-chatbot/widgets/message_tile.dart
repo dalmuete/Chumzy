@@ -1,6 +1,7 @@
 import 'package:chumzy/data/models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 class MessageTile extends StatelessWidget {
   final Message message;
@@ -21,19 +22,31 @@ class MessageTile extends StatelessWidget {
       children: [
         if (!isOutgoing) ...[
           CircleAvatar(
-            radius: 25.r, // Adjust size
-            backgroundColor: const Color(0xFFFFCE48),
-            child: Image.asset("assets/chumzy_character/chumzy_icon.png"),
+            backgroundColor:
+                Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+            backgroundImage:
+                AssetImage('assets/chumzy_character/chumzy_icon.png'),
+            radius: 20.r,
           ),
-          SizedBox(width: 8.w),
+          Gap(10.w),
         ],
         // Message bubble
         Flexible(
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 8.h),
+            margin: EdgeInsets.only(
+                top: 12.h,
+                bottom: 12.h,
+                left: isOutgoing ? 50.w : 0,
+                right: isOutgoing ? 0 : 10.w),
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
             decoration: BoxDecoration(
-              color: isOutgoing ? Colors.yellow[200] : Colors.grey[200],
+              border: Border.all(
+                  color: isOutgoing
+                      ? Colors.transparent
+                      : Theme.of(context).primaryColor.withOpacity(0.5)),
+              color: isOutgoing
+                  ? Theme.of(context).colorScheme.secondary.withOpacity(0.5)
+                  : Colors.transparent,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16.0),
                 topRight: Radius.circular(16.0),
@@ -49,8 +62,8 @@ class MessageTile extends StatelessWidget {
                 Text(
                   message.message,
                   style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 16.0,
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 14.0,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -58,16 +71,14 @@ class MessageTile extends StatelessWidget {
                 Text(
                   _formatTimestamp(message.createdAt),
                   style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12.0,
+                    color: Theme.of(context).primaryColor.withOpacity(0.5),
+                    fontSize: 10.0,
                   ),
                 ),
               ],
             ),
           ),
         ),
-        // Placeholder for the user; leave this empty
-        if (isOutgoing) SizedBox(width: 28.w),
       ],
     );
   }

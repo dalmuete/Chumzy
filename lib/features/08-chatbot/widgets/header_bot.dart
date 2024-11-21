@@ -11,36 +11,36 @@ class HeaderChatBot extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       width: double.infinity,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CircleAvatar(
-            radius: 35.r,
-            backgroundColor: const Color(0xFFFFCE48),
-            child: Image.asset("assets/chumzy_character/chumzy_icon.png"),
+            backgroundColor:
+                Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+            backgroundImage:
+                AssetImage('assets/chumzy_character/chumzy_icon.png'),
+            radius: 20.r,
           ),
-          const Gap(20),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Chumzy AI",
-                  style: TextStyle(
-                    fontSize: 25.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+          Gap(20.w),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Chumzy AI",
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                Text(
-                  "Your Study Buddy, Sharp and Ready",
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "Your Study Buddy, Sharp and Ready",
+                style: TextStyle(
+                  fontSize: 12.sp,
                 ),
-              ],
-            ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         ],
       ),

@@ -109,6 +109,89 @@ class TopicProvider with ChangeNotifier {
     }
   }
 
+
+
+
+
+
+  Future<void> updateTopicName(
+      BuildContext context, Subject subject, Topic topic, String newTitle) async {
+    // Trim the input title
+    newTitle = newTitle.trim();
+
+    // If the new title is empty, do nothing and return
+    if (newTitle.isEmpty) {
+      print("Update cancelled: new title is empty.");
+      return;
+    }
+
+    final uid = getCurrentUser()!.uid;
+
+    // Reference to the Firestore document
+    DocumentReference docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('subjects')
+        .doc(topic.subjectDocId).collection('topics')
+        .doc(topic.topicId);
+
+    try {
+      // Update the title and updatedAt fields
+      await docRef.update({
+        'title': newTitle,
+        'updatedAt': DateTime.now(),
+      });
+
+      print("Document with ID ${topic.topicId} updated successfully.");
+
+      Navigator.pop(context);
+      // Refresh the subjects list
+      
+      loadTopicsForSubject(subject);
+
+      // Notify listeners to rebuild UI
+      notifyListeners();
+    } catch (e) {
+      print("Error updating document: $e");
+    }
+  }
+
+
+  Future<void> deleteTopic(BuildContext context, Subject subject, Topic topic) async {
+    final uid = getCurrentUser()!.uid;
+    // loadingScreen(context);
+    // Reference to the Firestore document
+  DocumentReference docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('subjects')
+        .doc(topic.subjectDocId).collection('topics')
+        .doc(topic.topicId);
+
+    try {
+      // Delete the document
+      await docRef.delete();
+      print("Document with ID ${topic.subjectDocId} deleted successfully.");
+
+      // Navigator.pop(context);
+      Navigator.pop(context);
+      notifyListeners();
+    } catch (e) {
+      print("Error deleting document: $e");
+      Navigator.pop(context);
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
   void printingValues(
     Subject subject,
     List<TextEditingController> controllers,

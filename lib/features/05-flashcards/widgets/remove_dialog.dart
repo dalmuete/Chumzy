@@ -11,7 +11,7 @@ Future<bool?> removeFlashcardDialog(BuildContext context, String term) async {
           text: TextSpan(
             style: TextStyle(
                 fontSize: 20.sp,
-                color: Theme.of(context).colorScheme.onBackground),
+                color: Theme.of(context).scaffoldBackgroundColor),
             children: [
               TextSpan(text: "Remove "),
               TextSpan(
