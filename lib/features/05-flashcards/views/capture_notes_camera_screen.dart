@@ -1,26 +1,39 @@
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
-import 'package:chumzy/data/models/flashcard_model.dart';
+import 'package:chumzy/core/widgets/buttons/custom_btn.dart';
 import 'package:chumzy/data/models/subject_model.dart';
 import 'package:chumzy/data/models/topic_model.dart';
+import 'package:chumzy/data/providers/flashcard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:io';
+
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class CaptureNotesCameraScreen extends StatefulWidget {
-  CaptureNotesCameraScreen({super.key, required this.subject, required this.topic});
+  CaptureNotesCameraScreen({
+    super.key,
+    required this.subject,
+    required this.topic,
+  });
 
-  Topic topic;
-  Subject subject;
+  final Subject subject; // Replace with Subject model if needed
+  final Topic topic; // Replace with Topic model if needed
 
   @override
   State<CaptureNotesCameraScreen> createState() =>
       _CaptureNotesCameraScreenState();
 }
 
-class _CaptureNotesCameraScreenState extends State<CaptureNotesCameraScreen> with WidgetsBindingObserver, TickerProviderStateMixin {
+class _CaptureNotesCameraScreenState extends State<CaptureNotesCameraScreen>
+    with WidgetsBindingObserver, TickerProviderStateMixin {
   CameraController? _cameraController;
   List<CameraDescription>? cameras;
   bool isCameraInitialized = false;
+  XFile? capturedImage; // Holds the captured image
+  Uint8List? imageBytes;
 
   @override
   void initState() {
@@ -30,18 +43,15 @@ class _CaptureNotesCameraScreenState extends State<CaptureNotesCameraScreen> wit
 
   Future<void> _initializeCamera() async {
     try {
-      // Get the list of available cameras
       cameras = await availableCameras();
 
       if (cameras != null && cameras!.isNotEmpty) {
-        // Initialize the camera controller for the first available camera
         _cameraController = CameraController(
           cameras![0],
           ResolutionPreset.high,
           enableAudio: false,
         );
 
-        // Initialize the camera and update the UI
         await _cameraController?.initialize();
         setState(() {
           isCameraInitialized = true;
@@ -61,11 +71,14 @@ class _CaptureNotesCameraScreenState extends State<CaptureNotesCameraScreen> wit
       return;
     }
     try {
-      // Capture the image and save it to a file
       final image = await _cameraController!.takePicture();
+      final Uint8List imageBytesTemp = await image.readAsBytes();
 
-      // Handle the captured image (e.g., display, save, or upload it)
-      print('Image captured: ${image.path}');
+      setState(() {
+        capturedImage = image; // Save the captured image
+        isCameraInitialized = false; // Stop the camera preview
+        imageBytes = imageBytesTemp;
+      });
     } catch (e) {
       _logError('Capture Image', e.toString());
     }
@@ -79,43 +92,87 @@ class _CaptureNotesCameraScreenState extends State<CaptureNotesCameraScreen> wit
 
   @override
   Widget build(BuildContext context) {
+    //Card Provider
+    var cardProvider = Provider.of<CardProvider>(context);
     return Scaffold(
       body: SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.only(right: 30.w, left: 30.w, bottom: 0.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Capture your notes",
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
-              ),
-              Gap(20.h),
+        child: Column(
+          children: [
+            // Show the captured image or an empty placeholder
+            if (capturedImage != null)
+              Container(
+                height: 550.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  image: DecorationImage(
+                    image: FileImage(File(capturedImage!.path)),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              )
+            else
+              // Show the camera preview when no image is captured
               Expanded(
+                flex: 3,
                 child: isCameraInitialized
                     ? CameraPreview(_cameraController!)
                     : Center(
                         child: CircularProgressIndicator(),
                       ),
               ),
-              Gap(20.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: _captureImage,
-                    child: Icon(Icons.camera_alt_rounded, size: 24.r),
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(15.r),
+            const SizedBox(height: 20),
+            // Button Section
+            Column(
+              children: [
+                ElevatedButton(
+                  onPressed: _captureImage,
+                  child: Icon(
+                    Icons.camera_alt_rounded,
+                    size: 24.r,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(15.r),
+                  ),
+                ),
+                if (capturedImage != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: CustomButton(
+                        text: "Retake",
+                        onPressed: () {
+                          setState(() {
+                            capturedImage = null; // Reset to camera preview
+                            isCameraInitialized = true;
+                            _initializeCamera(); // Reinitialize the camera
+                          });
+                        },
+                      ),
                     ),
                   ),
-                ],
-              ),
-              Gap(20.h),
-            ],
-          ),
+                const Gap(10),
+                if (capturedImage != null)
+                  CustomButton(
+                    text: "Generate Card",
+                    onPressed: () {
+                      if (imageBytes == null) {
+                        return;
+                      }
+                      cardProvider.generateFlashcardsByCaptureImage(
+                        context,
+                        widget.subject,
+                        widget.topic,
+                        imageBytes,
+                      );
+                    },
+                  ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );
