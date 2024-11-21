@@ -259,15 +259,15 @@ class SubjectProvider with ChangeNotifier {
 
       controllers.add(TextEditingController());
       focusNode.add(FocusNode());
-      subjectColors.add(Colors.white);
+      subjectColors.add(Color(0xffcca529));
 
       Navigator.pop(context);
       Navigator.pop(context);
-      showCustomToast(
-        context: context,
-        leading: Icon(Icons.check_circle, color: Colors.green),
-        message: "${numberOfSubjectToAdd} subject(s) added successfully!",
-      );
+      // showCustomToast(
+      //   context: context,
+      //   leading: Icon(Icons.check_circle, color: Colors.green),
+      //   message: "${numberOfSubjectToAdd} subject(s) added successfully!",
+      // );
 
       _isSubjectsEmpty = false;
 
@@ -278,11 +278,11 @@ class SubjectProvider with ChangeNotifier {
       Navigator.pop(context);
 
       // Show error message
-      showCustomToast(
-        context: context,
-        leading: Icon(Icons.error, color: Colors.red),
-        message: 'Failed to save subjects: $error',
-      );
+      // showCustomToast(
+      //   context: context,
+      //   leading: Icon(Icons.error, color: Colors.red),
+      //   message: 'Failed to save subjects: $error',
+      // );
     }
   }
 

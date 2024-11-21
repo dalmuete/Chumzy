@@ -94,18 +94,18 @@ class TopicProvider with ChangeNotifier {
 
       Navigator.pop(context);
       Navigator.pop(context);
-      showCustomToast(
-        context: context,
-        leading: Icon(Icons.check_circle, color: Colors.green),
-        message: "${numberOfTopicToAdd} topic(s) added successfully!",
-      );
+      // showCustomToast(
+      //   context: context,
+      //   leading: Icon(Icons.check_circle, color: Colors.green),
+      //   message: "${numberOfTopicToAdd} topic(s) added successfully!",
+      // );
     } catch (error) {
       Navigator.pop(context);
-      showCustomToast(
-        context: context,
-        leading: Icon(Icons.error, color: Colors.red),
-        message: 'Failed to save topics: $error',
-      );
+      // showCustomToast(
+      //   context: context,
+      //   leading: Icon(Icons.error, color: Colors.red),
+      //   message: 'Failed to save topics: $error',
+      // );
     }
   }
 
