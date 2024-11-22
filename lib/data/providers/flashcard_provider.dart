@@ -547,6 +547,43 @@ Please send the result in 5 separate JSON formats (one per card), nothing else.
       print('Error fetching cards: $e');
     }
   }
+
+  Future<String> explainFurther(
+      BuildContext context, String term, String definition) async {
+    try {
+      final apiKey = getApiKey();
+      String prompt =
+          "Further explain this '${term} - ${definition}'  in one paragraph in clear and easy way to understand.";
+      final textModel =
+          GenerativeModel(model: "gemini-1.5-flash-8b", apiKey: apiKey!);
+      GenerateContentResponse response =
+          await textModel.generateContent([Content.text(prompt)]);
+      final responseText = response.text;
+      debugPrint("RESPONSE: $responseText");
+
+      return responseText ?? '';
+    } catch (e) {
+      return "Sorry, I'm having problem right now. Please try again later";
+      //  ScaffoldMessenger.of(context).showSnackBar(
+      //       SnackBar(
+      //         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.8),
+      //         content: const Row(
+      //           children: [
+      //             Icon(Icons.error, color: Colors.red),
+      //             SizedBox(width: 10),
+      //             Expanded(
+      //               child: Text(
+      //                 "Card generation failed. Try again later.",
+      //                 maxLines: 2,
+      //                 overflow: TextOverflow.ellipsis,
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     );
+    }
+  }
 }
 // FlashCard(
 //   definitionOnlyWithoutTheAnswer:

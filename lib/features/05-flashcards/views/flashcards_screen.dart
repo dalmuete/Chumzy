@@ -4,6 +4,7 @@ import 'package:chumzy/data/models/flashcard_model.dart';
 import 'package:chumzy/data/models/topic_model.dart';
 import 'package:chumzy/data/providers/flashcard_provider.dart';
 import 'package:chumzy/features/05-flashcards/views/done_flashcards_screen.dart';
+import 'package:chumzy/features/05-flashcards/views/explainScreen.dart';
 import 'package:chumzy/features/05-flashcards/widgets/build_card_content.dart';
 import 'package:chumzy/features/05-flashcards/widgets/explain_modal.dart';
 import 'package:flutter/material.dart';
@@ -230,26 +231,31 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
                             ),
                           ),
                         ),
-                        if (isBack)
-                          CustomButton(
-                              text: 'Explain',
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              prefixIcon: Image.asset(
-                                'assets/icons/chatbot_tertiary_icon.png',
-                                width: 24.w,
-                              ),
-                              fontweight: FontWeight.w600,
-                              padding: 18.r,
-                              borderColor:
-                                  Theme.of(context).colorScheme.tertiary,
-                              textColor: Theme.of(context).colorScheme.tertiary,
-                              onPressed: () {
-                                explainModal(
-                                  context: context,
-                                  setState: setState,
-                                );
-                              }),
+                        // if (isBack)
+                        // CustomButton(
+                        //     text: 'Explain',
+                        //     backgroundColor:
+                        //         Theme.of(context).scaffoldBackgroundColor,
+                        //     prefixIcon: Image.asset(
+                        //       'assets/icons/chatbot_tertiary_icon.png',
+                        //       width: 24.w,
+                        //     ),
+                        //     fontweight: FontWeight.w600,
+                        //     padding: 18.r,
+                        //     borderColor:
+                        //         Theme.of(context).colorScheme.tertiary,
+                        //     textColor: Theme.of(context).colorScheme.tertiary,
+                        //     onPressed: () {
+                        //       Navigator.of(context).push(MaterialPageRoute(
+                        //         builder: (context) => Explainscreen(
+                        //           definition: _cardsList[currentIndex]
+                        //               .definitionOnlyWithoutTheAnswer,
+                        //           term: _cardsList[currentIndex]
+                        //               .shortTermOnlyWithoutDefinition,
+                        //         ),
+                        //       ));
+                        //     }),
+
                         IconButton(
                           onPressed: currentIndex < _cardsList.length - 1
                               ? () {
@@ -259,9 +265,7 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
                                   });
                                 }
                               : () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          DoneFlashcardsScreen()));
+                                  Navigator.pop(context);
                                 },
                           icon: CircleAvatar(
                             backgroundColor:

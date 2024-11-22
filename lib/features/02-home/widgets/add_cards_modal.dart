@@ -331,56 +331,56 @@ void addCardsModal({
                       },
                     ),
                     Gap(20.h),
-                    CustomButton(
-                      prefixIcon: const Icon(Icons.image_rounded),
-                      backgroundColor: Colors.transparent,
-                      borderColor:
-                          Theme.of(context).primaryColor.withOpacity(0.5),
-                      fontweight: FontWeight.w400,
-                      padding: 17.r,
-                      text: "Upload an image",
-                      textColor: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        if (selectedTopic == null || selectedSubject == null) {
-                          print('Snackbar');
-                          return;
-                        }
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => UploadImageScreen(
-                              subject: selectedSubject!,
-                              topic: selectedTopic!,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    Gap(20.h),
-                    CustomButton(
-                      prefixIcon: const Icon(Icons.picture_as_pdf_rounded),
-                      backgroundColor: Colors.transparent,
-                      borderColor:
-                          Theme.of(context).primaryColor.withOpacity(0.5),
-                      fontweight: FontWeight.w400,
-                      padding: 17.r,
-                      text: "Upload a PDF file",
-                      textColor: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        if (selectedTopic == null || selectedSubject == null) {
-                          print('Snackbar');
-                          return;
-                        }
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => UploadPdfScreen(
-                              subject: selectedSubject!,
-                              topic: selectedTopic!,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    Gap(20.h),
+                    // CustomButton(
+                    //   prefixIcon: const Icon(Icons.image_rounded),
+                    //   backgroundColor: Colors.transparent,
+                    //   borderColor:
+                    //       Theme.of(context).primaryColor.withOpacity(0.5),
+                    //   fontweight: FontWeight.w400,
+                    //   padding: 17.r,
+                    //   text: "Upload an image",
+                    //   textColor: Theme.of(context).primaryColor,
+                    //   onPressed: () {
+                    //     if (selectedTopic == null || selectedSubject == null) {
+                    //       print('Snackbar');
+                    //       return;
+                    //     }
+                    //     Navigator.of(context).push(
+                    //       MaterialPageRoute(
+                    //         builder: (context) => UploadImageScreen(
+                    //           subject: selectedSubject!,
+                    //           topic: selectedTopic!,
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    // Gap(20.h),
+                    // CustomButton(
+                    //   prefixIcon: const Icon(Icons.picture_as_pdf_rounded),
+                    //   backgroundColor: Colors.transparent,
+                    //   borderColor:
+                    //       Theme.of(context).primaryColor.withOpacity(0.5),
+                    //   fontweight: FontWeight.w400,
+                    //   padding: 17.r,
+                    //   text: "Upload a PDF file",
+                    //   textColor: Theme.of(context).primaryColor,
+                    //   onPressed: () {
+                    //     if (selectedTopic == null || selectedSubject == null) {
+                    //       print('Snackbar');
+                    //       return;
+                    //     }
+                    //     Navigator.of(context).push(
+                    //       MaterialPageRoute(
+                    //         builder: (context) => UploadPdfScreen(
+                    //           subject: selectedSubject!,
+                    //           topic: selectedTopic!,
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    // Gap(20.h),
                     CustomButton(
                         prefixIcon: const Icon(Icons.paste_rounded),
                         backgroundColor: Colors.transparent,

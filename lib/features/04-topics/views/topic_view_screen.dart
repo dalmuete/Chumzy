@@ -131,22 +131,22 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        floatingActionButton: Tooltip(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          preferBelow: false,
-          message: "Add new topic",
-          child: FloatingActionButton(
-              onPressed: () {},
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.r))),
-              elevation: 0,
-              child: Icon(Icons.add_rounded, size: 35.r)),
-        ),
+        // resizeToAvoidBottomInset: false,
+        // floatingActionButton: Tooltip(
+        //   decoration: BoxDecoration(
+        //     color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+        //     borderRadius: BorderRadius.circular(20.r),
+        //   ),
+        //   preferBelow: false,
+        //   message: "Add new topic",
+        //   child: FloatingActionButton(
+        //       onPressed: () {},
+        //       backgroundColor: Theme.of(context).colorScheme.secondary,
+        //       shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.all(Radius.circular(15.r))),
+        //       elevation: 0,
+        //       child: Icon(Icons.add_rounded, size: 35.r)),
+        // ),
         body: SafeArea(
           top: false,
           child: Padding(
@@ -335,20 +335,20 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                               ),
                             ),
                           ),
-                          Gap(20.w),
-                          Expanded(
-                            child: SizeTransition(
-                              sizeFactor: _showReviewOptions
-                                  ? const AlwaysStoppedAnimation(1.0)
-                                  : const AlwaysStoppedAnimation(0.0),
-                              child: ReviewOptionsCard(
-                                iconSize: 40,
-                                iconPath: 'assets/icons/audio_icon.png',
-                                title: "Audio",
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
+                          // Gap(20.w),
+                          // Expanded(
+                          //   child: SizeTransition(
+                          //     sizeFactor: _showReviewOptions
+                          //         ? const AlwaysStoppedAnimation(1.0)
+                          //         : const AlwaysStoppedAnimation(0.0),
+                          //     child: ReviewOptionsCard(
+                          //       iconSize: 40,
+                          //       iconPath: 'assets/icons/audio_icon.png',
+                          //       title: "Audio",
+                          //       onTap: () {},
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
@@ -418,13 +418,13 @@ class _TopicViewScreenState extends State<TopicViewScreen> {
                                                   topic: widget.topic,
                                                 )));
                                   })),
-                          Gap(10.w),
-                          Expanded(
-                              child: SmallReviewOptionsCard(
-                                  iconSize: 25.r,
-                                  iconPath: 'assets/icons/audio_icon.png',
-                                  title: "Audio",
-                                  onTap: () {}))
+                          // Gap(10.w),
+                          // Expanded(
+                          //     child: SmallReviewOptionsCard(
+                          //         iconSize: 25.r,
+                          //         iconPath: 'assets/icons/audio_icon.png',
+                          //         title: "Audio",
+                          //         onTap: () {}))
                         ],
                       ),
                     ],

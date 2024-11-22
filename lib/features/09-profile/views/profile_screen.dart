@@ -41,25 +41,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                    Positioned(
-                      bottom: 10.r,
-                      right: 30.r,
-                      child: CircleAvatar(
-                        radius: 20.r,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.black,
-                            size: 20.r,
-                          ),
-                          onPressed: () {
-                            // Add logic to edit the avatar
-                          },
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   bottom: 10.r,
+                    //   right: 30.r,
+                    //   child: CircleAvatar(
+                    //     radius: 20.r,
+                    //     backgroundColor:
+                    //         Theme.of(context).colorScheme.secondary,
+                    //     child: IconButton(
+                    //       icon: Icon(
+                    //         Icons.edit,
+                    //         color: Colors.black,
+                    //         size: 20.r,
+                    //       ),
+                    //       onPressed: () {
+                    //         // Add logic to edit the avatar
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 Gap(20.h),
@@ -98,19 +98,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
                   },
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Add logic to edit the profile
-                  },
-                  child: Text(
-                    "Edit Profile",
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: Theme.of(context).colorScheme.tertiary,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //     // Add logic to edit the profile
+                //   },
+                //   child: Text(
+                //     "Edit Profile",
+                //     style: TextStyle(
+                //       fontSize: 14.sp,
+                //       color: Theme.of(context).colorScheme.tertiary,
+                //       fontWeight: FontWeight.w400,
+                //     ),
+                //   ),
+                // ),
                 Gap(50.h),
                 Align(
                   alignment: Alignment.centerLeft,
